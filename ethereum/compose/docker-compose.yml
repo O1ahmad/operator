@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  ethereum:
+  monitoring:
+
+services:
+  geth:
+    image: 0labs/geth:latest
+    container_name: geth
+    command:
+      - "geth"
+      - "--${GETH_NET}"
+      - "--log.debug"
+      - "--config=${GETH_CONFIG_DIR}/config.toml"
+      - "--http"
+      - "--metrics"
+      - "--metrics.addr=0.0.0.0"
+    env_file:
+      - ".env"
+    environment:
+      GETH_CONFIG_DIR: "${GETH_CONFIG_DIR}"
+    ports:
+      - "30303:30303/tcp"
+      - "8545:8545"
+    volumes:
+      - "/operations/ethereum/geth/data:${GETH_DATA_DIR}"
+    networks:
+      - ethereum
+      - monitoring
+    restart: always
+
+  geth-exporter:
+    image: hunterlong/gethexporter:latest
+    container_name: geth-exporter
+    environment:
+      GETH: "http://geth:8545"
+    ports:
+      - "10090:9090"
+    networks:
+      - ethereum
+      - monitoring
+    restart: always

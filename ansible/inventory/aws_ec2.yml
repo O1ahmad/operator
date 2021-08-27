@@ -1,0 +1,8 @@
+plugin: aws_ec2
+keyed_groups:
+  - key: tags
+    tag: tag
+  - prefix: instance_type
+    key: instance_type
+  - key: placement.region
+    prefix: aws_region

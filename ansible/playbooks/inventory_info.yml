@@ -1,0 +1,7 @@
+---
+- name: Gather inventory instance details
+  hosts: localhost
+  tasks:
+    - name: Gather all AWS instance information
+      community.aws.ec2_instance_info:
+        region: eu-north-1
