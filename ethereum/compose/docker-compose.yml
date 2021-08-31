@@ -19,12 +19,13 @@ services:
     env_file:
       - ".env"
     environment:
-      GETH_CONFIG_DIR: "${GETH_CONFIG_DIR}"
+      GETH_CONFIG_DIR:
     ports:
       - "30303:30303/tcp"
       - "8545:8545"
+      - "6060:6060"
     volumes:
-      - "/operations/ethereum/geth/data:${GETH_DATA_DIR}"
+      - "${HOST_GETH_DATA_DIR}:${GETH_DATA_DIR}"
     networks:
       - ethereum
       - monitoring

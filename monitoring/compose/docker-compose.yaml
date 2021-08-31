@@ -24,7 +24,7 @@ services:
     command: -config.file=/etc/promtail/config.yml
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
-      - /operations/monitoring/prometheus/config/promtail.yml:/etc/promtail/config.yml
+      - "${HOST_PROMTAIL_CONFIG_DIR}/promtail.yml:/etc/promtail/config.yml"
     networks:
       - monitoring
     restart: always
@@ -33,14 +33,15 @@ services:
     image: bitnami/prometheus:2.29.1
     container_name: prometheus
     command:
-      - "--config.file=${PROM_CONFIGDIR}/prometheus.yml"
-      - "--storage.tsdb.path=${PROM_DATADIR}"
+      - '--config.file=${PROM_CONFIG_DIR}/prometheus.yml'
+      - '--storage.tsdb.path=${PROM_DATA_DIR}'
       - '--storage.tsdb.retention.time=30d'
+      - '--web.listen-address=0.0.0.0:9090'
     ports:
       - 9090:9090
     volumes:
-      - "/operations/monitoring/prometheus/config:${PROM_CONFIGDIR}"
-      - "prom_data:${PROM_DATADIR}"
+      - "${HOST_PROM_CONFIG_DIR}:${PROM_CONFIG_DIR}"
+      - "prom_data:${PROM_DATA_DIR}"
     networks:
       - monitoring
     restart: always
@@ -53,8 +54,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      # - "/operations/monitoring/grafana/config:${GRAFANA_CONFIGDIR}"
-      - "grafana_data:${GRAFANA_DATADIR}"
+      - "grafana_data:${GRAFANA_DATA_DIR}"
+      # - "${HOST_GRAFANA_CONFIG_DIR}:${GRAFANA_CONFIG_DIR}"
     networks:
       - monitoring
     restart: always
