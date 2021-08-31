@@ -1,0 +1,19 @@
+namespace: O1labs
+name: crypto
+version: 0.1.0
+readme: README.md
+authors:
+- O1 Labs <zer0ne.io.x@gmail.com>
+
+description: infrastructure utilities and tooling dedicated to all things cryptography/blockchain 
+license:
+- GPL-2.0-or-later
+tags:
+  - crypto
+  - blockchain
+  - web3
+
+repository: https://github.com/0x0I/operations
+documentation: https://github.com/0x0I/operations/tree/master/ansible/O1labs/crypto
+homepage: https://docs.01labs.net/
+issues: https://github.com/0x0I/operations/issues

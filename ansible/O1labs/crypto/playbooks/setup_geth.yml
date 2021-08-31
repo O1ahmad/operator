@@ -1,0 +1,14 @@
+---
+- name: Setup rinkeby geth instances
+  hosts: geth_rpc_rinkeby
+  roles:
+    - role: "../roles/geth"
+      vars:
+        geth_net: rinkeby
+
+- name: Setup ropsten geth instances
+  hosts: geth_rpc_ropsten
+  roles:
+    - role: "../roles/geth"
+      vars:
+        geth_net: ropsten

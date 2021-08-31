@@ -1,0 +1,12 @@
+---
+- name: Setup Geth compose infrastructure topology
+  include_tasks: "compose/setup.yml"
+  when: setup_mode == "compose"
+  tags:
+    - setup
+
+- name: Setup Geth systemd infrastructure topology
+  include_tasks: "systemd/setup.yml"
+  when: setup_mode == "systemd"
+  tags:
+    - setup

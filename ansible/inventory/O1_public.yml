@@ -1,0 +1,27 @@
+all:
+  hosts:
+    nightcrawler:
+      ansible_host: 107.214.58.44
+      ansible_user: ahmad
+      ansible_ssh_private_key_file: ~/.ssh/ops
+    morph:
+      ansible_connection: local
+      ansible_user: ahmad
+    cyclops:
+      ansible_host: 16.170.170.22
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/O1-cloud-public.pem
+  children:
+    geth_rpc_mainnet:
+      hosts:
+        nightcrawler:
+    geth_rpc_ropsten:
+      hosts:
+        cyclops:
+    geth_rpc_rinkeby:
+      hosts:
+        morph:
+    monitoring:
+      hosts:
+        morph:
+        nightcrawler:
