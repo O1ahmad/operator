@@ -1,0 +1,17 @@
+---
+- copy:
+    src: "{{ role_path }}/files/monitoring/{{ file }}"
+    dest: "/tmp/monitoring/{{ file }}"
+    loop:
+      - "config/prometheus.yml"
+      - "config/promtail.yml"
+      - "docker-compose.yml"
+      - ".env"
+    loop_var: file
+
+- name: Deploy monitoring services compose
+  community.docker.docker_compose:
+    project_src: /tmp/monitoring/compose
+    state: "{{ target_state }}"
+    services: "{{ monitoring_services }}"
+    env_file: "{{ _monitoring_env_file }}"

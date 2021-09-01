@@ -10,3 +10,9 @@
   when: setup_mode == "systemd"
   tags:
     - setup
+
+- name: Deploy monitoring services
+  include_tasks: "monitoring/base.yml"
+  when: monitoring_enabled
+  tags:
+    - setup

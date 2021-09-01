@@ -24,7 +24,7 @@ services:
     command: -config.file=/etc/promtail/config.yml
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
-      - "${HOST_PROMTAIL_CONFIG_DIR}/promtail.yml:/etc/promtail/config.yml"
+      - "${HOST_PROMTAIL_CONFIG_DIR:-../config}/promtail.yml:/etc/promtail/config.yml"
     networks:
       - monitoring
     restart: always
@@ -33,14 +33,14 @@ services:
     image: bitnami/prometheus:2.29.1
     container_name: prometheus
     command:
-      - '--config.file=${PROM_CONFIG_DIR}/prometheus.yml'
+      - '--config.file=${PROM_CONFIG_DIR:-../config}/prometheus.yml'
       - '--storage.tsdb.path=${PROM_DATA_DIR}'
       - '--storage.tsdb.retention.time=30d'
       - '--web.listen-address=0.0.0.0:9090'
     ports:
       - 9090:9090
     volumes:
-      - "${HOST_PROM_CONFIG_DIR}:${PROM_CONFIG_DIR}"
+      - "${HOST_PROM_CONFIG_DIR:-../config}:${PROM_CONFIG_DIR}"
       - "prom_data:${PROM_DATA_DIR}"
     networks:
       - monitoring
