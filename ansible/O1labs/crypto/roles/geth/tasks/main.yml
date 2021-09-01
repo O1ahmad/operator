@@ -1,4 +1,19 @@
 ---
+- name: Create bridged monitoring network for components to communicate
+  community.docker.docker_network:
+    name: monitoring
+
+- name: Deploy monitoring services
+  include_tasks: "monitoring/base.yml"
+  when: monitoring_services is defined and monitoring_services|length > 0
+  tags:
+    - monitoring
+
+- name: Create bridged Ethereum network for components to communicate
+  when: setup_mode == "compose"
+  community.docker.docker_network:
+    name: ethereum
+
 - name: Setup Geth compose infrastructure topology
   include_tasks: "compose/setup.yml"
   when: setup_mode == "compose"
@@ -8,11 +23,5 @@
 - name: Setup Geth systemd infrastructure topology
   include_tasks: "systemd/setup.yml"
   when: setup_mode == "systemd"
-  tags:
-    - setup
-
-- name: Deploy monitoring services
-  include_tasks: "monitoring/base.yml"
-  when: monitoring_enabled
   tags:
     - setup

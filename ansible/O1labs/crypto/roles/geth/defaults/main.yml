@@ -10,14 +10,20 @@ geth_net: rinkeby
 geth_config_dir: /etc/geth
 host_data_dir: /operations/ethereum/geth/data
 geth_data_dir: /root/.ethereum
+
 geth_p2p_port: 30303
 geth_rpc_port: 8545
 geth_metrics_port: 6060
-restart_policy: always
+geth_metrics_addr: 0.0.0.0
+geth_external_addr: 127.0.0.1
 
 exporter_image: hunterlong/gethexporter:latest
 exporter_rpc_addr: http://geth:8545
 exporter_port: 10090
+
+monitoring_services: [ 'node-exporter' ]
+_monitoring_env_file: .env
+restart_policy: always
 
 _default_config:
   Eth:
@@ -28,6 +34,6 @@ _default_config:
     HTTPCors: "['*']"
     HTTPVirtualHosts: "['*']"
   Metrics:
-    Enabled: true
+    Enabled: "true"
     HTTP: 0.0.0.0
 config: {}

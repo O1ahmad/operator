@@ -2,7 +2,9 @@ version: "3"
 
 networks:
   ethereum:
+    external: true
   monitoring:
+    external: true
 
 services:
   geth:
@@ -15,7 +17,8 @@ services:
       - "--config={{ geth_config_dir }}/config.toml"
       - "--http"
       - "--metrics"
-      - "--metrics.addr=0.0.0.0"
+      - "--metrics.addr={{ geth_metrics_addr }}"
+      - "--nat=extip:{{ geth_external_addr }}"
     env_file:
       - "{{ _config_env_file }}"
     ports:

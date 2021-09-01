@@ -8,7 +8,7 @@ all:
       ansible_connection: local
       ansible_user: ahmad
     cyclops:
-      ansible_host: 16.170.167.4
+      ansible_host: 13.51.254.171
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/O1-cloud-public.pem
       ansible_python_interpreter: /usr/bin/python3
@@ -16,7 +16,7 @@ all:
     geth_rpc_mainnet:
       hosts:
         nightcrawler:
-    geth_rpc_ropsten:
+    geth_rpc_goerli:
       hosts:
         cyclops:
     geth_rpc_rinkeby:

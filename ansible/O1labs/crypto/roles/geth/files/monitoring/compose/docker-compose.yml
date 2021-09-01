@@ -2,6 +2,7 @@ version: "3"
 
 networks:
   monitoring:
+    external: true
 
 volumes:
   prom_data:

@@ -5,10 +5,40 @@
     - role: "../roles/geth"
       vars:
         geth_net: rinkeby
+        monitoring_services: [
+          'prometheus',
+          'grafana',
+          'node-exporter'
+        ]
+        config:
+          Eth:
+            SyncMode: fast
 
-- name: Setup ropsten geth instances
-  hosts: geth_rpc_ropsten
+- name: Setup goerli geth instances
+  hosts: geth_rpc_goerli
   roles:
     - role: "../roles/geth"
       vars:
-        geth_net: ropsten
+        geth_net: goerli
+        geth_external_addr: 16.170.167.4
+        monitoring_services: []
+        config:
+          Eth:
+            SyncMode: fast
+
+- name: Setup mainnet geth instances
+  hosts: geth_rpc_mainnet
+  roles:
+    - role: "../roles/geth"
+      vars:
+        geth_net: mainnet
+        geth_external_addr: 107.214.58.44
+        host_data_dir: /home/ahmad/lab/ethereum/geth/data
+        monitoring_services: [
+          'prometheus',
+          'grafana',
+          'node-exporter'
+        ]
+        config:
+          Eth:
+            SyncMode: fast
