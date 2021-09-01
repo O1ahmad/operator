@@ -1,0 +1,48 @@
+version: "3"
+
+networks:
+  ethereum:
+    external: true
+  monitoring:
+    external: true
+
+services:
+  geth:
+    image: {{ geth_image }}
+    container_name: geth
+    command:
+      - "geth"
+      - "--{{ geth_net }}"
+      - "--log.debug"
+      - "--config={{ geth_config_dir }}/config.toml"
+      - "--http"
+      - "--metrics"
+      - "--metrics.addr={{ geth_metrics_addr }}"
+      - "--nat=extip:{{ geth_external_addr }}"
+    env_file:
+      - "{{ _config_env_file }}"
+    ports:
+      - {{ geth_p2p_port }}:30303/tcp
+      - {{ geth_rpc_port }}:8545
+      - {{ geth_metrics_port }}:6060
+    volumes:
+      - "{{ host_data_dir }}:{{ geth_data_dir }}"
+{% if host_config is defined %}
+      - "{{ host_config }}:{{ geth_config_dir}}/config.toml"
+{% endif %}
+    networks:
+      - ethereum
+      - monitoring
+    restart: {{ restart_policy }}
+
+  geth-exporter:
+    image: {{ exporter_image }}
+    container_name: geth-exporter
+    environment:
+      GETH: "{{ exporter_rpc_addr }}"
+    ports:
+      - {{ exporter_port }}:9090
+    networks:
+      - ethereum
+      - monitoring
+    restart: {{ restart_policy }}
