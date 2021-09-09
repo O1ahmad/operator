@@ -5,11 +5,6 @@
     - role: "../roles/geth"
       vars:
         geth_net: rinkeby
-        monitoring_services: [
-          'prometheus',
-          'grafana',
-          'node-exporter'
-        ]
         config:
           Eth:
             SyncMode: fast
@@ -21,7 +16,6 @@
       vars:
         geth_net: goerli
         geth_external_addr: 16.170.167.4
-        monitoring_services: []
         config:
           Eth:
             SyncMode: fast
@@ -34,11 +28,6 @@
         geth_net: mainnet
         geth_external_addr: 107.214.58.44
         host_data_dir: /home/ahmad/lab/ethereum/geth/data
-        monitoring_services: [
-          'prometheus',
-          'grafana',
-          'node-exporter'
-        ]
         config:
           Eth:
             SyncMode: fast

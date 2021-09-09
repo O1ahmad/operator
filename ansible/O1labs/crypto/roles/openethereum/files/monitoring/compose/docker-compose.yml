@@ -1,0 +1,74 @@
+version: "3"
+
+networks:
+  monitoring:
+    external: true
+
+volumes:
+  prom_data:
+  grafana_data:
+
+services:
+  loki:
+    image: grafana/loki:2.3.0
+    container_name: loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    networks:
+      - monitoring
+    restart: always
+
+  promtail:
+    image: grafana/promtail:2.3.0
+    container_name: promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - "${HOST_PROMTAIL_CONFIG_DIR:-../config}/promtail.yml:/etc/promtail/config.yml"
+    networks:
+      - monitoring
+    restart: always
+
+  prometheus:
+    image: bitnami/prometheus:2.29.1
+    container_name: prometheus
+    command:
+      - '--config.file=${PROM_CONFIG_DIR:-../config}/prometheus.yml'
+      - '--storage.tsdb.path=${PROM_DATA_DIR}'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.listen-address=0.0.0.0:9090'
+    ports:
+      - 9090:9090
+    volumes:
+      - "${HOST_PROM_CONFIG_DIR:-../config}:${PROM_CONFIG_DIR}"
+      - "prom_data:${PROM_DATA_DIR}"
+    networks:
+      - monitoring
+    restart: always
+
+  grafana:
+    image: grafana/grafana:8.1.2
+    container_name: grafana
+    environment:
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "grafana_data:${GRAFANA_DATA_DIR}"
+      # - "${HOST_GRAFANA_CONFIG_DIR}:${GRAFANA_CONFIG_DIR}"
+    networks:
+      - monitoring
+    restart: always
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:v1.2.2
+    container_name: node-exporter
+    command: --path.rootfs=/host
+    ports:
+      - "9100:9100"
+    volumes:
+      - "/:/host:ro,rslave"
+    networks:
+      - monitoring
+    restart: always
