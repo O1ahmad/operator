@@ -6,7 +6,7 @@ _ops_runtime_dir: /var/tmp/geth
 _config_env_file: "{{ _ops_runtime_dir }}/.env"
 
 openethereum_image: 0labs/openethereum:latest
-openethereum_net: kovan
+chain: kovan
 openethereum_config_dir: /etc/openethereum
 host_data_dir: /operations/ethereum/openethereum/data
 openethereum_data_dir: /root/.local/share/openethereum

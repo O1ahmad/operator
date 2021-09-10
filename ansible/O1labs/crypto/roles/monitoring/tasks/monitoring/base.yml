@@ -1,8 +1,4 @@
 ---
-- name: Create bridged monitoring network for components to communicate
-  community.docker.docker_network:
-    name: monitoring
-    
 - name: Ensure existence of runtime dirs
   become: true
   file:

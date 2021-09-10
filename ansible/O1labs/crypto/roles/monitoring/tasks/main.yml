@@ -1,4 +1,8 @@
 ---
+- name: Create bridged monitoring network for components to communicate
+  community.docker.docker_network:
+    name: monitoring
+
 - name: Deploy monitoring services
   include_tasks: "monitoring/base.yml"
   when: monitoring_services is defined and monitoring_services|length > 0

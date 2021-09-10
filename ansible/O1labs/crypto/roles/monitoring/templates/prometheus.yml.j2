@@ -1,0 +1,6 @@
+global:
+  scrape_interval: {{ scrape_interval }}
+  evaluation_interval: {{ evaluation_interval }}
+
+scrape_configs:
+{{ prometheus_scrape_configs | indent(width=2, identfirst=True) }}

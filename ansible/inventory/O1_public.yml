@@ -37,7 +37,11 @@ all:
       hosts:
         nightcrawler:
         cyclops:
+        storm:
+        morph:
     grafana:
       hosts:
         nightcrawler:
         cyclops:
+        storm:
+        morph:

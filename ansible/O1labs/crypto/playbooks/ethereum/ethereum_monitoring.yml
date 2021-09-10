@@ -2,24 +2,24 @@
 - name: Provision instance monitoring services
   hosts: monitored
   roles:
-    - role: "../roles/monitoring"
+    - role: "../../roles/monitoring"
       vars:
         monitoring_services: [ 'node-exporter' ]
 
 - name: Setup Prometheus observability service
   hosts: prometheus
   roles:
-    - role: "../roles/monitoring"
+    - role: "../../roles/monitoring"
       vars:
         monitoring_services: [ 'prometheus' ]
-        target_configs:
+        prometheus_scrape_configs:
           - job_name: "prometheus"
             static_configs:
               - targets: ["prometheus:9090"]
-          - job_name: "openethereum"
+          - job_name: "ethereum"
             metrics_path: "/debug/metrics/prometheus"
             static_configs:
-              - targets: ["geth:4000"]
+              - targets: ["geth:4000", "openethereum:3300"]
           - job_name: "geth-exporter"
             static_configs:
               - targets: ["geth-exporter:9090"]
@@ -30,6 +30,6 @@
 - name: Setup Grafana observability service
   hosts: grafana
   roles:
-    - role: "../roles/monitoring"
+    - role: "../../roles/monitoring"
       vars:
         monitoring_services: [ 'grafana' ]

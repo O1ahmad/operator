@@ -2,28 +2,26 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'geth', 'geth-exporter']
-_ops_runtime_dir: /tmp/geth
+_ops_runtime_dir: /var/tmp/geth
 _config_env_file: "{{ _ops_runtime_dir }}/.env"
 
-geth_image: 0labs/geth:latest
-geth_net: rinkeby
-geth_config_dir: /etc/geth
+image: 0labs/geth:latest
+chain: rinkeby
+config_dir: /etc/geth
 host_data_dir: /operations/ethereum/geth/data
-geth_data_dir: /root/.ethereum
+data_dir: /root/.ethereum
 
-geth_p2p_port: 30303
-geth_rpc_port: 8545
-geth_metrics_port: 6060
-geth_metrics_addr: 0.0.0.0
-geth_external_addr: 127.0.0.1
+p2p_port: 30303
+rpc_port: 8545
+metrics_port: 6060
+metrics_addr: 0.0.0.0
+external_addr: 127.0.0.1
 
 exporter_image: hunterlong/gethexporter:latest
 exporter_rpc_addr: http://geth:8545
 exporter_port: 10090
 
-monitoring_services: [ 'node-exporter' ]
-_monitoring_env_file: .env
-restart_policy: always
+restart_policy: unless-stopped
 
 _default_config:
   Eth:
