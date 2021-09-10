@@ -2,7 +2,7 @@
 galaxy_info:
   author: O1 Labs
   role_name: geth
-  description: Geth (Go-Ethereum), a Go-based Ethereum client installation
+  description: O1 Labs Monitoring services
   company: "O1.IO"
   license: MIT
   min_ansible_version: 2.5
@@ -17,6 +17,9 @@ galaxy_info:
         - bionic
         - cosmic
   galaxy_tags:
-    - blockchain
-    - ethereum
-    - crypto
+    - monitoring
+    - observability
+    - prometheus
+    - grafana
+    - loki
+    - promtail

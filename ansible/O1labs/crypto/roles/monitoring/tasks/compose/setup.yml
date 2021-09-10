@@ -1,37 +1,51 @@
-- name: Ensure existence of runtime dir
+---
+- name: Ensure existence of runtime dirs
   become: true
   file:
-    path: "{{ _ops_runtime_dir }}"
+    path: "{{ dir }}"
     state: directory
     mode: 0777
+  loop:
+    - "{{ _ops_runtime_dir }}"
+  loop_control:
+    loop_var: dir
 
-- name: Generate Geth compose config
+- name: Generate monitoring compose config
   become: true
   template:
-    src: "geth-compose.yml.j2"
+    src: "docker-compose.yml.j2"
     dest: "{{ _ops_runtime_dir }}/docker-compose.yml"
     owner: "root"
     group: "root"
     mode: 0644
     backup: true
-  register: "geth_compose"
+  register: "monitoring_compose"
 
-- name: Generate Geth compose environment vars
+- name: Generate Prometheus config
   become: true
   template:
-    src: ".env.j2"
-    dest: "{{ _config_env_file }}"
+    src: "prometheus.yml.j2"
+    dest: "{{ host_prometheus_config }}"
     owner: "root"
     group: "root"
     mode: 0644
     backup: true
-  vars:
-    env_config: "{{ _default_config|combine(config) }}"
-  register: "compose_env"
+  register: "prometheus_config"
 
-- name: Run docker-compose up
+- name: Generate Promtail config
+  become: true
+  template:
+    src: "promtail.yml.j2"
+    dest: "{{ host_prometheus_config }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  register: "promtail_config"
+
+- name: Deploy monitoring services compose
   community.docker.docker_compose:
-    project_src: /tmp/geth
+    project_src: "{{ _ops_runtime_dir }}"
     state: "{{ target_state }}"
     services: "{{ target_services }}"
     env_file: "{{ _config_env_file }}"

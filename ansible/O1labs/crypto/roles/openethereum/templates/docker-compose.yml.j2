@@ -2,28 +2,26 @@ version: "3"
 
 networks:
   ethereum:
-  monitoring:
 
 services:
   openethereum:
-    image: {{ openethereum_image }}
+    image: {{ image }}
     container_name: openethereum
     command:
       - "openethereum"
       - "--chain={{ chain }}"
-      - "--config={{ openethereum_config_dir }}/config.toml"
+      - "--config={{ config_dir }}/config.toml"
     env_file:
       - {{ _config_env_file }}
     ports:
-      - {{ openethereum_p2p_port }}:30303/tcp
-      - {{ openethereum_rpc_port }}:8545
-      - {{ openethereum_websocket_port }}:8546
-      - {{ openetherem_metrics_port }}:3000
+      - {{ p2p_port }}:30303/tcp
+      - {{ rpc_port }}:8545
+      - {{ websocket_port }}:8546
+      - {{ metrics_port }}:3000
     volumes:
-      - "{{ host_data_dir }}:{{ openethereum_data_dir }}"
+      - "{{ host_data_dir }}:{{ data_dir }}"
     networks:
       - ethereum
-      - monitoring
     restart: {{ restart_policy }}
 
   openethereum-exporter:
@@ -35,5 +33,4 @@ services:
       - {{ exporter_port }}:9090
     networks:
       - ethereum
-      - monitoring
     restart: {{ restart_policy }}

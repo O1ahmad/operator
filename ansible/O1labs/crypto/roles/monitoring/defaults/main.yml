@@ -14,6 +14,7 @@ prometheus_data_dir: /var/tmp/prometheus
 prometheus_retention_time: 30d
 prometheus_listen_addr: 0.0.0.0:9090
 target_services: [ 'node-exporter' ]
+monitored_services: []
 prometheus_scrape_configs:
   - job_name: "prometheus"
     static_configs:

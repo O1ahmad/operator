@@ -2,27 +2,24 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'openethereum', 'openethereum-exporter']
-_ops_runtime_dir: /var/tmp/geth
+_ops_runtime_dir: /var/tmp/openethereum
 _config_env_file: "{{ _ops_runtime_dir }}/.env"
 
-openethereum_image: 0labs/openethereum:latest
+image: 0labs/openethereum:latest
 chain: kovan
-openethereum_config_dir: /etc/openethereum
+config_dir: /etc/openethereum
 host_data_dir: /operations/ethereum/openethereum/data
-openethereum_data_dir: /root/.local/share/openethereum
+data_dir: /root/.local/share/openethereum
 
-openethereum_p2p_port: 30303
-openethereum_rpc_port: 8545
-openethereum_metrics_port: 6060
-openethereum_metrics_addr: 0.0.0.0
-openethereum_external_addr: 127.0.0.1
+p2p_port: 30303
+rpc_port: 8545
+websocket_port: 8546
+metrics_port: 6060
 
 exporter_image: hunterlong/gethexporter:latest
 exporter_rpc_addr: http://openethereum:8545
 exporter_port: 10090
 
-monitoring_services: [ 'node-exporter' ]
-_monitoring_env_file: .env
 restart_policy: unless-stopped
 
 _default_config:

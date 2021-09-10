@@ -4,14 +4,15 @@
   roles:
     - role: "../../roles/monitoring"
       vars:
-        monitoring_services: [ 'node-exporter' ]
+        target_services: [ 'node-exporter' ]
 
 - name: Setup Prometheus observability service
   hosts: prometheus
   roles:
     - role: "../../roles/monitoring"
       vars:
-        monitoring_services: [ 'prometheus' ]
+        target_services: [ 'prometheus' ]
+        monitored_services: [ 'geth', 'geth-exporter' ]
         prometheus_scrape_configs:
           - job_name: "prometheus"
             static_configs:
@@ -32,4 +33,4 @@
   roles:
     - role: "../../roles/monitoring"
       vars:
-        monitoring_services: [ 'grafana' ]
+        target_services: [ 'grafana' ]

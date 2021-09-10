@@ -3,8 +3,6 @@ version: "3"
 networks:
   ethereum:
     external: true
-  monitoring:
-    external: true
 
 services:
   geth:
@@ -34,7 +32,6 @@ services:
 {% endif %}
     networks:
       - ethereum
-      - monitoring
     restart: {{ restart_policy }}
 
   geth-exporter:
@@ -46,5 +43,4 @@ services:
       - {{ exporter_port }}:9090
     networks:
       - ethereum
-      - monitoring
     restart: {{ restart_policy }}
