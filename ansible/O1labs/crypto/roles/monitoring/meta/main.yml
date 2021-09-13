@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: O1 Labs
-  role_name: geth
+  role_name: monitoring
   description: O1 Labs Monitoring services
   company: "O1.IO"
   license: MIT
