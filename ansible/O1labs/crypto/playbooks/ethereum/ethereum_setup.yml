@@ -2,7 +2,7 @@
 - name: Setup rinkeby geth instances
   hosts: geth_rpc_rinkeby
   roles:
-    - role: "../roles/geth"
+    - role: "../../roles/geth"
       vars:
         chain: rinkeby
         config:

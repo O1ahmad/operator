@@ -10,13 +10,13 @@ volumes:
 
 services:
   loki:
-    image: "{{ loki_image }]"
+    image: "{{ loki_image }}"
     container_name: loki
     command: "-config.file={{ loki_config_path }}"
     ports:
       - {{ loki_port }}:3100
-    volumes:
 {% if host_loki_config is defined and host_loki_config|length > 0 %}
+    volumes:
       - "{{ host_loki_config }}:{{ loki_config_path }}"
 {% endif %}
     networks:
@@ -77,7 +77,7 @@ services:
     restart: "{{ restart_policy }}"
 
   node-exporter:
-    image: "{{ node_exporter_image }}"
+    image: "{{ node_exporter_image}}"
     container_name: node-exporter
     command: --path.rootfs=/host
     ports:

@@ -4,7 +4,7 @@
     name: monitoring
 
 - name: Deploy monitoring services
-  include_tasks: "monitoring/setup.yml"
+  include_tasks: "compose/setup.yml"
   when: target_services is defined and target_services|length > 0
   tags:
     - monitoring
@@ -12,5 +12,5 @@
 - name: Add [monitored] services to monitoring network
   docker_network:
     name: monitoring
-    connected: {{ monitored_services }}
+    connected: "{{ monitored_services }}"
     appends: yes

@@ -21,16 +21,16 @@
     backup: true
   register: "monitoring_compose"
 
-- name: Generate Prometheus config
-  become: true
-  template:
-    src: "prometheus.yml.j2"
-    dest: "{{ host_prometheus_config }}"
-    owner: "root"
-    group: "root"
-    mode: 0644
-    backup: true
-  register: "prometheus_config"
+# - name: Generate Prometheus config
+#   become: true
+#   template:
+#     src: "prometheus.yml.j2"
+#     dest: "{{ host_prometheus_config }}"
+#     owner: "root"
+#     group: "root"
+#     mode: 0644
+#     backup: true
+#   register: "prometheus_config"
 
 - name: Generate Promtail config
   become: true

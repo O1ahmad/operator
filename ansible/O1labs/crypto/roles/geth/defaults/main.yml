@@ -27,7 +27,7 @@ _default_config:
   Eth:
     SyncMode: light
   Node:
-    DataDir: "{{ geth_data_dir }}"
+    DataDir: "{{ data_dir }}"
     HTTPHost: 0.0.0.0
     HTTPCors: "['*']"
     HTTPVirtualHosts: "['*']"
