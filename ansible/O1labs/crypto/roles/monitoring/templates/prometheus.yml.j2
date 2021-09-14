@@ -1,0 +1,6 @@
+global:
+  scrape_interval: {{ scrape_interval|default('15s') }}
+  evaluation_interval: {{ evaluation_interval|default('15s') }}
+
+scrape_configs:
+{{ prometheus_scrape_configs | to_nice_yaml(indent=2) }}

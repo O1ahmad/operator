@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: O1 Labs
+  role_name: openethereum
+  description: OpenEthereum, a fast and feature-rich multi-network Ethereum client
+  company: "O1.IO"
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - cosmic
+  galaxy_tags:
+    - blockchain
+    - ethereum
+    - crypto

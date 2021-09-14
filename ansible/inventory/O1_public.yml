@@ -1,16 +1,18 @@
 all:
   hosts:
-    nightcrawler:
-      ansible_host: 107.214.58.44
-      ansible_user: ahmad
-      ansible_ssh_private_key_file: ~/.ssh/ops
     morph:
       ansible_connection: local
       ansible_user: ahmad
+    nightcrawler:
+      ansible_host: 107.214.58.44
+      ansible_user: ahmad
     cyclops:
       ansible_host: 13.51.254.171
-      ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/.ssh/O1-cloud-public.pem
+      ansible_user: root
+      ansible_python_interpreter: /usr/bin/python3
+    storm:
+      ansible_host: 143.198.100.35
+      ansible_user: root
       ansible_python_interpreter: /usr/bin/python3
   children:
     geth_rpc_mainnet:
@@ -22,7 +24,24 @@ all:
     geth_rpc_rinkeby:
       hosts:
         morph:
-    monitoring:
+    openethereum_rpc_kovan:
       hosts:
+        storm:
+    monitored:
+      hosts:
+        cyclops:
         morph:
         nightcrawler:
+        storm:
+    prometheus:
+      hosts:
+        nightcrawler:
+        cyclops:
+        storm:
+        morph:
+    grafana:
+      hosts:
+        nightcrawler:
+        cyclops:
+        storm:
+        morph:

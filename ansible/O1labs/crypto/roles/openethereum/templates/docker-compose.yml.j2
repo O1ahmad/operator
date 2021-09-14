@@ -1,0 +1,36 @@
+version: "3"
+
+networks:
+  ethereum:
+
+services:
+  openethereum:
+    image: {{ image }}
+    container_name: openethereum
+    command:
+      - "openethereum"
+      - "--chain={{ chain }}"
+      - "--config={{ config_dir }}/config.toml"
+    env_file:
+      - {{ _config_env_file }}
+    ports:
+      - {{ p2p_port }}:30303/tcp
+      - {{ rpc_port }}:8545
+      - {{ websocket_port }}:8546
+      - {{ metrics_port }}:3000
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}
+
+  openethereum-exporter:
+    image: {{ exporter_image }}
+    container_name: geth-exporter
+    environment:
+      GETH: "{{ exporter_rpc_addr }}"
+    ports:
+      - {{ exporter_port }}:9090
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}

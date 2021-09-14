@@ -1,4 +1,3 @@
----
 - name: Ensure existence of runtime dir
   become: true
   file:
@@ -6,7 +5,7 @@
     state: directory
     mode: 0777
 
-- name: Generate Geth compose config
+- name: Generate OpenEthereum compose config
   become: true
   template:
     src: "docker-compose.yml.j2"
@@ -15,9 +14,9 @@
     group: "root"
     mode: 0644
     backup: true
-  register: "geth_compose"
+  register: "openethereum_compose"
 
-- name: Generate Geth compose environment vars
+- name: Generate OpenEthereum compose environment vars
   become: true
   template:
     src: ".env.j2"

@@ -1,0 +1,89 @@
+version: "3"
+
+networks:
+  monitoring:
+    external: true
+
+volumes:
+  prom_data:
+  grafana_data:
+
+services:
+  loki:
+    image: "{{ loki_image }}"
+    container_name: loki
+    command: "-config.file={{ loki_config_path }}"
+    ports:
+      - {{ loki_port }}:3100
+{% if host_loki_config is defined and host_loki_config|length > 0 %}
+    volumes:
+      - "{{ host_loki_config }}:{{ loki_config_path }}"
+{% endif %}
+    networks:
+      - monitoring
+    restart: "{{ restart_policy }}"
+
+  promtail:
+    image: "{{ promtail_image }}"
+    container_name: promtail
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+{% if host_promtail_config is defined and host_promtail_config|length > 0 %}
+      - "{{ host_promtail_config }}:/etc/promtail/config.yml"
+{% endif %}
+    networks:
+      - monitoring
+    restart: "{{ restart_policy }}"
+
+  prometheus:
+    image: "{{ prometheus_image }}"
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - "--storage.tsdb.path={{ prometheus_data_dir }}"
+      - "--storage.tsdb.retention.time={{ prometheus_retention_time }}"
+      - "--web.listen-address={{ prometheus_listen_addr }}"
+    environment:
+      PROM_CONFIG_DIR: "{{ prometheus_config_path }}"
+      PROM_DATA_DIR: "{{ prometheus_data_dir }}"
+    ports:
+      - {{ prometheus_port }}:9090
+    volumes:
+{% if host_prometheus_config is defined and host_prometheus_config|length > 0 %}
+      - "{{ host_prometheus_config }}:{{ prometheus_config_path }}"
+{% endif %}
+      - "prom_data:{{ prometheus_data_dir }}"
+    networks:
+      - monitoring
+    restart: "{{ restart_policy }}"
+
+  grafana:
+    image: "{{ grafana_image }}"
+    container_name: grafana
+    environment:
+      GF_PATHS_CONFIG: "{{ grafana_config_path }}"
+      GF_PATHS_DATA: "{{ grafana_data_dir }}"
+      GF_INSTALL_PLUGINS: "{{ grafana_plugins }}"
+    ports:
+      - {{ grafana_port }}:3000
+    volumes:
+      - "grafana_data:{{ grafana_data_dir }}"
+{% if host_grafana_config is defined and host_grafana_config|length > 0 %}
+      - "{{ host_grafana_config }}:{{ grafana_config_path }}"
+{% endif %}
+    networks:
+      - monitoring
+    restart: "{{ restart_policy }}"
+
+  node-exporter:
+    image: "{{ node_exporter_image}}"
+    container_name: node-exporter
+    command: --path.rootfs=/host
+    ports:
+      - {{ node_exporter_port }}:9100
+    volumes:
+      - "/:/host:ro,rslave"
+    networks:
+      - monitoring
+    restart: "{{ restart_policy }}"

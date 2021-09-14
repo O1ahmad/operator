@@ -1,0 +1,38 @@
+---
+setup_mode: compose
+target_state: present
+target_services: [ 'openethereum', 'openethereum-exporter']
+_ops_runtime_dir: /var/tmp/openethereum
+_config_env_file: "{{ _ops_runtime_dir }}/.env"
+
+image: 0labs/openethereum:latest
+chain: kovan
+config_dir: /etc/openethereum
+host_data_dir: /operations/ethereum/openethereum/data
+data_dir: /root/.local/share/openethereum
+
+p2p_port: 30303
+rpc_port: 8545
+websocket_port: 8546
+metrics_port: 6060
+
+exporter_image: hunterlong/gethexporter:latest
+exporter_rpc_addr: http://openethereum:8545
+exporter_port: 10090
+
+restart_policy: unless-stopped
+
+_default_config:
+  network:
+    id: 42
+    warp: false
+  snapshots:
+    enable: false
+  footprint:
+    fat_db: off
+  metrics:
+    enable: true
+    interface: all
+    port: 4000
+    prefix: openeth
+config: {}

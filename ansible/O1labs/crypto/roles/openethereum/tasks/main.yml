@@ -4,13 +4,13 @@
   community.docker.docker_network:
     name: ethereum
 
-- name: Setup Geth compose infrastructure topology
+- name: Setup OpenEthereum compose infrastructure topology
   include_tasks: "compose/setup.yml"
   when: setup_mode == "compose"
   tags:
     - setup
 
-- name: Setup Geth systemd infrastructure topology
+- name: Setup OpenEthereum systemd infrastructure topology
   include_tasks: "systemd/setup.yml"
   when: setup_mode == "systemd"
   tags:
