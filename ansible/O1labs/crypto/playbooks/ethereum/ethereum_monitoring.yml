@@ -20,7 +20,7 @@
           - job_name: "ethereum"
             metrics_path: "/debug/metrics/prometheus"
             static_configs:
-              - targets: ["geth:4000", "openethereum:3300"]
+              - targets: ["geth:6060", "openethereum:3300"]
           - job_name: "geth-exporter"
             static_configs:
               - targets: ["geth-exporter:9090"]
