@@ -14,8 +14,6 @@ services:
       - "--log.debug"
       - "--config={{ config_dir }}/config.toml"
       - "--http"
-      - "--metrics"
-      - "--metrics.addr={{ metrics_addr }}"
       - "--nat=extip:{{ external_addr }}"
     environment:
       GETH_CONFIG_DIR: "{{ config_dir }}"
@@ -24,6 +22,7 @@ services:
     ports:
       - {{ p2p_port }}:30303/tcp
       - {{ rpc_port }}:8545
+      - {{ ws_port }}:8546
       - {{ metrics_port }}:6060
     volumes:
       - "{{ host_data_dir }}:{{ data_dir }}"

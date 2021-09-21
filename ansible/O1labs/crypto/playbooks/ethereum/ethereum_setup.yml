@@ -28,6 +28,10 @@
         chain: kovan
         metrics_port: 3300
         host_data_dir: /root/.local/share/openethereum/
+        config:
+          network:
+            nat: "any"
+            allow_ips: "all"
 
 - name: Setup mainnet geth instances
   hosts: geth_rpc_mainnet

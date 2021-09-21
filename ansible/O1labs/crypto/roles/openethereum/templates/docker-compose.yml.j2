@@ -16,7 +16,7 @@ services:
     ports:
       - {{ p2p_port }}:30303/tcp
       - {{ rpc_port }}:8545
-      - {{ websocket_port }}:8546
+      - {{ ws_port }}:8546
       - {{ metrics_port }}:3000
     volumes:
       - "{{ host_data_dir }}:{{ data_dir }}"
