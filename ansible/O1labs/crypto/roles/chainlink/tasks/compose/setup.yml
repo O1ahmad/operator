@@ -1,0 +1,37 @@
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ _ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate Chainlink compose config
+  become: true
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "{{ _ops_runtime_dir }}/docker-compose.yml"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  register: "chainlink_compose"
+
+- name: Generate Chainlink compose environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ env_vars }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    env_config: "{{ _default_config|combine(config) }}"
+  register: "compose_env"
+
+- name: Run docker-compose up
+  community.docker.docker_compose:
+    project_src: "{{ _ops_runtime_dir }}"
+    state: "{{ target_state }}"
+    services: "{{ target_services }}"
+    env_file: "{{ env_vars }}"

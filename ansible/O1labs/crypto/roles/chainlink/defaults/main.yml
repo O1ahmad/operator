@@ -1,0 +1,40 @@
+---
+setup_mode: compose
+target_state: present
+target_services: [ 'chainlink', 'postgres']
+_ops_runtime_dir: /var/tmp/chainlink
+env_vars: "{{ _ops_runtime_dir }}/.env"
+
+image: 0labs/chainlink:latest
+security_output_dir: /var/tmp/chainlink
+ui_port: 6688
+https_port: 6689
+host_data_dir: "{{ _ops_runtime_dir }}"
+data_dir: /chainlink
+
+postgres_image: postgres:latest
+postgres_user: postgres
+postgres_password: secret
+postgres_host: postgres
+postgres_port: 5432
+postgres_db: postgres
+sslmode: disable
+PGDATA: /var/lib/postgresql/data
+
+restart_policy: unless-stopped
+
+_default_config:
+  OPERATOR_PASSWORD: ABCabc123!@#$
+  API_USER: linknode@example.com
+  API_PASSWORD: passw0rd
+  ROOT: "{{ data_dir }}"
+  LOG_LEVEL: debug
+  ETH_CHAIN_ID: 5
+  MIN_OUTGOING_CONFIRMATIONS: 2
+  LINK_CONTRACT_ADDRESS: 0x01BE23585060835E02B77ef475b0Cc51aA1e0709
+  ETH_URL: ws://ethereum-rpc.goerli.01labs.net:8546
+  CHAINLINK_TLS_PORT: 0
+  SECURE_COOKIES: false
+  GAS_UPDATER_ENABLED: true
+  ALLOW_ORIGINS: *
+config: {}

@@ -1,0 +1,17 @@
+---
+- name: Create bridged Chainlink network for components to communicate
+  when: setup_mode == "compose"
+  community.docker.docker_network:
+    name: chainlink
+
+- name: Setup Chainlink compose infrastructure topology
+  include_tasks: "compose/setup.yml"
+  when: setup_mode == "compose"
+  tags:
+    - setup
+
+- name: Setup Chainlink systemd infrastructure topology
+  include_tasks: "systemd/setup.yml"
+  when: setup_mode == "systemd"
+  tags:
+    - setup

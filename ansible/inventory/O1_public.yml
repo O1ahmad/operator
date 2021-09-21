@@ -15,6 +15,15 @@ all:
       ansible_user: root
       ansible_python_interpreter: /usr/bin/python3
   children:
+    chainlink_mainnet:
+      hosts:
+    chainlink_goerli:
+      hosts:
+    chainlink_rinkeby:
+      hosts:
+        morph:
+    chainlink_kovan:
+      hosts:
     geth_rpc_mainnet:
       hosts:
         nightcrawler:
@@ -24,22 +33,22 @@ all:
     geth_rpc_rinkeby:
       hosts:
         morph:
-    openethereum_rpc_kovan:
+    grafana:
       hosts:
+        nightcrawler:
+        cyclops:
         storm:
+        morph:
     monitored:
       hosts:
         cyclops:
         morph:
         nightcrawler:
         storm:
-    prometheus:
+    openethereum_rpc_kovan:
       hosts:
-        nightcrawler:
-        cyclops:
         storm:
-        morph:
-    grafana:
+    prometheus:
       hosts:
         nightcrawler:
         cyclops:

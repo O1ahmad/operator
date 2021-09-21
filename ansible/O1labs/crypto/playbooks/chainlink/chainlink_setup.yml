@@ -1,0 +1,39 @@
+---
+- name: Setup rinkeby chainlink instances
+  hosts: chainlink_rinkeby
+  roles:
+    - role: "../../roles/chainlink"
+      vars:
+        config:
+          ETH_CHAIN_ID: 4
+          LINK_CONTRACT_ADDRESS: 0x01BE23585060835E02B77ef475b0Cc51aA1e0709
+          ETH_URL: ws://ethereum-rpc.rinkeby.01labs.net:8546
+
+- name: Setup goerli chainlink instances
+  hosts: chainlink_goerli
+  roles:
+    - role: "../../roles/chainlink"
+      vars:
+        config:
+          ETH_CHAIN_ID: 5
+          LINK_CONTRACT_ADDRESS: 0x326C977E6efc84E512bB9C30f76E30c160eD06FB
+          ETH_URL: ws://ethereum-rpc.goerli.01labs.net:8546
+
+- name: Setup kovan chainlink instances
+  hosts: chainlink_kovan
+  roles:
+    - role: "../../roles/chainlink"
+      vars:
+        config:
+          ETH_CHAIN_ID: 42
+          LINK_CONTRACT_ADDRESS: 0xa36085F69e2889c224210F603D836748e7dC0088
+          ETH_URL: ws://ethereum-rpc.kovan.01labs.net:8546
+
+- name: Setup mainnet chainlink instances
+  hosts: chainlink_mainnet
+  roles:
+    - role: "../../roles/chainlink"
+      vars:
+        config:
+          ETH_CHAIN_ID: 1
+          ETH_URL: ws://ethereum-rpc.mainnet.01labs.net:8546
