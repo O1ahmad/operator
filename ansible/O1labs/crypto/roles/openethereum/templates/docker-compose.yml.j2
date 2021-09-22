@@ -11,6 +11,7 @@ services:
       - "openethereum"
       - "--chain={{ chain }}"
       - "--config={{ config_dir }}/config.toml"
+      - "--warp-barrier={{ warp_barrier|default(10000) }}"
     env_file:
       - {{ _config_env_file }}
     ports:

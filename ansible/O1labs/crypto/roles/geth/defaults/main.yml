@@ -14,6 +14,8 @@ data_dir: /root/.ethereum
 p2p_port: 30303
 rpc_port: 8545
 ws_port: 8546
+
+enable_metrics_server: true
 metrics_port: 6060
 metrics_addr: 0.0.0.0
 external_addr: 127.0.0.1
