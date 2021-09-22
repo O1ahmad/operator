@@ -7,7 +7,7 @@
         config:
           ETH_CHAIN_ID: 4
           LINK_CONTRACT_ADDRESS: 0x01BE23585060835E02B77ef475b0Cc51aA1e0709
-          ETH_URL: ws://ethereum-rpc.rinkeby.01labs.net:8546
+          ETH_URL: ws://192.168.1.153:8546
 
 - name: Setup goerli chainlink instances
   hosts: chainlink_goerli

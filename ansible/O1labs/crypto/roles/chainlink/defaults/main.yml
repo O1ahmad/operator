@@ -36,5 +36,5 @@ _default_config:
   CHAINLINK_TLS_PORT: 0
   SECURE_COOKIES: false
   GAS_UPDATER_ENABLED: true
-  ALLOW_ORIGINS: *
+  ALLOW_ORIGINS: '*'
 config: {}

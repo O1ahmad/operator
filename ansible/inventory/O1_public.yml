@@ -19,6 +19,7 @@ all:
       hosts:
     chainlink_goerli:
       hosts:
+        storm:
     chainlink_rinkeby:
       hosts:
         morph:
