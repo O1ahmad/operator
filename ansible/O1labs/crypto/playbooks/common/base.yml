@@ -1,0 +1,10 @@
+---
+- name: Apply base node configuration
+  hosts: all
+  become: true
+  tasks:
+  - name: Include system-related tasks
+    include: "system.yml"
+
+  - name: Include docker setup tasks
+    include: "docker.yml"
