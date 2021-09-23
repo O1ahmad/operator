@@ -15,19 +15,19 @@
     - role: "../../roles/geth"
       vars:
         chain: goerli
-        external_addr: 16.170.167.4
         config:
           Eth:
             SyncMode: fast
 
-- name: Setup kovan openethereum instances
-  hosts: openethereum_rpc_kovan
+- name: Setup ropsten geth instances
+  hosts: geth_rpc_ropsten
   roles:
-    - role: "../../roles/openethereum"
+    - role: "../../roles/geth"
       vars:
-        chain: kovan
-        metrics_port: 3300
-        host_data_dir: /root/.local/share/openethereum/
+        chain: ropsten
+        config:
+          Eth:
+            SyncMode: fast
 
 - name: Setup mainnet geth instances
   hosts: geth_rpc_mainnet
@@ -35,7 +35,6 @@
     - role: "../../roles/geth"
       vars:
         chain: mainnet
-        external_addr: 107.214.58.44
         host_data_dir: /home/ahmad/lab/ethereum/geth/data
         config:
           Eth:

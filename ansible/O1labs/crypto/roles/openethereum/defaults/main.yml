@@ -13,7 +13,7 @@ data_dir: /root/.local/share/openethereum
 
 p2p_port: 30303
 rpc_port: 8545
-websocket_port: 8546
+ws_port: 8546
 metrics_port: 6060
 
 exporter_image: hunterlong/gethexporter:latest
@@ -26,10 +26,14 @@ _default_config:
   network:
     id: 42
     warp: false
+  rpc:
+    interface: all
+  websockets:
+    interface: all
   snapshots:
     enable: false
   footprint:
-    fat_db: off
+    fat_db: "off"
   metrics:
     enable: true
     interface: all

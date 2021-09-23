@@ -14,9 +14,10 @@ services:
       - "--log.debug"
       - "--config={{ config_dir }}/config.toml"
       - "--http"
+{% if enable_metrics_server is defined and enable_metrics_server %}
       - "--metrics"
       - "--metrics.addr={{ metrics_addr }}"
-      - "--nat=extip:{{ external_addr }}"
+{% endif %}
     environment:
       GETH_CONFIG_DIR: "{{ config_dir }}"
     env_file:
@@ -24,6 +25,7 @@ services:
     ports:
       - {{ p2p_port }}:30303/tcp
       - {{ rpc_port }}:8545
+      - {{ ws_port }}:8546
       - {{ metrics_port }}:6060
     volumes:
       - "{{ host_data_dir }}:{{ data_dir }}"

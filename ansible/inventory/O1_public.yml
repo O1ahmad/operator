@@ -7,7 +7,7 @@ all:
       ansible_host: 107.214.58.44
       ansible_user: ahmad
     cyclops:
-      ansible_host: 13.51.254.171
+      ansible_host: 159.65.35.254
       ansible_user: root
       ansible_python_interpreter: /usr/bin/python3
     storm:
@@ -15,6 +15,16 @@ all:
       ansible_user: root
       ansible_python_interpreter: /usr/bin/python3
   children:
+    chainlink_mainnet:
+      hosts:
+    chainlink_goerli:
+      hosts:
+        storm:
+    chainlink_rinkeby:
+      hosts:
+        cyclops:
+    chainlink_kovan:
+      hosts:
     geth_rpc_mainnet:
       hosts:
         nightcrawler:
@@ -23,10 +33,16 @@ all:
         cyclops:
     geth_rpc_rinkeby:
       hosts:
-        morph:
-    openethereum_rpc_kovan:
-      hosts:
         storm:
+    geth_rpc_ropsten:
+      hosts:
+        morph:
+    grafana:
+      hosts:
+        nightcrawler:
+        cyclops:
+        storm:
+        morph:
     monitored:
       hosts:
         cyclops:
@@ -34,12 +50,6 @@ all:
         nightcrawler:
         storm:
     prometheus:
-      hosts:
-        nightcrawler:
-        cyclops:
-        storm:
-        morph:
-    grafana:
       hosts:
         nightcrawler:
         cyclops:

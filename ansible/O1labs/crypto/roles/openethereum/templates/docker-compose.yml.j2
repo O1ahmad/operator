@@ -11,12 +11,13 @@ services:
       - "openethereum"
       - "--chain={{ chain }}"
       - "--config={{ config_dir }}/config.toml"
+      - "--warp-barrier={{ warp_barrier|default(10000) }}"
     env_file:
       - {{ _config_env_file }}
     ports:
       - {{ p2p_port }}:30303/tcp
       - {{ rpc_port }}:8545
-      - {{ websocket_port }}:8546
+      - {{ ws_port }}:8546
       - {{ metrics_port }}:3000
     volumes:
       - "{{ host_data_dir }}:{{ data_dir }}"

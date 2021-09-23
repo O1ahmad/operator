@@ -10,7 +10,9 @@
     - monitoring
 
 - name: Add [monitored] services to monitoring network
+  ignore_errors: yes
   docker_network:
     name: monitoring
-    connected: "{{ monitored_services }}"
+    connected: "{{ item }}"
     appends: yes
+  loop: "{{ monitored_services }}"

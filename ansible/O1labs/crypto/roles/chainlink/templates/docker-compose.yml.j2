@@ -1,0 +1,51 @@
+version: "3"
+
+networks:
+  chainlink:
+
+volumes:
+  pgdata:
+
+services:
+  chainlink:
+    image: "{{ image }}"
+    container_name: chainlink
+    command:
+      - "chainlink"
+      - "node"
+      - "start"
+      - "-p"
+      - "{{ security_output_dir }}/.password"
+      - "-a"
+      - "{{ security_output_dir }}/.api"
+    environment:
+      DATABASE_URL: "postgresql://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_host }}:{{ postgres_port }}/{{ postgres_db }}?sslmode={{ sslmode }}"
+      SECURITY_OUTPUT_DIR: "{{ security_output_dir }}"
+    env_file:
+      - "{{ env_vars }}"
+    ports:
+      - {{ ui_port }}:6688/tcp
+      - {{ https_port }}:6689/tcp
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+    networks:
+      - chainlink
+    restart: {{ restart_policy }}
+    depends_on:
+      - postgres
+
+  postgres:
+    image: {{ postgres_image }}
+    container_name: postgres
+    environment:
+      POSTGRES_DB: {{ postgres_db }}
+      POSTGRES_USER: {{ postgres_user }}
+      POSTGRES_PASSWORD: {{ postgres_password}}
+      PGDATA: {{ PGDATA }}
+    ports:
+      - {{ postgres_port }}:5432
+    volumes:
+      - "pgdata:{{ PGDATA }}"
+    networks:
+      - chainlink
+    restart: {{ restart_policy }}
