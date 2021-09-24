@@ -1,0 +1,63 @@
+---
+- name: Apply hardened SSH configuration
+  include_role:
+    name: 0x0i.openssh
+  vars:
+    ssh_config:
+        service:
+          AuthenticationMethods: "publickey"
+          AuthorizedKeysFile: ".ssh/authorized_keys .ssh/authorized_keys2"
+          ChallengeResponseAuthentication: "no"
+          PasswordAuthentication: "no"
+          PermitRootLogin: "prohibit-password"
+          IgnoreRhosts: "yes"
+
+- name: Install auto-update & fail2ban packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "unattended-upgrades"
+    - "update-notifier-common"
+    - "fail2ban"
+    - "python3-pip"
+
+- name: Apply reasonable auto-update settings
+  become: true
+  blockinfile:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    block: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+      APT::Periodic::AutocleanInterval "7";
+      Unattended-Upgrade::Remove-Unused-Dependencies "true";
+      Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
+
+      # This is the most important choice: auto-reboot.
+      Unattended-Upgrade::Automatic-Reboot "true";
+      Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+
+- name: Apply reasonable fail2ban settings
+  become: true
+  blockinfile:
+    path: /etc/fail2ban/jail.d/ssh.local
+    create: yes
+    block: |
+      [sshd]
+      enabled = true
+      banaction = ufw
+      port = 22
+      filter = sshd
+      logpath = %(sshd_log)s
+      maxretry = 5
+
+- name: Restart system services
+  become: true
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - unattended-upgrades
+    - fail2ban
+    - sshd
