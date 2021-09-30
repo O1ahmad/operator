@@ -1,0 +1,56 @@
+version: "3"
+
+networks:
+  ethereum:
+    external: true
+
+services:
+  beacon-node:
+    image: {{ image }}
+    container_name: prysm-beacon
+    command:
+      - "beacon-chain"
+      - "--config-file"
+      - "{{ prysm_config_dir }}/config.yml"
+    environment:
+      PRYSM_CONFIG_DIR: "{{ prysm_config_dir }}"
+    env_file:
+      - {{ beacon_env_vars }}
+    ports:
+      - {{ p2p_tcp_port }}:13000/tcp
+      - {{ p2p_udp_port }}:12000/tcp
+      - {{ eth2_api_port }}:3501/tcp
+      - {{ beacon_rpc_port }}:4000/tcp
+      - {{ beacon_metrics_port }}:8080/tcp
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}
+
+  validator:
+    image: {{ image }}
+    container_name: prysm-validator
+    command:
+      - "validator"
+      - "--config-file"
+      - "{{ prysm_config_dir }}/config.yml"
+    environment:
+      PRYSM_CONFIG_DIR: "{{ prysm_config_dir }}"
+      SETUP_VALIDATOR: "{{ setup_validator }}"
+      VALIDATOR_WALLET_PASSWORD=: "{{ validator_wallet_password }}"
+      VALIDATOR_ACCOUNT_PASSWORD: "{{ validator_account_password }}"
+      ETH2_CHAIN: "{{ eth2_chain }}"
+    env_file:
+      - {{ validator_env_vars }}
+    ports:
+      - {{ validator_gateway_port }}:7500/tcp
+      - {{ validator_rpc_port }}:7000/tcp
+      - {{ validator_metrics_port }}:8081/tcp
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+      - "{{ host_wallet_dir }}:/wallets"
+      - "{{ host_keys_dir }}}:/keys"
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}

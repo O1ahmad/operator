@@ -7,13 +7,15 @@ all:
       ansible_host: 107.214.58.44
       ansible_user: ahmad
     cyclops:
-      ansible_host: 159.65.35.254
+      ansible_host: 137.184.47.207
       ansible_user: root
       ansible_python_interpreter: /usr/bin/python3
     storm:
-      ansible_host: 104.131.18.55
-      ansible_user: root
-      ansible_python_interpreter: /usr/bin/python3
+      ansible_host: 35.193.82.0
+      ansible_user: ops
+    jubilee:
+      ansible_host: 34.66.32.129
+      ansible_user: ops
   children:
     chainlink_mainnet:
       hosts:
@@ -40,8 +42,6 @@ all:
     grafana:
       hosts:
         nightcrawler:
-        cyclops:
-        storm:
         morph:
     monitored:
       hosts:
@@ -49,9 +49,8 @@ all:
         morph:
         nightcrawler:
         storm:
+        jubilee:
     prometheus:
       hosts:
         nightcrawler:
-        cyclops:
-        storm:
         morph:
