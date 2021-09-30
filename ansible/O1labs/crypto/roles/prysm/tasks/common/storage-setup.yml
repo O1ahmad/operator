@@ -1,0 +1,47 @@
+---
+- name: Ensure existence of host data dir
+  become: true
+  file:
+    path: "{{ host_data_dir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777
+
+- name: Ensure existence of host wallet dir
+  become: true
+  when: "'validator' in target_services"
+  file:
+    path: "{{ host_wallet_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Ensure existence of host keys dir
+  become: true
+  when: "'validator' in target_services"
+  file:
+    path: "{{ host_keys_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Copy override/custom wallet directory to remote host
+  when: override_wallet_dir is defined and override_wallet_dir|length > 0
+  become: true
+  ansible.builtin.copy:
+    src: "{{ override_wallet_dir }}"
+    dest: "{{ host_wallet_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Copy override/custom keys directory to remote host
+  when: override_keys_dir is defined and override_keys_dir|length > 0
+  become: true
+  ansible.builtin.copy:
+    src: "{{ override_keys_dir }}"
+    dest: "{{ host_keys_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Set merged/runtime beacon-chain node configuration fact
+  set_fact:
+    runtime_config: "{{ _default_beacon_config|combine(beacon_config) }}"

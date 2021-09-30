@@ -1,0 +1,10 @@
+---
+- name: Setup Pyrmont Prysm instances
+  hosts: prysm_pyrmont
+  roles:
+    - role: "../../roles/prysm"
+      vars:
+        target_services: [ 'beacon-node' ]
+        beacon_config:
+          pyrmont: true
+          genesis-state: /data/genesis.ssz

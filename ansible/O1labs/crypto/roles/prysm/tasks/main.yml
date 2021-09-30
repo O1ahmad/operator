@@ -4,6 +4,11 @@
   community.docker.docker_network:
     name: ethereum
 
+- name: Manage storage/data setup
+  include_tasks: "common/storage-setup.yml"
+  tags:
+    - setup
+
 - name: Setup Prysm compose infrastructure topology
   include_tasks: "compose/setup.yml"
   when: setup_mode == "compose"

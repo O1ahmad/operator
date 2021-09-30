@@ -7,8 +7,9 @@ beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
 validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
 
 image: 0labs/prysm:latest
+eth2_chain: pyrmont
 p2p_tcp_port: 13000
-p2p_tcp_port: 12000
+p2p_udp_port: 12000
 eth2_api_port: 3501
 beacon_rpc_port: 4000
 beacon_metrics_port: 8080
@@ -24,8 +25,13 @@ host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
 data_dir: /data
 
+# Uncomment or define 'overrides' to trigger custom user-data migration
+#
+# override_wallet_dir: "{{ host_wallet_dir }}"
+# override_keys_dir: "{{ host_keys_dir }}"
+
 setup_validator: true
-validator_wallet_password: T0p$3cr3t
+validator_wallet_password: "ABCabc123!@#"
 validator_account_password: passw0rd
 
 restart_policy: unless-stopped
@@ -38,6 +44,8 @@ _default_beacon_config:
   grpc-gateway-host: 0.0.0.0
   pyrmont: true
   monitoring-host: 0.0.0.0
+  enable-db-backup-webhook: true
+  db-backup-output-dir: /backups
 beacon_config: {}
 
 _default_validator_config:

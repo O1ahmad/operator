@@ -14,7 +14,7 @@ all:
       ansible_host: 35.193.82.0
       ansible_user: ops
     jubilee:
-      ansible_host: 34.66.32.129
+      ansible_host: 34.133.93.138
       ansible_user: ops
   children:
     chainlink_mainnet:
@@ -39,6 +39,10 @@ all:
     geth_rpc_ropsten:
       hosts:
         morph:
+    prysm_pyrmont:
+      hosts:
+        jubilee:
+        nightcrawler:
     grafana:
       hosts:
         nightcrawler:

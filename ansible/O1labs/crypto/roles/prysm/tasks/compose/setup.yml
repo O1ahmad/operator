@@ -1,3 +1,4 @@
+---
 - name: Ensure existence of runtime dir
   become: true
   file:
@@ -47,4 +48,3 @@
     project_src: "{{ _ops_runtime_dir }}"
     state: "{{ target_state }}"
     services: "{{ target_services }}"
-    env_file: "{{ env_vars }}"
