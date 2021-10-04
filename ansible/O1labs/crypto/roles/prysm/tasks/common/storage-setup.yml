@@ -28,7 +28,7 @@
   when: override_wallet_dir is defined and override_wallet_dir|length > 0
   become: true
   ansible.builtin.copy:
-    src: "{{ override_wallet_dir }}"
+    src: "{{ override_wallet_dir }}/"
     dest: "{{ host_wallet_dir }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
@@ -37,7 +37,7 @@
   when: override_keys_dir is defined and override_keys_dir|length > 0
   become: true
   ansible.builtin.copy:
-    src: "{{ override_keys_dir }}"
+    src: "{{ override_keys_dir }}/"
     dest: "{{ host_keys_dir }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

@@ -14,6 +14,8 @@ services:
       - "{{ prysm_config_dir }}/config.yml"
     environment:
       PRYSM_CONFIG_DIR: "{{ prysm_config_dir }}"
+      AUTO_BACKUP_DB: "{{ auto_backup_db }}"
+      BACKUP_HOST_ADDR: "http://localhost:8080"
     env_file:
       - {{ beacon_env_vars }}
     ports:
@@ -41,6 +43,8 @@ services:
       VALIDATOR_WALLET_PASSWORD=: "{{ validator_wallet_password }}"
       VALIDATOR_ACCOUNT_PASSWORD: "{{ validator_account_password }}"
       ETH2_CHAIN: "{{ eth2_chain }}"
+      AUTO_BACKUP_DB: "{{ auto_backup_db }}"
+      BACKUP_HOST_ADDR: "http://localhost:8081"
     env_file:
       - {{ validator_env_vars }}
     ports:
@@ -50,7 +54,7 @@ services:
     volumes:
       - "{{ host_data_dir }}:{{ data_dir }}"
       - "{{ host_wallet_dir }}:/wallets"
-      - "{{ host_keys_dir }}}:/keys"
+      - "{{ host_keys_dir }}:/keys"
     networks:
       - ethereum
     restart: {{ restart_policy }}
