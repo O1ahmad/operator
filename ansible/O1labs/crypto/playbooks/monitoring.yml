@@ -20,18 +20,37 @@
           - job_name: "ethereum"
             metrics_path: "/debug/metrics/prometheus"
             static_configs:
-              - targets: [ "openethereum:3300", "geth:6060" ]
+              - targets: [
+                "ethereum-rpc.goerli.01labs.net:6060",
+                "ethereum-rpc.mainnet.01labs.net:6060",
+                "ethereum-rpc.rinkeby.01labs.net:6060"
+                ]
           - job_name: "geth-exporter"
             static_configs:
-              - targets: ["geth-exporter:9090"]
+              - targets: [
+                "ethereum-rpc.goerli.01labs.net:10090",
+                "ethereum-rpc.mainnet.01labs.net:10090",
+                "ethereum-rpc.rinkeby.01labs.net:10090"
+                ]
           - job_name: "node-exporter"
             static_configs:
-              - targets: ["node-exporter:9100"]
-          - job_name: "chainlink"
-            metrics_path: "/metrics"
+              - targets: [
+                "ethereum-rpc.goerli.01labs.net:9100",
+                "ethereum-rpc.mainnet.01labs.net:9100",
+                "ethereum-rpc.rinkeby.01labs.net:9100"
+                ]
+          - job_name: "chainlink-web"
             static_configs:
-              - targets: [ "chainlink:6688" ]
-          
+              - targets: [
+                "chainlink.goerli.01labs.net:6688",
+                "chainlink.rinkeby.01labs.net:6688"
+                ]
+          - job_name: "aws-exporter"
+            static_configs:
+              - targets: [ "aws-stats.01labs.net:9686" ]
+          - job_name: "gcp-exporter"
+            static_configs:
+              - targets: [ "gcp-stats.01labs.net:9692" ]
 - name: Setup Grafana observability service
   hosts: grafana
   roles:

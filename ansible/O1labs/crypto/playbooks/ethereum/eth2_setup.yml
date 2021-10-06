@@ -1,0 +1,17 @@
+---
+- name: Setup Pyrmont Prysm instances
+  hosts: prysm_pyrmont
+  roles:
+    - role: "../../roles/prysm"
+      vars:
+        target_services: [ 'beacon-node', 'validator' ]
+        override_keys_dir: /tmp/keys
+        host_keys_dir: /operations/prysm/keys
+        beacon_config:
+          pyrmont: true
+          datadir: /data
+          db-backup-output-dir: /data/backups
+        validator_config:
+          pyrmont: true
+          datadir: /data
+          db-backup-output-dir: /data/backups
