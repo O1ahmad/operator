@@ -1,0 +1,58 @@
+version: "3"
+
+networks:
+  ethereum:
+
+services:
+  lighthouse-beacon:
+    image: {{ image }}
+    container_name: lighthouse-beacon
+    command:
+      - "lighthouse"
+      - "beacon_node"
+    environment:
+      ETH2_CHAIN: "{{ eth2_chain }}"
+      EXTRA_ARGS: {{ beacon_extra_args }}
+      SETUP_DEPOSIT_CLI: {{ setup_deposit_cli }}
+      DEPOSIT_CLI_VERSION: {{ deposit_cli_version }}
+      SETUP_DEPOSIT_ACCOUNTS: {{ setup_deposit_accounts }}
+      DEPOSIT_DIR: {{ deposit_dir }}
+      DEPOSIT_MNEMONIC_LANG: {{ deposit_mnemonic_lang }}
+      DEPOSIT_NUM_VALIDATORS: {{ deposit_num_validators }}
+      DEPOSIT_KEY_PASSWORD: {{ deposit_key_password }}
+    env_file:
+      - {{ beacon_env_vars }}
+    ports:
+      - {{ p2p_tcp_port }}:9000/tcp
+      - {{ p2p_udp_port }}:9000/udp
+      - {{ beacon_api_port }}:5052/tcp
+      - {{ beacon_metrics_port }}:5054/tcp
+    volumes:
+      - "{{ host_data_dir }}:{{ DATADIR }}"
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}
+
+  lighthouse-validator:
+    image: {{ image }}
+    container_name: lighthouse-validator
+    command:
+      - "lighthouse"
+      - "validator_client"
+    environment:
+      ETH2_CHAIN: "{{ eth2_chain }}"
+      EXTRA_ARGS: "{{ validator_extra_args }}"
+      SETUP_VALIDATOR: {{ setup_validator }}
+      VALIDATOR_KEYSTORE_PASSWORD: {{ validator_keystore_password }}
+    env_file:
+      - {{ validator_env_vars }}
+    ports:
+      - {{ validator_api_port }}:5062/tcp
+      - {{ validator_metrics_port }}:5064/tcp
+    volumes:
+      - "{{ host_data_dir }}:{{ DATADIR }}"
+      - "{{ host_wallet_dir }}:/wallets"
+      - "{{ host_keys_dir }}:/keys"
+    networks:
+      - ethereum
+    restart: {{ restart_policy }}

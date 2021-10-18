@@ -1,0 +1,22 @@
+---
+- name: Create bridged Ethereum network for components to communicate
+  when: setup_mode == "compose"
+  community.docker.docker_network:
+    name: ethereum
+
+- name: Manage storage/data setup
+  include_tasks: "common/storage-setup.yml"
+  tags:
+    - setup
+
+- name: Setup Lighthouse compose infrastructure topology
+  include_tasks: "compose/setup.yml"
+  when: setup_mode == "compose"
+  tags:
+    - setup
+
+- name: Setup Lighthouse systemd infrastructure topology
+  include_tasks: "systemd/setup.yml"
+  when: setup_mode == "systemd"
+  tags:
+    - setup
