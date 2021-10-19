@@ -43,6 +43,10 @@ all:
       hosts:
         jubilee:
         nightcrawler:
+    lighthouse_prater:
+      hosts:
+        morph:
+        storm:
     grafana:
       hosts:
         nightcrawler:

@@ -26,6 +26,8 @@
     group: "root"
     mode: 0644
     backup: true
+  vars:
+    extra_args: "{{ beacon_extra_args }}"
   register: "beacon_compose_env"
 
 - name: Generate Lighthouse validator compose environment vars
@@ -37,6 +39,8 @@
     group: "root"
     mode: 0644
     backup: true
+  vars:
+    extra_args: "{{ validator_extra_args }}"
   register: "validator_compose_env"
 
 - name: Run docker-compose up

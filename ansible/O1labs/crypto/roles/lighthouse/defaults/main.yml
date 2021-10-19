@@ -23,7 +23,7 @@ validator_extra_args: ""
 host_data_dir: "{{ _ops_runtime_dir }}"
 host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
-data_dir: /data
+data_dir: /root/.lighthouse
 
 # Uncomment or define 'overrides' to trigger custom user-data migration
 #

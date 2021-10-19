@@ -18,13 +18,13 @@ services:
       AUTO_BACKUP_DB: "{{ auto_backup_db }}"
       BACKUP_HOST_ADDR: "http://localhost:8080"
       BACKUP_INTERVAL: "{{ backup_interval }}"
-      SETUP_DEPOSIT_CLI: {{ setup_deposit_cli }}
-      DEPOSIT_CLI_VERSION: {{ deposit_cli_version }}
-      SETUP_DEPOSIT_ACCOUNTS: {{ setup_deposit_accounts }}
-      DEPOSIT_DIR: {{ deposit_dir }}
-      DEPOSIT_MNEMONIC_LANG: {{ deposit_mnemonic_lang }}
-      DEPOSIT_NUM_VALIDATORS: {{ deposit_num_validators }}
-      DEPOSIT_KEY_PASSWORD: {{ deposit_key_password }}
+      SETUP_DEPOSIT_CLI: "{{ setup_deposit_cli }}"
+      DEPOSIT_CLI_VERSION: "{{ deposit_cli_version }}"
+      SETUP_DEPOSIT_ACCOUNTS: "{{ setup_deposit_accounts }}"
+      DEPOSIT_DIR: "{{ deposit_dir }}"
+      DEPOSIT_MNEMONIC_LANG: "{{ deposit_mnemonic_lang }}"
+      DEPOSIT_NUM_VALIDATORS: "{{ deposit_num_validators }}"
+      DEPOSIT_KEY_PASSWORD: "{{ deposit_key_password }}"
     env_file:
       - {{ beacon_env_vars }}
     ports:
