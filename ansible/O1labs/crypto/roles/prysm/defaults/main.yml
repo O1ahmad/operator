@@ -30,11 +30,20 @@ data_dir: /data
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
 
+setup_deposit_cli: false
+deposit_cli_version: v1.2.0
+setup_deposit_accounts: false
+deposit_dir: /var/tmp/deposit
+deposit_mnemonic_lang: english
+deposit_num_validators: 1
+deposit_key_password: passw0rd
+
 setup_validator: true
 validator_wallet_password: "ABCabc123!@#"
 validator_account_password: passw0rd
 
 auto_backup_db: true
+backup_interval: 0 */6 * * *
 restart_policy: unless-stopped
 
 _default_beacon_config:

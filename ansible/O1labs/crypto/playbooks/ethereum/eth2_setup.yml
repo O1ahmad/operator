@@ -4,6 +4,7 @@
   roles:
     - role: "../../roles/prysm"
       vars:
+        eth2_chain: pyrmont
         target_services: [ 'beacon-node', 'validator' ]
         override_keys_dir: /tmp/keys
         host_keys_dir: /operations/prysm/keys
@@ -15,3 +16,17 @@
           pyrmont: true
           datadir: /data
           db-backup-output-dir: /data/backups
+
+- name: Setup Prater Lighthouse instances
+  hosts: lighthouse_prater
+  roles:
+    - role: "../../roles/lighthouse"
+      vars:
+        eth2_chain: prater
+        target_services: [ 'lighthouse-validator' ]
+        setup_validator: "true"
+        override_keys_dir: /operations/lighthouse/keys
+        host_data_dir: /operations/lighthouse/data
+        host_keys_dir: /operations/lighthouse/keys
+        beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c"
+        validator_extra_args: "--network=prater --enable-doppelganger-protection=true --graffiti=O1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --metrics-allow-origin=* --unencrypted-http-transport --beacon-nodes=http://lighthouse-beacon:5052,http://lighthouse.prater.01labs.net:5052"
