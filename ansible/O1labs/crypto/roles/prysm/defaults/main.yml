@@ -52,7 +52,6 @@ _default_beacon_config:
   http-web3provider: http://ethereum-rpc.goerli.01labs.net:8545
   rpc-host: 0.0.0.0
   grpc-gateway-host: 0.0.0.0
-  pyrmont: true
   monitoring-host: 0.0.0.0
   enable-db-backup-webhook: true
   db-backup-output-dir: /data/backups
@@ -64,7 +63,6 @@ _default_validator_config:
   rpc-host: 0.0.0.0
   grpc-gateway-host: 0.0.0.0
   monitoring-host: 0.0.0.0
-  pyrmont: true
   rpc: true
   web: true
   wallet-dir: /wallets

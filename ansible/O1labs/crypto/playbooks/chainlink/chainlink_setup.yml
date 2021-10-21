@@ -36,4 +36,5 @@
       vars:
         config:
           ETH_CHAIN_ID: 1
+          LINK_CONTRACT_ADDRESS: 0x514910771af9ca656af840dff83e8264ecf986ca
           ETH_URL: ws://ethereum-rpc.mainnet.01labs.net:8546
