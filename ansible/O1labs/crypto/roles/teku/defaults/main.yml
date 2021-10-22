@@ -1,0 +1,64 @@
+---
+setup_mode: compose
+target_state: present
+target_services: [ 'beacon-node', 'validator']
+_ops_runtime_dir: /var/tmp/teku
+beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
+validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
+
+image: 0labs/teku:latest
+eth2_chain: pyrmont
+p2p_tcp_port: 9000
+p2p_udp_port: 9000
+beacon_api_port: 5051
+beacon_metrics_port: 8008
+
+validator_metrics_port: 8009
+
+teku_config_dir: /etc/teku
+
+host_data_dir: "{{ _ops_runtime_dir }}"
+host_wallet_dir: "{{ host_data_dir }}/wallets"
+host_keys_dir: "{{ host_data_dir }}/keys"
+data_dir: /data
+
+# Uncomment or define 'overrides' to trigger custom user-data migration
+#
+# override_wallet_dir: "{{ host_wallet_dir }}"
+# override_keys_dir: "{{ host_keys_dir }}"
+
+setup_deposit_cli: false
+deposit_cli_version: v1.2.0
+setup_deposit_accounts: false
+deposit_dir: /var/tmp/deposit
+deposit_mnemonic_lang: english
+deposit_num_validators: 1
+deposit_key_password: passw0rd
+
+setup_validator: true
+validator_wallet_password: "ABCabc123!@#"
+validator_account_password: passw0rd
+
+eth1_endpoints: ""
+restart_policy: unless-stopped
+
+_default_beacon_config:
+  network: pyrmont
+  data-path: "{{ data_dir }}"
+  rest-api-enabled: true
+  rest-api-interface: 0.0.0.0
+  rest-api-host-allowlist: "*"
+  metrics-enabled: true
+  metrics-interface: 0.0.0.0
+  metrics-host-allowlist: "*"
+beacon_config: {}
+
+_default_validator_config:
+  network: auto
+  data-path: "{{ data_dir }}"
+  beacon-node-api-endpoint: http://teku-beacon:5051
+  validators-graffiti: O1
+  metrics-enabled: true
+  metrics-interface: 0.0.0.0
+  metrics-host-allowlist: "*"
+validator_config: {}
