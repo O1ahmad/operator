@@ -46,17 +46,19 @@ all:
     prysm_pyrmont:
       hosts:
         jubilee:
-        nightcrawler:
     prysm_mainnet:
       hosts:
         cyclops:
     lighthouse_prater:
       hosts:
-        morph:
         storm:
     lighthouse_mainnet:
       hosts:
         toad:
+    teku_mainnet:
+      hosts:
+        morph:
+        nightcrawler:
     grafana:
       hosts:
         nightcrawler:
