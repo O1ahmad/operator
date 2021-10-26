@@ -31,8 +31,8 @@ Role Variables
 | *data_dir* | container directory to store node runtime/operational data | `/data` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/prysm/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/prysm/keys` |
-| *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#beacon-node-configuration) of available config options) | `.beacon.env` |
-| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#validator-configuration)) of available config options | `.validator.env` |
+| *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#beacon-node-configuration) of available config options) | `/var/tmp/prysm/.beacon.env` |
+| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#validator-configuration)) of available config options | `/var/tmp/prysm/.validator.env` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
