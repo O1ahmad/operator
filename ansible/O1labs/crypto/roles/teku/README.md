@@ -4,7 +4,7 @@
 Ansible Role 🔰:link: Teku
 =========
 
-Configure and operate Prysm: an Ethereum 2.0 client written in Go
+Configure and operate Teku: an open-source Ethereum 2.0 client written in Java
 
 Requirements
 ------------
