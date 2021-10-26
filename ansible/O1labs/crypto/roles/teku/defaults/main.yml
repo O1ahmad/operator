@@ -7,12 +7,12 @@ beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
 validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
 
 image: 0labs/teku:latest
+eth1_endpoints: "http://ethereum-rpc.goerli.0labs.net"
 eth2_chain: pyrmont
 p2p_tcp_port: 9000
 p2p_udp_port: 9000
 beacon_api_port: 5051
 beacon_metrics_port: 8008
-
 validator_metrics_port: 8009
 
 teku_config_dir: /etc/teku
@@ -35,11 +35,13 @@ deposit_mnemonic_lang: english
 deposit_num_validators: 1
 deposit_key_password: passw0rd
 
-setup_validator: true
-validator_wallet_password: "ABCabc123!@#"
-validator_account_password: passw0rd
+security_output_dir: /var/tmp/teku
+setup_validator: false
+validator_key: ""
+validator_key_password: ""
+validator_keys_dir: ""
+validator_pwd_dir: ""
 
-eth1_endpoints: ""
 restart_policy: unless-stopped
 
 _default_beacon_config:

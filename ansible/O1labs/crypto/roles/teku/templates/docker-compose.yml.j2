@@ -47,8 +47,11 @@ services:
       ETH2_CHAIN: "{{ eth2_chain }}"
       TEKU_CONFIG_DIR: "{{ teku_config_dir }}"
       SETUP_VALIDATOR: "{{ setup_validator }}"
-      VALIDATOR_WALLET_PASSWORD=: "{{ validator_wallet_password }}"
-      VALIDATOR_ACCOUNT_PASSWORD: "{{ validator_account_password }}"
+      VALIDATOR_KEY: "{{ validator_key }}"
+      VALIDATOR_KEY_PASSWORD: "{{ validator_key_password }}"
+      VALIDATOR_KEYS_DIR=: "{{ validator_keys_dir }}"
+      VALIDATOR_PWD_DIR: "{{ validator_pwd_dir }}"
+      SECURITY_OUTPUT_DIR: "{{ security_output_dir }}"
     env_file:
       - {{ validator_env_vars }}
     ports:
