@@ -1,38 +1,113 @@
-Role Name
+<p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
+<p><img src="https://openethereum.github.io/images/logo-openethereum.svg" alt="OpenEthereum logo" title="open-ethereum" align="right" height="80" /></p>
+
+Container File 💻 🔗 OpenEthereum
 =========
 
-A brief description of the role goes here.
+Configure and operate OpenEthereum: a fast and feature-rich multi-network Ethereum client
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| var | description | default |
+| :---: | :---: | :---: |
+| *image* | OpenEthereum service container image to deploy | `0labs/openethereum:latest` |
+| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *target_services* | list of services to include in deployment process (`openethereum` and/or `openethereum-exporter`) | `["openethereum", "openethereum-exporter"]` |
+| *chain* | Ethereum network/chain to connect openethereum instance to | `kovan` |
+| *config_dir* | configuration directory path within container | `/etc/geth` |
+| *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
+| *rpc_port* | HTTP-RPC server listening portport | `8545` |
+| *ws_port* | WS-RPC server listening port | `8546` |
+| *metrics_port* | Metrics HTTP server listening port | `3000` |
+| *_config_env_file* | Path to environment file to load by compose OpenEthereum container | `/var/tmp/openethereum/.env` |
+| *host_data_dir* | Host directory to store client runtime/operational data | `/var/tmp/openethereum` |
+| *data_dir* | data directory within container to store client runtime/operational data | `/data/openethereum` |
+| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/openethereum` |
+| *restart_policy* | container restart policy | `unless-stopped` |
+| *warp_barrier* | When warp enabled never attempt regular sync before warping to block NUM | `10000` |
+| *exporter_image* | OpenEthereum data exporter image to deploy | `hunterlong/gethexporter:latest` |
+| *exporter_rpc_addr* | Network address <ip:port> of geth rpc instance to export data from | `http://localhost:8545` |
+| *exporter_port* | Exporter metrics collection listening port | `10090` |
+| *config* | dict of client configuration settings (reference [here](https://github.com/openethereum/openethereum/tree/main/bin/oe/cli) for examples of available options/presets) | see *defaults/main.yml* for base/default config |
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
+```
+collections:
+- name: community.docker
+```
 Example Playbook
 ----------------
+```
+- hosts: servers
+  roles:
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+* Launch an Ethereum archive node and connect it to the Goerli PoS (Proof of Stake) test network:
+```
+  - role: 0x0I.openethereum
+    vars:
+      chain: goerli
+      config:
+        footprint-pruning: archive
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+* Customize OpenEthereum deploy image and p2p port
+```
+  - role: 0x0I.openethereum
+    vars:
+      image: 0labs/openethereum:v3.2.6
+      p2p_port: 30313
+```
+
+* Run *warp* sync with automatic daily backups of custom keystore directory on kovan testnet:
+```
+  - role: 0x0I.openethereum
+    vars:
+      chain: kovan
+      warp_barrier: 27183279
+      host_data_dir: /home/user/openethereum
+      data_dir: /tmp/openethereum
+      config:
+        network:
+          warp: true
+```
+
+* Expose OpenEthereum network components on *ALL* interfaces:
+```
+  - role: 0x0I.openethereum
+    vars:
+      config:
+        network:
+          nat: any
+        rpc:
+          interface: all
+        websockets:
+          interface: all
+        metrics:
+          interface: all
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This Ansible role was created in 2021 by O1.IO.
+
+🏆 **always happy to help & donations are always welcome** 💸
+
+* **ETH (Ethereum):** 0x652eD9d222eeA1Ad843efec01E60C29bF2CF6E4c
+
+* **BTC (Bitcoin):** 3E8gMxwEnfAAWbvjoPVqSz6DvPfwQ1q8Jn
+
+* **ATOM (Cosmos):** cosmos19vmcf5t68w6ug45mrwjyauh4ey99u9htrgqv09

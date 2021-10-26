@@ -31,7 +31,7 @@ Role Variables
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/lighthouse/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/lighthouse/keys` |
 | *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `/var/tmp/lighthouse/.beacon.env` |
-| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://github.com/sigp/lighthouse/issues/1876)) of available config options | `/var/tmp/lighthouse/.validator.env` |
+| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `/var/tmp/lighthouse/.validator.env` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`lighthouse-beacon` and/or `lighthouse-validator`) | `["lighthouse-beacon", "lighthouse-validator"]` |

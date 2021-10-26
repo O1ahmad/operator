@@ -17,7 +17,7 @@ ws_port: 8546
 metrics_port: 6060
 
 exporter_image: hunterlong/gethexporter:latest
-exporter_rpc_addr: http://openethereum:8545
+exporter_rpc_addr: http://localhost:8545
 exporter_port: 10090
 
 restart_policy: unless-stopped
