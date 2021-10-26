@@ -18,7 +18,7 @@ Role Variables
 | :---: | :---: | :---: |
 | *image* | Teku client container image to deploy | `0labs/teku:latest` |
 | *teku_config_dir* | configuration directory path within container | `/etc/teku` |
-| *eth1_endpoints* | Ethereum 2.0 chain to target during client helper operations | `pyrmont` |
+| *eth1_endpoints* | Comma-separated list of JSON-RPC URLs of Ethereum 1.0 nodes | `http://ethereum-rpc.goerli.01labs.net` |
 | *eth2_chain* | Ethereum 2.0 chain to target during client helper operations | `pyrmont` |
 | *p2p_tcp_port* | peer-to-peer network communication and listening port | `9000` |
 | *p2p_udp_port* | peer-to-peer network discovery port | `9000` |
