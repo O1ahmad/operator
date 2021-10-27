@@ -1,13 +1,14 @@
 ---
 setup_mode: compose
 target_state: present
-target_services: [ 'lighthouse-beacon', 'lighthouse-validator']
-_ops_runtime_dir: /var/tmp/lighthouse
-beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
-validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
+target_services: [ 'beacon-node', 'validator']
+ops_runtime_dir: /var/tmp/lighthouse
+beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
+beacon_env_vars: {}
+validator_env_file: "{{ ops_runtime_dir }}/.validator.env"
+validator_env_vars: {}
 
 image: 0labs/lighthouse:latest
-eth2_chain: prater
 p2p_tcp_port: 9000
 p2p_udp_port: 9000
 beacon_api_port: 5052
@@ -20,7 +21,7 @@ validator_metrics_port: 5064
 
 validator_extra_args: ""
 
-host_data_dir: "{{ _ops_runtime_dir }}"
+host_data_dir: "{{ ops_runtime_dir }}"
 host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
 data_dir: /root/.lighthouse
@@ -29,16 +30,5 @@ data_dir: /root/.lighthouse
 #
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
-
-setup_deposit_cli: false
-deposit_cli_version: v1.2.0
-setup_deposit_accounts: false
-deposit_dir: /var/tmp/deposit
-deposit_mnemonic_lang: english
-deposit_num_validators: 1
-deposit_key_password: passw0rd
-
-setup_validator: false
-validator_keystore_password: passw0rd
 
 restart_policy: unless-stopped

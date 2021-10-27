@@ -31,27 +31,17 @@ Role Variables
 | *data_dir* | container directory to store node runtime/operational data | `/data` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/prysm/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/prysm/keys` |
-| *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#beacon-node-configuration) of available config options) | `/var/tmp/prysm/.beacon.env` |
-| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#validator-configuration)) of available config options | `/var/tmp/prysm/.validator.env` |
+| *beacon_env_file* | path to environment file to load by compose Beacon node container | `/var/tmp/prysm/.beacon.env` |
+| *beacon_env_vars* | dict of beacon node client runtime environment settings (reference [here](https://github.com/0x0I/container-file-prysm#operations) for examples of available options) | `{}` |
+| *validator_env_file* | Path to environment file to load by compose Validator container | `/var/tmp/prysm/.validator.env` |
+| *validator_env_vars* | dict of validator client runtime environment settings (reference [here](https://github.com/0x0I/container-file-prysm#operations) for examples of available options) | `{}` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
-| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/prysm` |
-| *setup_deposit_cli* | whether to download the Eth 2.0 deposit CLI maintained at https://github.com/ethereum/eth2.0-deposit-cli | `false` |
-| *deposit_cli_version* | version of the Eth 2.0 deposit CLI to download | `v1.2.0` |
-| *setup_deposit_accounts* | whether to automatically setup Eth 2.0 validator depositor accounts ([see](https://github.com/ethereum/eth2.0-deposit-cli#step-2-create-keys-and-deposit_data-json) for more details) | `false` |
-| *deposit_dir* | container directory to generate Eth 2.0 validator deposit keystores | `/var/tmp/deposit` |
-| *deposit_mnemonic_lang* | language to generate deposit mnemonic in | `english` |
-| *deposit_num_validators* | count of Eth 2.0 validator deposit keystores to generate | `1` |
-| *deposit_key_password* | validator deposit keystore password associated with generated mnemonic | `passw0rd` |
-| *setup_validator* | whether to attempt to import validator keystores and associated wallets | `false` |
-| *validator_wallet_password* | password to secure validator wallet associated with imported keystore | `N/A` |
-| *validator_account_password* | password to secure validator account | `N/A` |
-| *auto_backup_db* | whether to automatically execute database backups based on | `false` |
-| *backup_interval* | database backup frequency based on a cron schedule | `0 */6 * * *` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/prysm` |
 | *restart_policy* | container restart policy | `unless-stopped` |
-| *beacon_config* | beacon chain node configuration options settings | `{}` **note:** reference `defaults/main.yml` |
-| *validator_config* | validator client configuration options settings | `{}` **note:** reference `defaults/main.yml` |
+| *beacon_config* | beacon chain node configuration options settings (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#beacon-node-configuration) of available config options) | `{}` **note:** reference `defaults/main.yml` |
+| *validator_config* | validator client configuration options settings (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#validator-configuration)) of available config options | `{}` **note:** reference `defaults/main.yml` |
 
 Dependencies
 ------------

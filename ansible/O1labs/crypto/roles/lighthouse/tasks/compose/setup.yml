@@ -2,7 +2,7 @@
 - name: Ensure existence of runtime dir
   become: true
   file:
-    path: "{{ _ops_runtime_dir }}"
+    path: "{{ ops_runtime_dir }}"
     state: directory
     mode: 0777
 
@@ -10,7 +10,7 @@
   become: true
   template:
     src: "docker-compose.yml.j2"
-    dest: "{{ _ops_runtime_dir }}/docker-compose.yml"
+    dest: "{{ ops_runtime_dir }}/docker-compose.yml"
     owner: "root"
     group: "root"
     mode: 0644
@@ -21,30 +21,32 @@
   become: true
   template:
     src: ".env.j2"
-    dest: "{{ beacon_env_vars }}"
+    dest: "{{ beacon_env_file }}"
     owner: "root"
     group: "root"
     mode: 0644
     backup: true
   vars:
     extra_args: "{{ beacon_extra_args }}"
+    env_conf: "{{ beacon_env_vars }}"
   register: "beacon_compose_env"
 
 - name: Generate Lighthouse validator compose environment vars
   become: true
   template:
     src: ".env.j2"
-    dest: "{{ validator_env_vars }}"
+    dest: "{{ validator_env_file }}"
     owner: "root"
     group: "root"
     mode: 0644
     backup: true
   vars:
     extra_args: "{{ validator_extra_args }}"
+    env_conf: "{{ validator_env_vars }}"
   register: "validator_compose_env"
 
 - name: Run docker-compose up
   community.docker.docker_compose:
-    project_src: "{{ _ops_runtime_dir }}"
+    project_src: "{{ ops_runtime_dir }}"
     state: "{{ target_state }}"
     services: "{{ target_services }}"

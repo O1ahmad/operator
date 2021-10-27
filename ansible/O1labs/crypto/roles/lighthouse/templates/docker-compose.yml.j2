@@ -11,17 +11,8 @@ services:
     command:
       - "lighthouse"
       - "beacon_node"
-    environment:
-      ETH2_CHAIN: "{{ eth2_chain }}"
-      SETUP_DEPOSIT_CLI: "{{ setup_deposit_cli }}"
-      DEPOSIT_CLI_VERSION: "{{ deposit_cli_version }}"
-      SETUP_DEPOSIT_ACCOUNTS: "{{ setup_deposit_accounts }}"
-      DEPOSIT_DIR: "{{ deposit_dir }}"
-      DEPOSIT_MNEMONIC_LANG: "{{ deposit_mnemonic_lang }}"
-      DEPOSIT_NUM_VALIDATORS: "{{ deposit_num_validators }}"
-      DEPOSIT_KEY_PASSWORD: "{{ deposit_key_password }}"
     env_file:
-      - {{ beacon_env_vars }}
+      - {{ beacon_env_file }}
     ports:
       - {{ p2p_tcp_port }}:9000/tcp
       - {{ p2p_udp_port }}:9000/udp
@@ -39,12 +30,8 @@ services:
     command:
       - "lighthouse"
       - "validator_client"
-    environment:
-      ETH2_CHAIN: "{{ eth2_chain }}"
-      SETUP_VALIDATOR: "{{ setup_validator }}"
-      VALIDATOR_KEYSTORE_PASSWORD: "{{ validator_keystore_password }}"
     env_file:
-      - {{ validator_env_vars }}
+      - {{ validator_env_file }}
     ports:
       - {{ validator_api_port }}:5062/tcp
       - {{ validator_metrics_port }}:5064/tcp

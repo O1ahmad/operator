@@ -2,13 +2,14 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'beacon-node', 'validator']
-_ops_runtime_dir: /var/tmp/teku
-beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
-validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
+ops_runtime_dir: /var/tmp/teku
+beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
+beacon_env_vars: {}
+validator_env_file: "{{ ops_runtime_dir }}/.validator.env"
+validator_env_vars: {}
 
 image: 0labs/teku:latest
 eth1_endpoints: "http://ethereum-rpc.goerli.0labs.net"
-eth2_chain: pyrmont
 p2p_tcp_port: 9000
 p2p_udp_port: 9000
 beacon_api_port: 5051
@@ -17,7 +18,7 @@ validator_metrics_port: 8009
 
 teku_config_dir: /etc/teku
 
-host_data_dir: "{{ _ops_runtime_dir }}"
+host_data_dir: "{{ ops_runtime_dir }}"
 host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
 data_dir: /data
@@ -26,21 +27,6 @@ data_dir: /data
 #
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
-
-setup_deposit_cli: false
-deposit_cli_version: v1.2.0
-setup_deposit_accounts: false
-deposit_dir: /var/tmp/deposit
-deposit_mnemonic_lang: english
-deposit_num_validators: 1
-deposit_key_password: passw0rd
-
-security_output_dir: /var/tmp/teku
-setup_validator: false
-validator_key: ""
-validator_key_password: ""
-validator_keys_dir: ""
-validator_pwd_dir: ""
 
 restart_policy: unless-stopped
 

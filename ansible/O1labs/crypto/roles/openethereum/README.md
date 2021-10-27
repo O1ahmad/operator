@@ -22,14 +22,15 @@ Role Variables
 | *chain* | Ethereum network/chain to connect openethereum instance to | `kovan` |
 | *config_dir* | configuration directory path within container | `/etc/openethereum` |
 | *config* | dict of client configuration settings (reference [here](https://github.com/openethereum/openethereum/tree/main/bin/oe/cli) for examples of available options/presets) | see *defaults/main.yml* for base/default config |
+| *env_vars* | dict of client runtime environment settings (reference [here](https://github.com/0x0I/container-file-openethereum#operations) for available options) | `{}` |
 | *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
 | *rpc_port* | HTTP-RPC server listening portport | `8545` |
 | *ws_port* | WS-RPC server listening port | `8546` |
 | *metrics_port* | Metrics HTTP server listening port | `3000` |
-| *_config_env_file* | Path to environment file to load by compose OpenEthereum container | `/var/tmp/openethereum/.env` |
+| *config_env_file* | Path to environment file to load by compose OpenEthereum container | `/var/tmp/openethereum/.env` |
 | *host_data_dir* | Host directory to store client runtime/operational data | `/var/tmp/openethereum` |
 | *data_dir* | data directory within container to store client runtime/operational data | `/data/openethereum` |
-| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/openethereum` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/openethereum` |
 | *restart_policy* | container restart policy | `unless-stopped` |
 | *warp_barrier* | When warp enabled never attempt regular sync before warping to block NUM | `10000` |
 | *exporter_image* | OpenEthereum data exporter image to deploy | `hunterlong/gethexporter:latest` |

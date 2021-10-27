@@ -19,8 +19,9 @@ Role Variables
 | *image* | Geth service container image to deploy | `0labs/geth:latest` |
 | *chain* | Ethereum network/chain to connect geth instance to | `rinkeby` |
 | *config_dir* | configuration directory path within container | `/etc/geth` |
-| *_config_env_file* | Path to environment file to load by compose geth container | `/var/tmp/openethereum/.env` |
+| *config_env_file* | Path to environment file to load by compose geth container | `/var/tmp/openethereum/.env` |
 | *config* | dict of client configuration settings (reference [here](https://gist.github.com/0x0I/5887dae3cdf4620ca670e3b194d82cba) for examples of available options) | see `defaults/main.yml` for base/default config |
+| *env_vars* | dict of client runtime environment settings (reference [here](https://github.com/0x0I/container-file-geth#operations) for examples of available options) | `{}` |
 | *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
 | *rpc_port* | HTTP-RPC server listening port | `8545` |
 | *ws_port* | WS-RPC server listening port | `8546` |
@@ -28,7 +29,7 @@ Role Variables
 | *metrics_port* | Metrics HTTP server listening port | `6060` |
 | *metrics_addr* | Enable stand-alone metrics HTTP server listening interface | `127.0.0.1` |
 | *host_data_dir* | Host directory to store client runtime/operational data | `/var/tmp/geth` |
-| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/geth` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/geth` |
 | *restart_policy* | container restart policy | `unless-stopped` |
 | *exporter_image* | Geth data exporter image to deploy | `hunterlong/gethexporter:latest` |
 | *exporter_rpc_addr* | Network address `ip:port` of geth rpc instance to export data from | `http://localhost:8545` |
@@ -65,6 +66,44 @@ Example Playbook
     vars:
       image: 0labs/geth:v1.10.11
       p2p_port: 30313
+```
+
+* Run *fast* sync node with automatic daily backups of custom keystore directory:
+```
+  - role: 0x0I.geth
+    vars:
+      chain: mainnet
+      config:
+        Eth:
+          SyncMode: fast
+      env_vars:
+        AUTO_BACKUP_KEYSTORE: true
+        KEYSTORE_DIR: /tmp/keystore
+        BACKUP_INTERVAL: "0 * * * *"
+        BACKUP_PASSWORD: <secret>
+```
+
+* Enable HTTP and metrics servers and expose on all interfaces:
+```
+  - role: 0x0I.geth
+    vars:
+      enable_http_server: true
+      enable_metrics_server: true
+      config:
+        Node:
+          HTTPHost: 0.0.0.0
+          WSHost: 0.0.0.0
+        Metrics:
+          Enabled: "true"
+          HTTP: 0.0.0.0
+```
+
+* Set host data directory to load from and customize geth runtime data directory:
+```
+  - role: 0x0I.geth
+    vars:
+      host_data_dir: /my/host/data
+      data_dir: /container/data
 ```
 
 License

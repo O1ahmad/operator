@@ -20,7 +20,6 @@ services:
       - "{{ security_output_dir }}/.api"
     environment:
       DATABASE_URL: "postgresql://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_host }}:{{ postgres_port }}/{{ postgres_db }}?sslmode={{ sslmode }}"
-      SECURITY_OUTPUT_DIR: "{{ security_output_dir }}"
     env_file:
       - "{{ env_vars }}"
     ports:

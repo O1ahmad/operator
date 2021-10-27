@@ -2,14 +2,13 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'chainlink', 'postgres']
-_ops_runtime_dir: /var/tmp/chainlink
-env_vars: "{{ _ops_runtime_dir }}/.env"
+ops_runtime_dir: /var/tmp/chainlink
+env_vars: "{{ ops_runtime_dir }}/.env"
 
 image: 0labs/chainlink:latest
-security_output_dir: /var/tmp/chainlink
 ui_port: 6688
 https_port: 6689
-host_data_dir: "{{ _ops_runtime_dir }}"
+host_data_dir: "{{ ops_runtime_dir }}"
 data_dir: /chainlink
 
 postgres_image: postgres:latest

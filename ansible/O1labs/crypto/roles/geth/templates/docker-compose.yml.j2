@@ -13,15 +13,15 @@ services:
       - "--{{ chain }}"
       - "--log.debug"
       - "--config={{ config_dir }}/config.toml"
+{% if enable_http_server is defined and enable_http_server %}
       - "--http"
+{% endif %}
 {% if enable_metrics_server is defined and enable_metrics_server %}
       - "--metrics"
       - "--metrics.addr={{ metrics_addr }}"
 {% endif %}
-    environment:
-      GETH_CONFIG_DIR: "{{ config_dir }}"
     env_file:
-      - "{{ _config_env_file }}"
+      - "{{ config_env_file }}"
     ports:
       - {{ p2p_port }}:30303/tcp
       - {{ rpc_port }}:8545

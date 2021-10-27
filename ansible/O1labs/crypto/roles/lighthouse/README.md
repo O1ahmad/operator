@@ -17,34 +17,26 @@ Role Variables
 | var | description | default |
 | :---: | :---: | :---: |
 | *image* | Lighthouse client container image to deploy | `0labs/lighthouse:latest` |
-| *eth2_chain* | Ethereum 2.0 chain to target during client helper operations | `prater` |
 | *p2p_tcp_port* | peer-to-peer network communication and listening port | `9000` |
 | *p2p_udp_port* | peer-to-peer network discovery port | `9000` |
 | *beacon_api_port* | beacon node RESTful HTTP API listening port | `5052` |
 | *beacon_metrics_port* | port used to listen and respond to metrics requests for prometheus | `5054` |
-| *beacon_extra_args* | command-line flags and options to include within lighthouse beacon node launch processes | `<none>` |
+| *beacon_extra_args* | command-line flags and options to include within lighthouse beacon node launch processes (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `<none>` |
 | *validator_api_port* | validator client RESTful HTTP API listening port | `5062` |
 | *validator_metrics_port* | port used to listen and respond to metrics requests for prometheus | `5064` |
-| *validator_extra_args* | command-line flags and options to include within lighthouse validator client launch processes | `<none>` |
+| *validator_extra_args* | command-line flags and options to include within lighthouse validator client launch processes (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `<none>` |
 | *host_data_dir* | host directory to store node runtime/operational data | `/var/tmp/lighthouse` |
 | *data_dir* | container directory to store node runtime/operational data | `/root/.lighthouse` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/lighthouse/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/lighthouse/keys` |
-| *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `/var/tmp/lighthouse/.beacon.env` |
-| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://github.com/sigp/lighthouse/issues/1876) of available config options) | `/var/tmp/lighthouse/.validator.env` |
+| *beacon_env_filel* | path to environment file to load by compose Beacon node container | `/var/tmp/lighthouse/.beacon.env` |
+| *beacon_env_vars* | dict of beacon node client runtime environment settings (reference [here](https://github.com/0x0I/container-file-lighthouse#operations) for examples of available options) | `{}` |
+| *validator_env_file* | Path to environment file to load by compose Validator container | `/var/tmp/lighthouse/.validator.env` |
+| *validator_env_vars* | dict of validator client runtime environment settings (reference [here](https://github.com/0x0I/container-file-lighthouse#operations) for examples of available options) | `{}` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
-| *target_services* | list of services to include in deployment process (`lighthouse-beacon` and/or `lighthouse-validator`) | `["lighthouse-beacon", "lighthouse-validator"]` |
-| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/lighthouse` |
-| *setup_deposit_cli* | whether to download the Eth 2.0 deposit CLI maintained at https://github.com/ethereum/eth2.0-deposit-cli | `false` |
-| *deposit_cli_version* | version of the Eth 2.0 deposit CLI to download | `v1.2.0` |
-| *setup_deposit_accounts* | whether to automatically setup Eth 2.0 validator depositor accounts ([see](https://github.com/ethereum/eth2.0-deposit-cli#step-2-create-keys-and-deposit_data-json) for more details) | `false` |
-| *deposit_dir* | container directory to generate Eth 2.0 validator deposit keystores | `/var/tmp/deposit` |
-| *deposit_mnemonic_lang* | language to generate deposit mnemonic in | `english` |
-| *deposit_num_validators* | count of Eth 2.0 validator deposit keystores to generate | `1` |
-| *deposit_key_password* | validator deposit keystore password associated with generated mnemonic | `passw0rd` |
-| *setup_validator* | whether to attempt to import validator keystores and associated wallets | `false` |
-| *validator_keystore_password* | password to secure validator wallet associated with imported keystore | `passw0rd` |
+| *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/lighthouse` |
 | *restart_policy* | container restart policy | `unless-stopped` |
 
 Dependencies
@@ -81,22 +73,25 @@ Example Playbook
 ```
   - role: 0x0I.lighthouse
     vars:
-      setup_deposit_cli: true
-      eth2_chain: prater
-      deposit_cli_version: v1.2.0
-      setup_deposit_accounts: true
-      deposit_num_validators: 3
-      deposit_key_password: ABCabc123!@#$
+      beacon_env_vars:
+        ETH2_CHAIN: prater
+        SETUP_DEPOSIT_CLI: true
+        DEPOSIT_CLI_VERSION: v1.2.0
+        SETUP_DEPOSIT_ACCOUNTS: true
+        DEPOSIT_NUM_VALIDATORS: 3
+        DEPOSIT_KEY_PASSWORD: ABCabc123!@#$
 ```
 
 * Import one or more EIP-2335 passwords/keys generated by the eth2-deposit-cli Python utility into a Lighthouse VC directory:
 ```
   - role: 0x0I.lighthouse
     vars:
-      setup_validator: true
+      target_services: ["validator"]
       host_keys_dir: /my/host/keys
-      validator_keystore_password: p@$$w0rd
       validator_extra_args: "--validators-dir=/keys"
+      validator_env_vars:
+        SETUP_VALIDATOR: true
+        VALIDATOR_KEYSTORE_PASSWORD: p@$$w0rd
 ```
 
 License

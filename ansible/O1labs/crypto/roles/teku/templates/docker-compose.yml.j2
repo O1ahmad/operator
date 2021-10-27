@@ -12,18 +12,8 @@ services:
       - "teku"
       - "--config-file"
       - "{{ teku_config_dir }}/config.yml"
-    environment:
-      ETH2_CHAIN: "{{ eth2_chain }}"
-      TEKU_CONFIG_DIR: "{{ teku_config_dir }}"
-      SETUP_DEPOSIT_CLI: "{{ setup_deposit_cli }}"
-      DEPOSIT_CLI_VERSION: "{{ deposit_cli_version }}"
-      SETUP_DEPOSIT_ACCOUNTS: "{{ setup_deposit_accounts }}"
-      DEPOSIT_DIR: "{{ deposit_dir }}"
-      DEPOSIT_MNEMONIC_LANG: "{{ deposit_mnemonic_lang }}"
-      DEPOSIT_NUM_VALIDATORS: "{{ deposit_num_validators }}"
-      DEPOSIT_KEY_PASSWORD: "{{ deposit_key_password }}"
     env_file:
-      - {{ beacon_env_vars }}
+      - {{ beacon_env_file }}
     ports:
       - {{ p2p_tcp_port }}:9000/tcp
       - {{ p2p_udp_port }}:9000/udp
@@ -43,17 +33,8 @@ services:
       - "validator-client"
       - "--config-file"
       - "{{ teku_config_dir }}/config.yml"
-    environment:
-      ETH2_CHAIN: "{{ eth2_chain }}"
-      TEKU_CONFIG_DIR: "{{ teku_config_dir }}"
-      SETUP_VALIDATOR: "{{ setup_validator }}"
-      VALIDATOR_KEY: "{{ validator_key }}"
-      VALIDATOR_KEY_PASSWORD: "{{ validator_key_password }}"
-      VALIDATOR_KEYS_DIR=: "{{ validator_keys_dir }}"
-      VALIDATOR_PWD_DIR: "{{ validator_pwd_dir }}"
-      SECURITY_OUTPUT_DIR: "{{ security_output_dir }}"
     env_file:
-      - {{ validator_env_vars }}
+      - {{ validator_env_file }}
     ports:
       - {{ validator_metrics_port }}:8008/tcp
     volumes:
