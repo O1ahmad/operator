@@ -20,7 +20,8 @@ Role Variables
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`openethereum` and/or `openethereum-exporter`) | `["openethereum", "openethereum-exporter"]` |
 | *chain* | Ethereum network/chain to connect openethereum instance to | `kovan` |
-| *config_dir* | configuration directory path within container | `/etc/geth` |
+| *config_dir* | configuration directory path within container | `/etc/openethereum` |
+| *config* | dict of client configuration settings (reference [here](https://github.com/openethereum/openethereum/tree/main/bin/oe/cli) for examples of available options/presets) | see *defaults/main.yml* for base/default config |
 | *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
 | *rpc_port* | HTTP-RPC server listening portport | `8545` |
 | *ws_port* | WS-RPC server listening port | `8546` |
@@ -32,9 +33,8 @@ Role Variables
 | *restart_policy* | container restart policy | `unless-stopped` |
 | *warp_barrier* | When warp enabled never attempt regular sync before warping to block NUM | `10000` |
 | *exporter_image* | OpenEthereum data exporter image to deploy | `hunterlong/gethexporter:latest` |
-| *exporter_rpc_addr* | Network address <ip:port> of geth rpc instance to export data from | `http://localhost:8545` |
+| *exporter_rpc_addr* | Network address `ip:port` of openethereum rpc instance to export data from | `http://localhost:8545` |
 | *exporter_port* | Exporter metrics collection listening port | `10090` |
-| *config* | dict of client configuration settings (reference [here](https://github.com/openethereum/openethereum/tree/main/bin/oe/cli) for examples of available options/presets) | see *defaults/main.yml* for base/default config |
 
 Dependencies
 ------------
@@ -55,7 +55,8 @@ Example Playbook
     vars:
       chain: goerli
       config:
-        footprint-pruning: archive
+        footprint:
+          pruning: archive
 ```
 
 * Customize OpenEthereum deploy image and p2p port

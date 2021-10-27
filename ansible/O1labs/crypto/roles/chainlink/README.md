@@ -17,8 +17,6 @@ Role Variables
 | var | description | default |
 | :---: | :---: | :---: |
 | *image* | Chainlink service container image to deploy | `0labs/chainlink:latest` |
-| *security_output_dir* | directory within container to maintain secure credentials files | `/var/tmp/chainlink` |
-| *PGDATA* | Postgres data directory | `/var/lib/postgresql/data` |
 | *ui_port* | Chainlink node operation web UI service port | `6688` |
 | *https_port* | Chainlink node operation web UI HTTPS service port | `6689` |
 | *postgres_image* | Postgres DB image to deploy | `postgres:latest` |
@@ -27,16 +25,18 @@ Role Variables
 | *postgres_host* | host address of backend postgres database | `postgres` |
 | *postgres_port* | Postgres DB container listening port | `5432` |
 | *postgres_db* | database name of backend postgres instance | `postgres` |
+| *PGDATA* | Postgres data directory | `/var/lib/postgresql/data` |
 | *host_data_dir* | host directory to store node runtime/operational data | `/var/tmp/chainlink` |
-| *data_dir* | host directory to store node runtime/operational data | `/chainlink` |
+| *data_dir* | container directory to store node runtime/operational data | `/chainlink` |
 | *restart_policy* | container restart policy | `unless-stopped` |` |
-| *sslmode* | whether to enable postgres db SSL encrypted access | `disable` |
+| *sslmode* | postgres db SSL encrypted access support mode (see [here](https://www.postgresql.org/docs/9.1/libpq-ssl.html) for more details) | `disable` |
 | *env_vars* | Path to environment file to load (see [list](https://docs.chain.link/docs/configuration-variables/) of available config envvars) | `.env` |
-| *config* | node operator runtime config environment | `disable` |
+| *config* | node operator runtime config environment (see [here](https://docs.chain.link/docs/configuration-variables/) for available options) | `disable` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`chainlink` and/or `postgres`) | `["chainlink", "postgres"]` |
 | *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/chainlink` |
+| *security_output_dir* | directory within container to maintain secure credentials files | `/var/tmp/chainlink` |
 
 Dependencies
 ------------
