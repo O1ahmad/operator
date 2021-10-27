@@ -4,7 +4,7 @@
 Container File 💻 🔗 OpenEthereum
 =========
 
-Configure and operate OpenEthereum: a fast and feature-rich multi-network Ethereum client
+Configure and operate OpenEthereum: a fast and feature-rich multi-network Ethereum client.
 
 Requirements
 ------------
