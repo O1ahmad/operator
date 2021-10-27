@@ -17,7 +17,7 @@ Leveraging the collective expertise and insights of world-wide communities commi
 * observability
 * security
 
-:heavy_check_mark: ***Check out the following public services or deploy your own using any of O1's infrastructure-as-code projects to join the OpenInfra + OpenOps mission & movement***:
+:heavy_check_mark: ***Check out the following public services or deploy your own using any of O1's infrastructure-as-code projects to join the OpenInfra/Ops mission and movement***:
 
 | Service | Endpoint |
 | :---: | :---: |
