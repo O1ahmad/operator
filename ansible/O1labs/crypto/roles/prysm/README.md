@@ -4,7 +4,7 @@
 Ansible Role :stars: :link: Prysm
 =========
 
-Configure and operate Prysm: A full-featured client for the Ethereum 2.0 protocol, written in Go
+Configure and operate Prysm: A full-featured client for the Ethereum 2.0 protocol, written in Go.
 
 Requirements
 ------------
