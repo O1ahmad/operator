@@ -1,38 +1,86 @@
-Role Name
+<p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/1200px-Ethereum-icon-purple.svg.png" alt="ethereum logo" title="ethereum" align="right" height="100" /></p>
+
+Ansible Role :computer: :link: Geth
 =========
 
-A brief description of the role goes here.
+Configure and operate Geth (Go-Ethereum): an Ethereum blockchain client written in Go.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| var | description | default |
+| :---: | :---: | :---: |
+| *image* | Geth service container image to deploy | `0labs/geth:latest` |
+| *chain* | Ethereum network/chain to connect geth instance to | `rinkeby` |
+| *config_dir* | configuration directory path within container | `/etc/geth` |
+| *_config_env_file* | Path to environment file to load by compose geth container | `/var/tmp/openethereum/.env` |
+| *config* | dict of client configuration settings (reference [here](https://gist.github.com/0x0I/5887dae3cdf4620ca670e3b194d82cba) for examples of available options) | see `defaults/main.yml` for base/default config |
+| *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
+| *rpc_port* | HTTP-RPC server listening port | `8545` |
+| *ws_port* | WS-RPC server listening port | `8546` |
+| *enable_metrics_server* | Whether to activate `geth`'s built-in metrics server | `true` |
+| *metrics_port* | Metrics HTTP server listening port | `6060` |
+| *metrics_addr* | Enable stand-alone metrics HTTP server listening interface | `127.0.0.1` |
+| *host_data_dir* | Host directory to store client runtime/operational data | `/var/tmp/geth` |
+| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/geth` |
+| *restart_policy* | container restart policy | `unless-stopped` |
+| *exporter_image* | Geth data exporter image to deploy | `hunterlong/gethexporter:latest` |
+| *exporter_rpc_addr* | Network address `ip:port` of geth rpc instance to export data from | `http://localhost:8545` |
+| *exporter_port* | Exporter metrics collection listening port | `10090` |
+| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *target_services* | list of services to include in deployment process (`geth` and/or `geth-exporter`) | `["geth", "geth-exporter"]` |
 
 Dependencies
 ------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
+```
+collections:
+- name: community.docker
+```
 Example Playbook
 ----------------
+```
+- hosts: servers
+  roles:
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+* Launch an Ethereum light client and connect it to the Ropsten, best current like-for-like representation of Ethereum, PoW (Proof of Work) test network:
+```
+  - role: 0x0I.geth
+    vars:
+      chain: ropsten
+      config:
+        Eth:
+          SyncMode: light
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+* Customize Geth deploy image and p2p port:
+```
+  - role: 0x0I.geth
+    vars:
+      image: 0labs/geth:v1.10.11
+      p2p_port: 30313
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This Ansible role was created in 2021 by O1.IO.
+
+🏆 **always happy to help & donations are always welcome** 💸
+
+* **ETH (Ethereum):** 0x652eD9d222eeA1Ad843efec01E60C29bF2CF6E4c
+
+* **BTC (Bitcoin):** 3E8gMxwEnfAAWbvjoPVqSz6DvPfwQ1q8Jn
+
+* **ATOM (Cosmos):** cosmos19vmcf5t68w6ug45mrwjyauh4ey99u9htrgqv09
