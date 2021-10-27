@@ -4,7 +4,7 @@
 Ansible Role :crystal_ball: :link: Chainlink
 =========
 
-Configure and operate Chainlink: a smart-contract platform data oracle network
+Configure and operate Chainlink: a smart-contract platform data oracle network.
 
 Requirements
 ------------
