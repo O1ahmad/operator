@@ -2,8 +2,8 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'geth', 'geth-exporter']
-_ops_runtime_dir: /var/tmp/geth
-_config_env_file: "{{ _ops_runtime_dir }}/.env"
+ops_runtime_dir: /var/tmp/geth
+config_env_file: "{{ ops_runtime_dir }}/.env"
 
 image: 0labs/geth:latest
 chain: rinkeby
@@ -15,6 +15,7 @@ p2p_port: 30303
 rpc_port: 8545
 ws_port: 8546
 
+enable_http_server: true
 enable_metrics_server: true
 metrics_port: 6060
 metrics_addr: 0.0.0.0
@@ -38,3 +39,5 @@ _default_config:
     Enabled: "true"
     HTTP: 0.0.0.0
 config: {}
+
+env_vars: {}

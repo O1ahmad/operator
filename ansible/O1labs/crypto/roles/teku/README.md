@@ -19,7 +19,6 @@ Role Variables
 | *image* | Teku client container image to deploy | `0labs/teku:latest` |
 | *teku_config_dir* | configuration directory path within container | `/etc/teku` |
 | *eth1_endpoints* | Comma-separated list of JSON-RPC URLs of Ethereum 1.0 nodes | `http://ethereum-rpc.goerli.01labs.net` |
-| *eth2_chain* | Ethereum 2.0 chain to target during client helper operations | `pyrmont` |
 | *p2p_tcp_port* | peer-to-peer network communication and listening port | `9000` |
 | *p2p_udp_port* | peer-to-peer network discovery port | `9000` |
 | *beacon_api_port* | HTTP API port exposed by a beacon node | `5051` |
@@ -29,27 +28,16 @@ Role Variables
 | *data_dir* | container directory to store node runtime/operational data | `/data` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/teku/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/teku/keys` |
-| *beacon_env_vars* | path to environment file to load by compose Beacon node container (see [list](https://docs.teku.consensys.net/en/latest/Reference/CLI/CLI-Syntax/) of available config options) | `.beacon.env` |
-| *validator_env_vars* | Path to environment file to load by compose Validator container (see [list](https://docs.teku.consensys.net/en/latest/Reference/CLI/Subcommands/Validator-Client/) of available config options | `.validator.env` |
+| *beacon_env_file* | path to environment file to load by compose Beacon node container | `.beacon.env` |
+| *beacon_env_vars* | dict of beacon node client runtime environment settings (reference [here](https://github.com/0x0I/container-file-teku#operations) for examples of available options) | `{}` |
+| *validator_env_file* | Path to environment file to load by compose Validator container | `.validator.env` |
+| *validator_env_vars* | dict of validator client runtime environment settings (reference [here](https://github.com/0x0I/container-file-teku#operations) for examples of available options) | `{}` |
 | *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
-| *_ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/teku` |
-| *setup_deposit_cli* | whether to download the Eth 2.0 deposit CLI maintained at https://github.com/ethereum/eth2.0-deposit-cli | `false` |
-| *deposit_cli_version* | version of the Eth 2.0 deposit CLI to download | `v1.2.0` |
-| *setup_deposit_accounts* | whether to automatically setup Eth 2.0 validator depositor accounts ([see](https://github.com/ethereum/eth2.0-deposit-cli#step-2-create-keys-and-deposit_data-json) for more details) | `false` |
-| *deposit_dir* | container directory to generate Eth 2.0 validator deposit keystores | `/var/tmp/deposit` |
-| *deposit_mnemonic_lang* | language to generate deposit mnemonic in | `english` |
-| *deposit_num_validators* | count of Eth 2.0 validator deposit keystores to generate | `1` |
-| *deposit_key_password* | validator deposit keystore password associated with generated mnemonic | `passw0rd` |
-| *setup_validator* | whether to attempt to import validator keystores and associated wallets | `false` |
-| *security_output_dir* | directory to store secure/sensitive validator data | `/var/tmp/teku` |
-| *validator_key* | validator keystore value in json format | `N/A` |
-| *validator_key_password* | validator keystore password | `N/A` |
-| *validator_keys_dir* | Path to a directory where validator keystores to be imported are stored | `N/A` |
-| *validator_pwd_password* | Path to a directory where validator keystore passwords are stored | `N/A` |
-| *beacon_config* | beacon chain node configuration options settings | `{}` **note:** reference `defaults/main.yml` |
-| *validator_config* | validator client configuration options settings | `{}` **note:** reference `defaults/main.yml` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/teku` |
+| *beacon_config* | beacon chain node configuration options settings (see [list](https://docs.teku.consensys.net/en/latest/Reference/CLI/CLI-Syntax/) of available config options) | `{}` **note:** reference `defaults/main.yml` |
+| *validator_config* | validator client configuration options settings (see [list](https://docs.teku.consensys.net/en/latest/Reference/CLI/Subcommands/Validator-Client/) of available config options | `{}` **note:** reference `defaults/main.yml` |
 
 Dependencies
 ------------
@@ -100,12 +88,13 @@ Example Playbook
 ```
   - role: 0x0I.teku
     vars:
-      setup_deposit_cli: true
-      deposit_cli_version: v1.2.0
-      setup_deposit_accounts: true
-      deposit_num_validators: 3
-      deposit_key_password: ABCabc123!@#$
-      eth2_chain: prater
+      beacon_env_vars:
+        SETUP_DEPOSIT_CLI: true
+        DEPOSIT_CLI_VERSION: v1.2.0
+        SETUP_DEPOSIT_ACCOUNTS: true
+        DEPOSIT_NUM_VALIDAtORS: 3
+        DEPOST_KEY_PASSWORD: ABCabc123!@#$
+        ETH2_CHAIN: prater
 ```
 
 * Only deploy validator client and connect client to custom beacon chain node + set validator graffiti:

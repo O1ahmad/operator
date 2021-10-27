@@ -2,12 +2,13 @@
 setup_mode: compose
 target_state: present
 target_services: [ 'beacon-node', 'validator']
-_ops_runtime_dir: /var/tmp/prysm
-beacon_env_vars: "{{ _ops_runtime_dir }}/.beacon.env"
-validator_env_vars: "{{ _ops_runtime_dir }}/.validator.env"
+ops_runtime_dir: /var/tmp/prysm
+beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
+beacon_env_vars: {}
+validator_env_file: "{{ ops_runtime_dir }}/.validator.env"
+validator_env_vars: {}
 
 image: 0labs/prysm:latest
-eth2_chain: pyrmont
 p2p_tcp_port: 13000
 p2p_udp_port: 12000
 eth2_api_port: 3501
@@ -20,7 +21,7 @@ validator_metrics_port: 8081
 
 prysm_config_dir: /etc/prysm
 
-host_data_dir: "{{ _ops_runtime_dir }}"
+host_data_dir: "{{ ops_runtime_dir }}"
 host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
 data_dir: /data
@@ -29,22 +30,6 @@ data_dir: /data
 #
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
-
-setup_deposit_cli: false
-deposit_cli_version: v1.2.0
-setup_deposit_accounts: false
-deposit_dir: /var/tmp/deposit
-deposit_mnemonic_lang: english
-deposit_num_validators: 1
-deposit_key_password: passw0rd
-
-setup_validator: true
-validator_wallet_password: "ABCabc123!@#"
-validator_account_password: passw0rd
-
-auto_backup_db: true
-backup_interval: 0 */6 * * *
-restart_policy: unless-stopped
 
 _default_beacon_config:
   accept-terms-of-use: true
