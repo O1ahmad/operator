@@ -1,7 +1,7 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
 <p><img src="https://openethereum.github.io/images/logo-openethereum.svg" alt="OpenEthereum logo" title="open-ethereum" align="right" height="80" /></p>
 
-Container File 💻 🔗 OpenEthereum
+Ansible Role 💻 🔗 OpenEthereum
 =========
 
 Configure and operate OpenEthereum: a fast and feature-rich multi-network Ethereum client.
