@@ -1,11 +1,10 @@
-namespace: O1labs
+namespace: o1labs
 name: crypto
 version: 0.1.0
 readme: README.md
 authors:
 - O1 Labs <zer0ne.io.x@gmail.com>
-
-description: infrastructure utilities and tooling dedicated to all things cryptography/blockchain 
+description: infrastructure utilities and tooling dedicated to all things crypto/blockchain
 license:
 - GPL-2.0-or-later
 tags:
