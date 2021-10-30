@@ -1,7 +1,7 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
 <p><img src="https://miro.medium.com/max/300/1*76dYSeZfdwypV1bzlwPivg.gif" alt="Lighthouse logo" title="lighthouse" align="right" height="80" /></p>
 
-Container File ⛵ 🔗 Lighthouse
+Ansible Role ⛵ 🔗 Lighthouse
 =========
 
 Configure and operate Lighthouse: an Ethereum 2.0 client, written in Rust and maintained by Sigma Prime.
