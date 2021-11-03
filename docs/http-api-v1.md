@@ -51,7 +51,9 @@
                         name: "name of inventory node (used as default `address` if none provided)",
                         address: "local, ip, dns address used to communicate with inventory node",
                         user: "user authorized to operate node",
+                        roles: ["roles to associate with host (match with list of types provided in <setup>"],
                         key: "[XOR-optional] path to user SSH private key - can be local to process (e.g. mounted inside process container) or supplied encrypted",
+                        # password can also be supplied interactively to avoid store
                         password: "[XOR-optional] user connection/authorization password",
                     }
                 ]
