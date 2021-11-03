@@ -9,6 +9,8 @@ app = Flask(__name__)
 WORK_DIR = "/var/tmp/"
 ROLES_DIR = "{}/roles".format(WORK_DIR)
 
+CONSTRUCTS = {}
+
 def generate_setup(spec):
     with open("{dir}/{id}.yaml".format(dir=WORK_DIR, id=spec['id']), 'w') as f:
         for role in spec['setup']:
@@ -52,24 +54,25 @@ def construct():
         generate_inventory(data)
         generate_setup(data)
 
-        # r = ansible_runner.run(
-        #     playbook='{dir}/{id}.yaml'.format(dir=WORK_DIR, id=data['id']),
-        #     inventory='{dir}/inventory-{id}.yaml'.format(dir=WORK_DIR, id=data['id']),
-        #     ssh_key="/home/ahmad/.ssh/id_ed25519"
-        # )
         out, err, rc = ansible_runner.run_command(
             executable_cmd='ansible-playbook',
             cmdline_args=[
                 '{dir}/{id}.yaml'.format(dir=WORK_DIR, id=data['id']),
                 '-i',
-                '{dir}/inventory-{id}.yaml'.format(dir=WORK_DIR, id=data['id']), '-vvvv', '-k',
-
+                '{dir}/inventory-{id}.yaml'.format(dir=WORK_DIR, id=data['id']),
+                '-vvvv',
+                '-k'
             ],
             input_fd=sys.stdin,
             output_fd=sys.stdout,
             error_fd=sys.stderr,
         )
+
+        CONSTRUCTS[data['id']] = data['setup']
+
         return "out={}, err={}, rc={}".format(out, err, rc) # "{}: {}".format(r.status, r.rc)
     elif request.method == 'GET':
-        # return "<p>GET to The Matrix!</p>"
-        return request.base_url
+        if 'id' in request.args:
+            return repr(CONSTRUCTS[request.args['id']])
+        else:
+            return CONSTRUCTS
