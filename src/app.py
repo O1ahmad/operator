@@ -49,7 +49,7 @@ def generate_inventory(spec):
 
     return spec['id']
 
-@app.route("/key", methods=['GET', 'POST'])
+@app.route("/key", methods=['POST'])
 def key():
     if 'ssh' in request.files:
         file = request.files['ssh']
