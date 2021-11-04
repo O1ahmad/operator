@@ -1,9 +1,7 @@
 Dockerfile
 ansible/inventory
-ansible/O1labs/crypto/playbooks
-ansible/O1labs/crypto/plugins
-ansible/O1labs/crypto/galaxy.yml
-ansible/O1labs/crypto/*.md
+ansible/01labss/crypto
+!ansible/01labs/crypto/roles
 docs
 img
 venv

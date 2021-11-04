@@ -1,6 +1,7 @@
-import re
 import ansible_runner
+import ast
 from flask import Flask, request
+import json
 import os
 import sys
 import yaml
@@ -9,7 +10,7 @@ app = Flask(__name__)
 
 
 KEYS_DIR = "/keys"
-WORK_DIR = "/var/tmp/"
+WORK_DIR = "/var/tmp"
 ROLES_DIR = os.environ.get("ROLES_DIR", "{}/roles".format(WORK_DIR))
 
 CONSTRUCTS = {}
@@ -27,7 +28,7 @@ def generate_setup(spec):
             }]
             yaml.dump(d, f, default_flow_style=False)
 
-    return spec['id']
+    return { 'message': "{id} setup completed successfully.".format(id=spec['id']) }
 
 def generate_inventory(spec):
     with open("{dir}/inventory-{id}.yaml".format(dir=WORK_DIR, id=spec['id']), 'w') as f:
@@ -47,7 +48,17 @@ def generate_inventory(spec):
                     i['all']['children'][role]['hosts'][host['name']] = {}
             yaml.dump(i, f, default_flow_style=False)
 
-    return spec['id']
+    return { 'message': "{id} inventory generation completed successfully.".format(id=spec['id']) }
+
+def load_construct_file(cid):
+    data = {}
+    with open("{dir}/{id}.yaml".format(dir=WORK_DIR, id=cid)) as file:
+        data = yaml.safe_load(file)
+
+    return data
+
+def update_constructs_datastore(construct):
+    CONSTRUCTS[construct['id']] = construct['setup']
 
 @app.route("/key", methods=['POST'])
 def key():
@@ -61,13 +72,49 @@ def key():
         file.save(path)
         os.chmod(path, 0o600)
 
-        return "Successfully uploaded key!"
+        return { 'message': "SSH key, {key}, successfully uploaded.".format(key=file.filename) }
     
-    return "No operation performed."
+    return { 'message': "No SSH key was provided for upload." }
+
+@app.route("/view/<cid>", methods=['GET'])
+def view(cid):
+    if request.method == 'GET':
+        cmd_args = [
+            '--inventory',
+            "{dir}/inventory-{id}.yaml".format(dir=WORK_DIR, id=cid),
+            '--module-name',
+            'setup'
+        ]
+
+        if 'ssh_key' in request.args and os.path.exists("{}/{}".format(KEYS_DIR, request.args['ssh_key'])):
+            cmd_args.extend(["--private-key", "{}/{}".format(KEYS_DIR, request.args['ssh_key'])])
+        else:
+            cmd_args.append("--ask-pass")
+        if 'target' in request.args:
+            cmd_args.append(request.args['target'])
+        else:
+            cmd_args.append('all')
+        if 'hosts' in request.args:
+            cmd_args.extend(['--limit', request.args['hosts']])
+
+        out, err, rc = ansible_runner.run_command(
+            executable_cmd='ansible',
+            cmdline_args=cmd_args,
+            input_fd=sys.stdin
+        )
+        trim_start = out.find('{')
+        out = out[trim_start:]+'}'
+        return {
+            'id': cid,
+            'message': "{id} successfully viewed.".format(id=cid),
+            'rc': rc,
+            'view': json.loads(out.replace("\n", "").replace(" ", "")),
+            'err': err,
+            'args': cmd_args
+        }
 
 @app.route("/construct", methods=['GET', 'POST'])
 def construct():
-    error = None
     if request.method == 'POST':
         data = request.get_json(force=True)
         generate_inventory(data)
@@ -93,11 +140,33 @@ def construct():
             error_fd=sys.stderr,
         )
 
-        CONSTRUCTS[data['id']] = data['setup']
-
-        return "out={}, err={}, rc={}".format(out, err, rc)
+        update_constructs_datastore(data)
+        return {
+            'id': data['id'],
+            'message': "{id}, successfully constructed.".format(id=data['id']),
+            'construct': load_construct_file(data['id']),
+            'rc': rc,
+            'out': out,
+            'err': err
+        }
     elif request.method == 'GET':
         if 'id' in request.args and request.args['id'] in CONSTRUCTS:
-            return {k: v for d in CONSTRUCTS[request.args['id']] for k, v in d.items()}
+            return {
+                'id': request.args['id'],
+                'message': "{id} successfully retrieved.".format(id=request.args['id']),
+                'construct': load_construct_file(request.args['id'])
+            }
+        elif 'id' in request.args and request.args['id'] not in CONSTRUCTS:
+            return {
+                'id': request.args['id'],
+                'message': "Retrieval failed - construct does not exist.".format(id=request.args['id'])
+            }
         else:
-            return CONSTRUCTS
+            ret = {
+                'message': "Constructs successfully retrieved",
+                'constructs': []
+            }
+            for k in CONSTRUCTS.keys():
+                ret['constructs'].append({ k: load_construct_file(k) })
+
+            return ret
