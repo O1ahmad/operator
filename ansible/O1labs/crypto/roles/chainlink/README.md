@@ -1,7 +1,7 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
 <p><img src="https://cryptomode.com/wp-content/uploads/2020/08/CryptoMode-chainLink-Price-696x392.jpg" alt="0xO1 logo" title="0xO1" align="right" height="100" /></p>
 
-Ansible Role :crystal_ball: :link: Chainlink
+Ansible Role 🔮 🔗 Chainlink
 =========
 
 Configure and operate Chainlink: a smart-contract platform data oracle network.
