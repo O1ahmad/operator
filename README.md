@@ -1,6 +1,6 @@
 <p><img src="https://i.imgur.com/IBNz2CM.jpg" alt="0xO1 logo" title="0xO1" align="right" height="80" /></p>
 
-:earth_americas: O1 Labs Public Services :revolving_hearts:
+🌎 O1 Labs Public Services 💞
 =========
 
 **in·fra·struc·ture/ˈinfrəˌstrək(t)SHər/**
