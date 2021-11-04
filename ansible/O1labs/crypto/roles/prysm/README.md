@@ -1,7 +1,7 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
 <p><img src="https://prysmaticlabs.com/assets/PrysmStripe.png" alt="Prysm logo" title="prysm" align="right" height="60" /></p>
 
-Ansible Role :stars: :link: Prysm
+Ansible Role 🌠 🔗 Prysm
 =========
 
 Configure and operate Prysm: A full-featured client for the Ethereum 2.0 protocol, written in Go.
