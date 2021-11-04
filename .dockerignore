@@ -1,0 +1,9 @@
+Dockerfile
+ansible/inventory
+ansible/01labss/crypto
+!ansible/01labs/crypto/roles
+docs
+img
+venv
+.gitignore
+*.md

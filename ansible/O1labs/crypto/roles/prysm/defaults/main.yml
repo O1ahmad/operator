@@ -26,6 +26,8 @@ host_wallet_dir: "{{ host_data_dir }}/wallets"
 host_keys_dir: "{{ host_data_dir }}/keys"
 data_dir: /data
 
+restart_policy: unless-stopped
+
 # Uncomment or define 'overrides' to trigger custom user-data migration
 #
 # override_wallet_dir: "{{ host_wallet_dir }}"

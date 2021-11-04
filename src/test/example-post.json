@@ -1,0 +1,25 @@
+{
+    "id": "Ethereum_2.0_Validators",
+    "setup": [
+        {
+            "type": "prysm",
+            "url": "prysm",
+            "properties": {
+                "eth2_chain": "pyrmont",
+                "beacon_config": {
+                    "pyrmont": true
+                },
+                "target_state": "absent",
+                "target_services": ["beacon-node"]
+            }
+        }
+    ],
+    "inventory": [
+        {
+            "name": "nightcrawler",
+            "address": "192.168.1.100",
+            "user": "ahmad",
+            "roles": ["prysm"]
+        }
+    ]
+}
