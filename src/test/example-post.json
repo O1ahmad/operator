@@ -17,7 +17,7 @@
     "inventory": [
         {
             "name": "nightcrawler",
-            "address": "localhost",
+            "address": "192.168.1.100",
             "user": "ahmad",
             "roles": ["prysm"]
         }

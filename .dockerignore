@@ -1,0 +1,11 @@
+Dockerfile
+ansible/inventory
+ansible/O1labs/crypto/playbooks
+ansible/O1labs/crypto/plugins
+ansible/O1labs/crypto/galaxy.yml
+ansible/O1labs/crypto/*.md
+docs
+img
+venv
+.gitignore
+*.md
