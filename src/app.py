@@ -60,7 +60,7 @@ def load_construct_file(cid):
 def update_constructs_datastore(construct):
     CONSTRUCTS[construct['id']] = construct['setup']
 
-@app.route("/key", methods=['POST'])
+@app.route("/v1/key", methods=['POST'])
 def key():
     if 'ssh' in request.files:
         file = request.files['ssh']
@@ -76,7 +76,7 @@ def key():
     
     return { 'message': "No SSH key was provided for upload." }
 
-@app.route("/view/<cid>", methods=['GET'])
+@app.route("/v1/view/<cid>", methods=['GET'])
 def view(cid):
     if request.method == 'GET':
         cmd_args = [
@@ -110,12 +110,9 @@ def view(cid):
             'id': cid,
             'message': "{id} successfully viewed.".format(id=cid),
             'view': json.loads(out.replace("\n", "").replace(" ", "")),
-            'rc': rc,
-            'err': err,
-            'args': cmd_args
         }
 
-@app.route("/construct", methods=['GET', 'POST'])
+@app.route("/v1/construct", methods=['GET', 'POST'])
 def construct():
     if request.method == 'POST':
         data = request.get_json(force=True)
@@ -147,9 +144,6 @@ def construct():
             'id': data['id'],
             'message': "{id}, successfully constructed.".format(id=data['id']),
             'construct': load_construct_file(data['id']),
-            'rc': rc,
-            'out': out,
-            'err': err
         }
     elif request.method == 'GET':
         if 'id' in request.args and request.args['id'] in CONSTRUCTS:
