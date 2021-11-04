@@ -1,7 +1,7 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/1200px-Ethereum-icon-purple.svg.png" alt="ethereum logo" title="ethereum" align="right" height="100" /></p>
 
-Ansible Role :computer: :link: Geth
+Ansible Role 💻 🔗 Geth
 =========
 
 Configure and operate Geth (Go-Ethereum): an Ethereum blockchain client written in Go.
