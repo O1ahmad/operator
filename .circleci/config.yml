@@ -1,0 +1,24 @@
+version: 2.1
+
+jobs:
+   build:
+      machine: true
+      steps:
+         - checkout
+         - run:
+              name: docker build complete image
+              command: make build
+         - run:
+              name: login to Dockerhub for release
+              command: echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+         - run:
+              name: push image version to Dockerhub
+              command: make release
+         - run:
+              name: sync Dockerhub README
+              command: >-
+                docker run --rm -v $(pwd)/README.md:/data/README.md
+                -e DOCKERHUB_USR=$DOCKER_LOGIN
+                -e DOCKERHUB_PWD=$DOCKER_PWD
+                -e DOCKERHUB_ORG=0labs
+                -e DOCKERHUB_REPO=operator gofunky/readmyhub:stable

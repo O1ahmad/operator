@@ -1,9 +1,6 @@
 FROM python:slim-buster
 
-ARG debug_mode=development
-
 ENV FLASK_APP=/src/app
-ENV FLASK_ENV=$debug_mode
 ENV ROLES_DIR=/roles
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
