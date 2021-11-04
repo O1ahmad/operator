@@ -96,6 +96,8 @@ def view(cid):
             cmd_args.append('all')
         if 'hosts' in request.args:
             cmd_args.extend(['--limit', request.args['hosts']])
+        if 'filter' in request.args:
+            cmd_args.extend(['-a', "filter='{}'".format(request.args['filter'])])
 
         out, err, rc = ansible_runner.run_command(
             executable_cmd='ansible',
@@ -107,8 +109,8 @@ def view(cid):
         return {
             'id': cid,
             'message': "{id} successfully viewed.".format(id=cid),
-            'rc': rc,
             'view': json.loads(out.replace("\n", "").replace(" ", "")),
+            'rc': rc,
             'err': err,
             'args': cmd_args
         }
