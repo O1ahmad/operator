@@ -104,13 +104,20 @@ def view(cid):
             cmdline_args=cmd_args,
             input_fd=sys.stdin
         )
-        trim_start = out.find('{')
-        out = out[trim_start:]+'}'
-        return {
-            'id': cid,
-            'message': "{id} successfully viewed.".format(id=cid),
-            'view': json.loads(out.replace("\n", "").replace(" ", "")),
-        }
+        if rc == 0:
+            trim_start = out.find('{')
+            out = out[trim_start:]+'}'
+            return {
+                'id': cid,
+                'message': "{id} successfully viewed.".format(id=cid),
+                'view': json.loads(out.replace("\n", "").replace(" ", "")),
+            }
+        else:
+            return {
+                'id': cid,
+                'message': err,
+                'rc': rc
+            }
 
 @app.route("/v1/construct", methods=['GET', 'POST'])
 def construct():
@@ -131,20 +138,26 @@ def construct():
         else:
             cmd_args.append("--ask-pass")
 
-        out, err, rc = ansible_runner.run_command(
+        _, err, rc = ansible_runner.run_command(
             executable_cmd='ansible-playbook',
             cmdline_args=cmd_args,
             input_fd=sys.stdin,
             output_fd=sys.stdout,
             error_fd=sys.stderr,
         )
-
-        update_constructs_datastore(data)
-        return {
-            'id': data['id'],
-            'message': "{id}, successfully constructed.".format(id=data['id']),
-            'construct': load_construct_file(data['id']),
-        }
+        if rc == 0:
+            update_constructs_datastore(data)
+            return {
+                'id': data['id'],
+                'message': "{id}, successfully constructed.".format(id=data['id']),
+                'construct': load_construct_file(data['id']),
+            }
+        else:
+            return {
+                'id': data['id'],
+                'message': err,
+                'rc': rc
+            }
     elif request.method == 'GET':
         if 'id' in request.args and request.args['id'] in CONSTRUCTS:
             return {
