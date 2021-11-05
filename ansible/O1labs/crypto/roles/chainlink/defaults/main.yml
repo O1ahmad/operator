@@ -11,6 +11,8 @@ https_port: 6689
 host_data_dir: "{{ ops_runtime_dir }}"
 data_dir: /chainlink
 
+security_output_dir: /var/tmp/chainlink
+
 postgres_image: postgres:latest
 postgres_user: postgres
 postgres_password: secret
