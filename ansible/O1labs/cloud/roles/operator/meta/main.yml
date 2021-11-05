@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: O1 Labs
+  role_name: operator
+  description: Operator, an open and decentralized managed infrastructure and operations service
+  company: "O1.IO"
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - cosmic
+  galaxy_tags:
+    - cloud
+    - infrastructure
+    - operations
+    - managed
+    - services

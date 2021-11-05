@@ -1,0 +1,30 @@
+version: "3"
+
+networks:
+  ethereum:
+    external: true
+
+services:
+  operator:
+    image: {{ image }}
+    ports:
+      - "{{ http_port }}:80"
+      - "{{ https_port }}:443"
+
+  nginx:
+    image: nginx:1.15-alpine
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - {{ ops_runtime_dir}}/nginx:/etc/nginx/conf.d
+      - {{ ops_runtime_dir}}/certbot/conf:/etc/letsencrypt
+      - {{ ops_runtime_dir}}/certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - {{ ops_runtime_dir}}/certbot/conf:/etc/letsencrypt
+      - {{ ops_runtime_dir}}/certbot/www:/var/www/certbot

@@ -1,0 +1,5 @@
+---
+setup_mode: compose
+target_state: present
+target_services: [ 'operator' ]
+ops_runtime_dir: /var/tmp/operator
