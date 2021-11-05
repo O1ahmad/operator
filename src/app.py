@@ -160,7 +160,8 @@ def run(cid):
             return {
                 'id': cid,
                 'message': "{cmd} sucessfully executed.".format(cmd=data['run_args']),
-                'result': out.strip()
+                # compress/cleanse output for simpler downstream parsing
+                'result': out.strip().replace("  ", "")
             }
         else:
             return {
