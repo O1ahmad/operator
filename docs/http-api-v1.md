@@ -4,7 +4,7 @@
 `/v1/construct`
 ------------
 
-Retrieve or construct an environment based on a defined host inventory and roles/role properties. 
+Retrieve or construct an environment based on defined host inventories and role properties. 
 
 ```yaml
 [
@@ -59,6 +59,29 @@ Retrieve or construct an environment based on a defined host inventory and roles
 ]
 ```
 
+`/v1/run`
+------------
+
+Execute adhoc commands against inventory hosts. 
+
+```yaml
+[
+    {
+        path: "/v1/run/<construct-identifier>",
+        method: "POST",
+        parameters: "?<ssh_key>&<target>&<hosts>&<override-execution-module>",
+        data: {
+            "run_args": "<command or arguments to include with override execution module to run on target hosts>" 
+        },
+        response: {
+            id: "<construct-identifier>",
+            message: "message indicating status of operation execution",
+            result: "<result of command execution - STDOUT if success, STDERR if failure>"
+        }
+    }
+]
+```
+
 `/v1/view`
 ------------
 
@@ -71,14 +94,13 @@ View role/host facts and metadata according to specified query parameters.
         method: "GET",
         parameters: "?<ssh_key>&<target>&<hosts>&<filter>",
         data: {},
-        response:
-            {
-                id: "<construct-identifier>",
-                message: "message indicating status of operation execution",
-                view: {
-                    "<host-facts>"
-                }
+        response: {
+            id: "<construct-identifier>",
+            message: "message indicating status of operation execution",
+            view: {
+                "<host-facts>"
             }
+        }
     }
 ]
 ```

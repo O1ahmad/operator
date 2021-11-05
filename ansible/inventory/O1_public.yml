@@ -7,14 +7,13 @@ all:
       ansible_host: 107.214.58.44
       ansible_user: ahmad
     cyclops:
-      ansible_host: 137.184.47.207
-      ansible_user: root
-      ansible_python_interpreter: /usr/bin/python3
+      ansible_host: 35.232.8.60
+      ansible_user: ops
     storm:
-      ansible_host: 35.193.82.0
+      ansible_host: 34.68.46.115
       ansible_user: ops
     jubilee:
-      ansible_host: 34.133.93.138
+      ansible_host: 35.225.219.52
       ansible_user: ops
     toad:
       ansible_host: 104.198.157.229
@@ -22,7 +21,6 @@ all:
   children:
     chainlink_mainnet:
       hosts:
-        toad:
     chainlink_goerli:
       hosts:
         storm:
@@ -39,22 +37,20 @@ all:
         cyclops:
     geth_rpc_rinkeby:
       hosts:
-        storm:
+        jubilee:
     geth_rpc_ropsten:
       hosts:
         morph:
     prysm_pyrmont:
       hosts:
-        jubilee:
     prysm_mainnet:
       hosts:
-        cyclops:
+        jubilee:
     lighthouse_prater:
       hosts:
         storm:
     lighthouse_mainnet:
       hosts:
-        toad:
     teku_mainnet:
       hosts:
         morph:

@@ -119,6 +119,56 @@ def view(cid):
                 'rc': rc
             }
 
+@app.route("/v1/run/<cid>", methods=['POST'])
+def run(cid):
+    if request.method == 'POST':
+        if not request.get_json(silent=True) and 'run_args' not in request.get_json(force=True):
+            return {
+                'id': cid,
+                'message': 'Specification of command "run_args" is required within request data - None provided.',
+                'result': ''
+            }
+        
+        data = request.get_json(force=True)
+        cmd_args = [
+            '--inventory',
+            "{dir}/inventory-{id}.yaml".format(dir=WORK_DIR, id=cid),
+            '--args',
+            data['run_args']
+        ]
+        if 'ssh_key' in request.args and os.path.exists("{}/{}".format(KEYS_DIR, request.args['ssh_key'])):
+            cmd_args.extend(["--private-key", "{}/{}".format(KEYS_DIR, request.args['ssh_key'])])
+        else:
+            cmd_args.append("--ask-pass")
+        if 'target' in request.args:
+            cmd_args.append(request.args['target'])
+        else:
+            cmd_args.append('all')
+        if 'hosts' in request.args:
+            cmd_args.extend(['--limit', request.args['hosts']])
+        if 'module' in request.args:
+            cmd_args.extend(['--module-name', request.args['module']])
+
+        out, err, rc = ansible_runner.run_command(
+            executable_cmd='ansible',
+            cmdline_args=cmd_args,
+            input_fd=sys.stdin
+        )
+        trim_start = out.find('>>')
+        out = out[trim_start+2:]
+        if rc == 0:
+            return {
+                'id': cid,
+                'message': "{cmd} sucessfully executed.".format(cmd=data['run_args']),
+                'result': out.strip()
+            }
+        else:
+            return {
+                'id': cid,
+                'message': rc,
+                'result': err
+            }
+
 @app.route("/v1/construct", methods=['GET', 'POST'])
 def construct():
     if request.method == 'POST':
