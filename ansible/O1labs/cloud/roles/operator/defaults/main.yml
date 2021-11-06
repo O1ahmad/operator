@@ -1,5 +1,18 @@
 ---
-setup_mode: compose
+setup_mode: container
 target_state: present
 target_services: [ 'operator' ]
 ops_runtime_dir: /var/tmp/operator
+
+image: 0labs/operator:latest
+api_host: operator
+api_port: 1001
+http_port: 80
+https:port: 443
+
+enable_https: false
+cert_dir: /var/www/certbot
+cert_key_size: 2048
+enable_staging: false
+email:
+domain_names: []

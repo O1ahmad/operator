@@ -1,0 +1,93 @@
+---
+- name: Create server certificate docker volume
+  become: true
+  community.docker.docker_volume:
+    name: operator_certs
+    state: "{{ target_state }}"
+
+- name: Create and store server certificates
+  community.docker.docker_container:
+    name: cert-create
+    image: alpine/openssl:latest
+    command: req -x509 -nodes -newkey rsa:{{ cert_key_size }} -days 1 -keyout '/tmp/server.key' -out '/tmp/server.crt' -subj '/CN=localhost'
+    auto_remove: yes
+    volumes:
+      - operator_certs:/tmp
+
+- name: Download best-practice HTTPS nginx configurations
+  community.docker.docker_container:
+    name: nginx-config-download
+    image: curlimages/curl:latest
+    command: "{{ item }} --output /tmp/{{ item | basename }}"
+    volumes:
+      - operator_certs:/tmp
+    auto_remove: yes
+  with_items:
+    - https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+    - https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem
+
+- name: Generate server nginx config
+  become: true
+  template:
+    src: "server.conf.j2"
+    dest: "{{ ops_runtime_dir }}/server.conf"
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  register: server_nginx_config
+
+- name: Start operator nginx server
+  community.docker.docker_container:
+    name: operator-nginx
+    image: nginx:latest
+    command: nginx -g 'daemon off;' -c /tmp/server.conf
+    published_ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "{{ ops_runtime_dir }}/server.conf:/tmp/server.conf"
+      - operator_certs:{{ cert_dir }}
+    networks:
+      - name: operator
+
+- name: Create certbot certificates docker volume
+  become: true
+  community.docker.docker_volume:
+    name: certbot_certs
+    state: "{{ target_state }}"
+
+- name: Setup certbot authentication
+  community.docker.docker_container:
+    name: operator-certbot
+    image: certbot/certbot:latest
+    command: certonly --non-interactive --webroot -w /var/www/certbot {{ email_args }} -d {{ domain_names | join(',') }} --agree-tos --force-renewal
+    volumes:
+      - operator_certs:{{ cert_dir }}
+      - certbot_certs:/etc/letsencrypt/
+    auto_remove: yes
+
+- name: Update nginx certificate with generated certbot cert
+  community.docker.docker_container:
+    name: resolve-certs
+    image: ubuntu:latest
+    command: cp /etc/letsencrypt/live/{{ domain_names | first }}/fullchain.pem {{ cert_dir }}/server.crt
+    volumes:
+      - operator_certs:{{ cert_dir }}
+      - certbot_certs:/etc/letsencrypt/
+    auto_remove: yes
+
+- name: Update nginx certificate key with generated certbot cert key
+  community.docker.docker_container:
+    name: resolve-keys
+    image: ubuntu:latest
+    command: cp /etc/letsencrypt/live/{{ domain_names | first }}/privkey.pem {{ cert_dir }}/server.key
+    volumes:
+      - operator_certs:{{ cert_dir }}
+      - certbot_certs:/etc/letsencrypt/
+    auto_remove: yes
+
+- name: Reload nginx server
+  community.docker.docker_container_exec:
+    container: operator-nginx
+    command: nginx -s reload

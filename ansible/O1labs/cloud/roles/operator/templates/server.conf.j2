@@ -1,0 +1,32 @@
+events {
+}
+
+http {
+    server {
+        listen 80;
+        server_name {{ domain_names | join(' ') }};
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+
+        location /.well-known/acme-challenge/ {
+            root /var/www/certbot;
+        }
+    }
+
+    server {
+        listen 443 ssl;
+        server_name {{ domain_names | join(' ') }};
+
+        ssl_certificate {{ cert_dir }}/server.crt;
+        ssl_certificate_key {{ cert_dir }}/server.key;
+
+        include {{ cert_dir }}/options-ssl-nginx.conf;
+        ssl_dhparam {{ cert_dir }}/ssl-dhparams.pem;
+        
+        location / {
+            proxy_pass http://{{ api_host }}:{{ api_port }};
+        }
+    }
+}

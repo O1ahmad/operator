@@ -1,0 +1,13 @@
+---
+- name: Start operator service
+  community.docker.docker_container:
+    name: operator
+    image: "{{ image }}"
+    published_ports:
+      - "{{ api_port }}:1001"
+    networks:
+      - name: operator
+
+- name: Enable HTTPS server communication
+  when: enable_https
+  include_tasks: "https_setup.yml"

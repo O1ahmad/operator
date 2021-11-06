@@ -1,12 +1,27 @@
 ---
-- name: Setup Operator compose infrastructure topology
-  include_tasks: "compose/setup.yml"
-  when: setup_mode == "compose"
-  tags:
-    - setup
+- name: Create bridged Operator network for components to communicate
+  when: setup_mode == "container"
+  community.docker.docker_network:
+    name: operator
 
-- name: Setup Operator systemd infrastructure topology
-  include_tasks: "systemd/setup.yml"
-  when: setup_mode == "systemd"
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Register certificate without email
+  when: not email
+  set_fact:
+    email_args: "--register-unsafely-without-email"
+
+- name: Set certificate setup email
+  when: email
+  set_fact:
+    email_args: "--email {{ email }}"
+
+- name: Setup Operator infrastructure topology
+  include_tasks: "{{ setup_mode }}/setup.yml"
   tags:
     - setup
