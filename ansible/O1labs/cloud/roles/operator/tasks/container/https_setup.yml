@@ -65,7 +65,6 @@
     volumes:
       - operator_certs:{{ cert_dir }}
       - certbot_certs:/etc/letsencrypt/
-    auto_remove: yes
 
 - name: Update nginx certificate with generated certbot cert
   community.docker.docker_container:
@@ -88,6 +87,4 @@
     auto_remove: yes
 
 - name: Reload nginx server
-  community.docker.docker_container_exec:
-    container: operator-nginx
-    command: nginx -s reload
+  ansible.builtin.command: docker exec operator-nginx nginx -s reload
