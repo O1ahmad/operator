@@ -1,19 +1,7 @@
 ---
 - name: Create server certificate docker volume
-  become: true
   community.docker.docker_volume:
     name: operator_certs
-    state: "{{ target_state }}"
-
-- name: Register certificate without email
-  when: email is not defined or email|length == 0
-  set_fact:
-    email_args: "--register-unsafely-without-email"
-
-- name: Set certificate setup email
-  when: email is defined and email|length > 0
-  set_fact:
-    email_args: "--email {{ email }}"
 
 - name: Create and store server certificates
   community.docker.docker_container:
@@ -60,14 +48,27 @@
       - operator_certs:{{ cert_dir }}
     networks:
       - name: operator
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
+
+- name: Register certificate without email
+  when: enable_certbot_certs and (email is not defined or email|length == 0)
+  set_fact:
+    email_args: "--register-unsafely-without-email"
+
+- name: Set certificate setup email
+  when: enable_certbot_certs and (email is defined and email|length > 0)
+  set_fact:
+    email_args: "--email {{ email }}"
 
 - name: Create certbot certificates docker volume
-  become: true
+  when: enable_certbot_certs
   community.docker.docker_volume:
     name: certbot_certs
-    state: "{{ target_state }}"
 
 - name: Setup certbot authentication
+  when: enable_certbot_certs
   community.docker.docker_container:
     name: operator-certbot
     image: certbot/certbot:latest
@@ -77,6 +78,7 @@
       - certbot_certs:/etc/letsencrypt/
 
 - name: Update nginx certificate with generated certbot cert
+  when: enable_certbot_certs
   community.docker.docker_container:
     name: resolve-certs
     image: ubuntu:latest
@@ -87,6 +89,7 @@
     auto_remove: yes
 
 - name: Update nginx certificate key with generated certbot cert key
+  when: enable_certbot_certs
   community.docker.docker_container:
     name: resolve-keys
     image: ubuntu:latest
@@ -97,4 +100,5 @@
     auto_remove: yes
 
 - name: Reload nginx server
+  when: enable_certbot_certs
   ansible.builtin.command: docker exec operator-nginx nginx -s reload

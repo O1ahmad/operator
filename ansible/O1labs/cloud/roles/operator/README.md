@@ -18,18 +18,21 @@ Role Variables
 | :---: | :---: | :---: |
 | *image* | Operator service container image to deploy | `0labs/operator:latest` |
 | *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/operator` |
 | *api_host* | Operator HTTP API server listening interface | `0.0.0.0` |
 | *api_port* | Operator HTTP API server listening port | `1001` |
-| *enable_https* | whether to setup HTTPS secure communication using Let's Encrypt | `false` |
+| *enable_https* | whether to setup locally signed HTTPS secure communication | `false` |
+| *enable_certbot_certs* | whether to setup HTTPS secure communication using Let's Encrypt | `false` |
 | *proxy_host* | host address proxy server can reach Operator HTTP API service | `operator` |
 | *http_port* | port secure proxy listens on for HTTP connections   | `80` |
 | *https_port* | port secure proxy listens on for HTTPS connections | `443` |
 | *cert_dir* | directory to store and retrieve HTTPS certificates | `/var/www/certbot` |
 | *email* | email address to register/associate with HTTPS certificates | `none` |
 | *domain_names* | domain name(s) to register/associate with HTTPS certificates | `[]` |
-
+| *uninstall* | whether to remove installed components | `false` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `1g` |
+| *restart_policy* | container restart policy | `unless-stopped` |
 
 Dependencies
 ------------
@@ -58,11 +61,19 @@ Example Playbook
       api_port: 8080
 ```
 
-* Enable HTTPS secure communication with associated certificate credentials:
+* Enable HTTPS secure communication with locally signed certificates:
 ```
   - role: 0x0I.operator
     vars:
       enable_https: true
+```
+
+* Enable HTTPS secure communication with Let's Encrypt signed certificates and associated certificate credentials:
+```
+  - role: 0x0I.operator
+    vars:
+      enable_https: true
+      enable_certbot_certs: true
       email: operator.support@example.org
       domain_names: [ "my-operator.example.net" ] # ensure DNS maps to ip-address of node being deployed to
 ```

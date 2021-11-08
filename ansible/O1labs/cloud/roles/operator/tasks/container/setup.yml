@@ -1,4 +1,14 @@
 ---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
 - name: Create bridged Operator network for components to communicate
   community.docker.docker_network:
     name: operator
@@ -12,7 +22,10 @@
       - "{{ api_port }}:1001"
     networks:
       - name: operator
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
 
 - name: Enable HTTPS server communication
-  when: enable_https
+  when: enable_https|bool
   include_tasks: "https_setup.yml"

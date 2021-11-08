@@ -4,7 +4,8 @@
   roles:
     - role: "../../roles/operator"
       vars:
-        enable_https: false
+        enable_https: true
+        enable_certbot_certs: false
         email: zer0ne.io.x@gmail.com
         domain_names: [
           "operators.01labs.net",
