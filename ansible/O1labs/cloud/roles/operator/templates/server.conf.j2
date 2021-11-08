@@ -26,7 +26,7 @@ http {
         ssl_dhparam {{ cert_dir }}/ssl-dhparams.pem;
         
         location / {
-            proxy_pass http://{{ api_host }}:{{ api_port }};
+            proxy_pass http://{{ proxy_host }}:{{ api_port }};
         }
     }
 }

@@ -20,14 +20,15 @@ Role Variables
 | *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/operator` |
-| *api_host* | Operator HTTP API server proxy listening interface | `operator` |
+| *api_host* | Operator HTTP API server listening interface | `0.0.0.0` |
 | *api_port* | Operator HTTP API server listening port | `1001` |
-| *enable_https* | Whether to setup HTTPS secure communication using Let's Encrypt | `false` |
-| *http_port* | Port secure proxy listens on for HTTP connections   | `80` |
-| *https_port* | Port secure proxy listens on for HTTPS connections | `443` |
+| *enable_https* | whether to setup HTTPS secure communication using Let's Encrypt | `false` |
+| *proxy_host* | host address proxy server can reach Operator HTTP API service | `operator` |
+| *http_port* | port secure proxy listens on for HTTP connections   | `80` |
+| *https_port* | port secure proxy listens on for HTTPS connections | `443` |
 | *cert_dir* | directory to store and retrieve HTTPS certificates | `/var/www/certbot` |
-| *email* | Email address to register/associate with HTTPS certificates | `none` |
-| *domain_names* | Domain name(s) to register/associate with HTTPS certificates | `[]` |
+| *email* | email address to register/associate with HTTPS certificates | `none` |
+| *domain_names* | domain name(s) to register/associate with HTTPS certificates | `[]` |
 
 
 Dependencies

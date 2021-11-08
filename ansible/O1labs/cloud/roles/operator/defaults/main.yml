@@ -4,8 +4,11 @@ target_state: present
 ops_runtime_dir: /var/tmp/operator
 
 image: 0labs/operator:latest
-api_host: operator
+api_host: 0.0.0.0
 api_port: 1001
+
+# HTTPS proxy settings
+proxy_host: operator
 http_port: 80
 https_port: 443
 
