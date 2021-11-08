@@ -1,9 +1,4 @@
 ---
-- name: Create bridged Operator network for components to communicate
-  when: setup_mode == "container"
-  community.docker.docker_network:
-    name: operator
-
 - name: Ensure existence of runtime dir
   become: true
   file:

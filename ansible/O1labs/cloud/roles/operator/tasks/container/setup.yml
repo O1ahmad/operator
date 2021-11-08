@@ -1,4 +1,8 @@
 ---
+- name: Create bridged Operator network for components to communicate
+  community.docker.docker_network:
+    name: operator
+
 - name: Start operator service
   community.docker.docker_container:
     name: operator
