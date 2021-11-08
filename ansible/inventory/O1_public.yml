@@ -70,3 +70,7 @@ all:
       hosts:
         nightcrawler:
         morph:
+    operator:
+      hosts:
+        cyclops:
+        morph:

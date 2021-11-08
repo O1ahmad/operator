@@ -3,3 +3,4 @@ monitoring/grafana/data/
 monitoring/loki/data/
 monitoring/prometheus/data/
 venv/
+src/__pycache__/

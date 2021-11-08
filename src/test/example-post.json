@@ -9,16 +9,16 @@
                 "beacon_config": {
                     "pyrmont": true
                 },
-                "target_state": "absent",
+                "target_state": "present",
                 "target_services": ["beacon-node"]
             }
         }
     ],
     "inventory": [
         {
-            "name": "nightcrawler",
-            "address": "192.168.1.100",
-            "user": "ahmad",
+            "name": "cyclops",
+            "address": "35.232.8.60",
+            "user": "ops",
             "roles": ["prysm"]
         }
     ]

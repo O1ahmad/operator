@@ -1,0 +1,18 @@
+---
+- name: Create bridged Operator network for components to communicate
+  community.docker.docker_network:
+    name: operator
+
+- name: Start operator service
+  community.docker.docker_container:
+    name: operator
+    image: "{{ image }}"
+    command: ["flask", "run", "--host={{ api_host }}", "--port=1001"]
+    published_ports:
+      - "{{ api_port }}:1001"
+    networks:
+      - name: operator
+
+- name: Enable HTTPS server communication
+  when: enable_https
+  include_tasks: "https_setup.yml"
