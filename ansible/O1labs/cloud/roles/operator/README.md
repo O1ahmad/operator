@@ -48,14 +48,14 @@ Example Playbook
 ```
   - role: 0x0I.operator
     vars:
-      image: 0labs/operator:custom
+      image: 0labs/operator:v0.1.0
 ```
 
 * Launch an operator HTTP API service on a custom listening port:
 ```
   - role: 0x0I.operator
     vars:
-      api_port: 2345
+      api_port: 8080
 ```
 
 * Enable HTTPS secure communication with associated certificate credentials:

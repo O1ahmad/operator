@@ -5,6 +5,16 @@
     name: operator_certs
     state: "{{ target_state }}"
 
+- name: Register certificate without email
+  when: email is not defined or email|length == 0
+  set_fact:
+    email_args: "--register-unsafely-without-email"
+
+- name: Set certificate setup email
+  when: email is defined and email|length > 0
+  set_fact:
+    email_args: "--email {{ email }}"
+
 - name: Create and store server certificates
   community.docker.docker_container:
     name: cert-create

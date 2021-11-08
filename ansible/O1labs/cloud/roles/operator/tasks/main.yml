@@ -6,16 +6,6 @@
     state: directory
     mode: 0777
 
-- name: Register certificate without email
-  when: not email
-  set_fact:
-    email_args: "--register-unsafely-without-email"
-
-- name: Set certificate setup email
-  when: email
-  set_fact:
-    email_args: "--email {{ email }}"
-
 - name: Setup Operator infrastructure topology
   include_tasks: "{{ setup_mode }}/setup.yml"
   tags:
