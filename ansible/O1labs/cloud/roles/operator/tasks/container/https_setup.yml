@@ -9,7 +9,7 @@
   community.docker.docker_container:
     name: cert-create
     image: alpine/openssl:latest
-    command: req -x509 -nodes -newkey rsa:{{ cert_key_size }} -days 1 -keyout '/tmp/server.key' -out '/tmp/server.crt' -subj '/CN=localhost'
+    command: req -x509 -nodes -newkey rsa:2048 -days 1 -keyout '/tmp/server.key' -out '/tmp/server.crt' -subj '/CN=localhost'
     auto_remove: yes
     volumes:
       - operator_certs:/tmp

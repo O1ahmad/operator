@@ -17,6 +17,18 @@ Role Variables
 | var | description | default |
 | :---: | :---: | :---: |
 | *image* | Operator service container image to deploy | `0labs/operator:latest` |
+| *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
+| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/operator` |
+| *api_host* | Operator HTTP API server proxy listening interface | `operator` |
+| *api_port* | Operator HTTP API server listening port | `1001` |
+| *enable_https* | Whether to setup HTTPS secure communication using Let's Encrypt | `false` |
+| *http_port* | Port secure proxy listens on for HTTP connections   | `80` |
+| *https_port* | Port secure proxy listens on for HTTPS connections | `443` |
+| *cert_dir* | directory to store and retrieve HTTPS certificates | `/var/www/certbot` |
+| *email* | Email address to register/associate with HTTPS certificates | `none` |
+| *domain_names* | Domain name(s) to register/associate with HTTPS certificates | `[]` |
+
 
 Dependencies
 ------------
@@ -31,10 +43,27 @@ Example Playbook
   roles:
 ```
 
-* Launch a Teku beacon-chain node connected to the Pyrmont Ethereum 2.0 testnet using a Goerli web3 Ethereum endpoint:
+* Modify the operator HTTP API service image:
 ```
   - role: 0x0I.operator
     vars:
+      image: 0labs/operator:custom
+```
+
+* Launch an operator HTTP API service on a custom listening port:
+```
+  - role: 0x0I.operator
+    vars:
+      api_port: 2345
+```
+
+* Enable HTTPS secure communication with associated certificate credentials:
+```
+  - role: 0x0I.operator
+    vars:
+      enable_https: true
+      email: operator.support@example.org
+      domain_names: [ "my-operator.example.net" ] # ensure DNS maps to ip-address of node being deployed to
 ```
 
 License
