@@ -1,5 +1,5 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
-<p><img src="https://pbs.twimg.com/profile_images/1324063968877563907/n-NYkVty.png" alt="teku logo" title="teku" align="right" height="80" /></p>
+<p><img src="https://avatars.githubusercontent.com/u/49376577?v=4" alt="O1 logo" title="O1" align="right" height="80" /></p>
 
 Ansible Role :eyeglasses:🔗 Operator
 =========
