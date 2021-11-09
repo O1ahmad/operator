@@ -1,2 +1,37 @@
 ---
-# handlers file for operator
+- name: Remove proxy container
+  community.docker.docker_container:
+    name: operator-nginx
+    state: absent
+  listen: Container uninstall
+
+- name: Remove nginx generated template config
+  become: true
+  ansible.builtin.file:
+    path: "{{ ops_runtime_dir }}/server.conf"
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Operator container
+  community.docker.docker_container:
+    name: operator
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Certbot certs volume
+  community.docker.docker_volume:
+    name: certbot_certs
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Operator certs volume
+  community.docker.docker_volume:
+    name: operator_certs
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Operator network
+  community.docker.docker_network:
+    name: operator
+    state: absent
+  listen: Container uninstall

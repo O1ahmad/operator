@@ -1,6 +1,5 @@
 ---
 setup_mode: container
-target_state: present
 ops_runtime_dir: /var/tmp/operator
 
 image: 0labs/operator:latest
@@ -13,6 +12,13 @@ http_port: 80
 https_port: 443
 
 enable_https: false
+enable_certbot_certs: false
 cert_dir: /var/www/certbot
 email:
 domain_names: []
+
+cpus: 1.0
+memory: 3g
+restart_policy: unless-stopped
+
+uninstall: false

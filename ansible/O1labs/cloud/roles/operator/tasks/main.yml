@@ -4,7 +4,7 @@
   file:
     path: "{{ ops_runtime_dir }}"
     state: directory
-    mode: 0777
+    mode: 0755
 
 - name: Setup Operator infrastructure topology
   include_tasks: "{{ setup_mode }}/setup.yml"
