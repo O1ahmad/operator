@@ -3,6 +3,8 @@ import ast
 from flask import Flask, request
 import json
 import os
+from PIL import Image
+import subprocess
 import sys
 import yaml
 
@@ -12,8 +14,22 @@ app = Flask(__name__)
 KEYS_DIR = "/keys"
 WORK_DIR = "/var/tmp"
 ROLES_DIR = os.environ.get("ROLES_DIR", "{}/roles".format(WORK_DIR))
+IMG_MINT_DIR = "{}/images".format(WORK_DIR)
 
 CONSTRUCTS = {}
+
+def execute_command(command):
+    process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
+    if process.returncode > 0:
+        print('Executing command \"%s\" returned a non-zero status code %d' % (command, process.returncode))
+        sys.exit(process.returncode)
+
+    if error:
+        print(error.decode('utf-8'))
+
+    return output.decode('utf-8')
 
 def generate_setup(spec):
     with open("{dir}/{id}.yaml".format(dir=WORK_DIR, id=spec['id']), 'w') as f:
@@ -49,6 +65,24 @@ def generate_inventory(spec):
             yaml.dump(i, f, default_flow_style=False)
 
     return { 'message': "{id} inventory generation completed successfully.".format(id=spec['id']) }
+
+def generate_file_images(dir):
+    l = [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(dir)) for f in fn]
+    number_files = len(l)
+
+    new_im = Image.new('RGB', (800, 800))
+    for x in range(0, number_files):
+        target = "{}/{}_{}.png".format(IMG_MINT_DIR, os.path.dirname(l[x]).split('/')[-1], os.path.basename(l[x]))
+        execute_command("convert -size 720x720 xc:white -font FreeMono -pointsize 12 -fill black -annotate +15+15 @{} {}".format(l[x], target))
+        im = Image.open(target)
+        im.thumbnail((100, 100))
+
+        for i in range(0, 800, 100):
+            for j in range(0, 800, 100):
+
+                new_im.paste(im, (i, j))
+
+    new_im.save('{}/out.png'.format(IMG_MINT_DIR))
 
 def load_construct_file(cid):
     data = {}

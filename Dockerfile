@@ -4,7 +4,7 @@ ENV FLASK_APP=/src/app
 ENV ROLES_DIR=/roles
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt install -y python3-pip sshpass git openssh-client libhdf5-dev libssl-dev libffi-dev && \
+    apt install -y python3-pip sshpass git openssh-client libhdf5-dev libssl-dev libffi-dev imagemagick && \
     rm -rf /var/lib/apt/lists/* && apt-get clean
 
 WORKDIR /src
