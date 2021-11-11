@@ -14,14 +14,14 @@
 
 - name: Install fail2ban packages
   become: true
-  when: install_fail2ban|bool
+  when: install_fail2ban|bool == true
   ansible.builtin.package:
     name: "fail2ban"
     state: present
 
 - name: Apply reasonable fail2ban SSH settings
   become: true
-  when: install_fail2ban|bool
+  when: install_fail2ban|bool == true
   blockinfile:
     path: /etc/fail2ban/jail.d/ssh.local
     create: yes
@@ -42,7 +42,7 @@
 
 - name: Restart system access security services
   become: true
-  when: install_fail2ban|bool
+  when: install_fail2ban|bool == true
   ansible.builtin.service:
     name: "fail2ban"
     state: restarted
