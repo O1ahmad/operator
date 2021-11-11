@@ -1,3 +1,4 @@
 Flask==2.0.2
 ansible==4.8.0
 ansible_runner==2.0.3
+pillow==8.4.0
