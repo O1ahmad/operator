@@ -1,0 +1,59 @@
+---
+- name: Uninstall docker/containerization services
+  become: true
+  ansible.builtin.service:
+    name: "docker"
+    state: stopped
+    enabled: no
+  listen: Uninstall
+
+- name: Uninstall docker/containerization packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "docker-ce"
+    - "docker-compose"
+  listen: Uninstall
+
+- name: Uninstall fail2ban services
+  become: true
+  ansible.builtin.service:
+    name: "fail2ban"
+    state: stopped
+    enabled: no
+  listen: Uninstall
+
+- name: Uninstall Fail2ban packages
+  become: true
+  ansible.builtin.package:
+    name: "fail2ban"
+    state: absent
+  listen: Uninstall
+
+- name: Uninstall auto-update services
+  become: true
+  ansible.builtin.service:
+    name: "unattended-upgrades"
+    state: stopped
+    enabled: no
+  listen: Uninstall
+
+- name: Uninstall auto-update packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "unattended-upgrades"
+    - "update-notifier-common"
+  listen: Uninstall
+
+- name: Uninstall user specified system packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ user_packages }}"
+  listen: Uninstall

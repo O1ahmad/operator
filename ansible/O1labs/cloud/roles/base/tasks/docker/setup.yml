@@ -1,0 +1,58 @@
+---
+- name: Install docker dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - 'apt-transport-https'
+      - 'ca-certificates'
+      - 'gnupg'
+      - 'lsb-release'
+    state: present
+    update_cache: yes
+    
+- name: Add docker GPG key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker repository to sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Update apt and install docker-ce + tooling
+  become: true
+  apt:
+    name:
+      - docker-ce
+      - docker-compose
+    state: present
+    update_cache: yes
+
+- name: Install Docker Module for Python
+  become: true
+  pip:
+    name: docker
+    
+- name: Add operator user to docker group for privileged usage
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Add operator specified users to docker group for privileged usage
+  become: true
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  loop: "{{ docker_users }}"
+
+- name: Restart docker service
+  become: true
+  ansible.builtin.service:
+    name: "docker"
+    state: restarted

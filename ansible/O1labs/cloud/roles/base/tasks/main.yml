@@ -1,0 +1,35 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Setup docker and containerization/virtualization tooling
+  when: install_docker|bool == true
+  include_tasks: "docker/setup.yml"
+  tags:
+    - setup
+
+- name: Setup system access security services
+  when: harden_ssh_access|bool == true
+  include_tasks: "system/access.yml"
+  tags:
+    - setup
+
+- name: Setup auto_update system security services
+  when: auto_update|bool == true
+  include_tasks: "system/auto_update.yml"
+  tags:
+    - setup
+
+- name: Install user specified system packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ user_packages }}"
+    state: present
+    update_cache: yes

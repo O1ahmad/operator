@@ -1,0 +1,9 @@
+---
+install_docker: true
+harden_ssh_access: true
+install_fail2ban: true
+auto_update: true
+docker_users: []
+user_packages: []
+
+uninstall: false

@@ -1,0 +1,19 @@
+---
+- name: Apply base setup to instances
+  hosts: base
+  roles:
+    - role: "../../roles/base"
+      vars:
+        uninstall: false
+        install_docker: true
+        harden_ssh_access: true
+        install_fail2ban: true
+        auto_update: true
+        docker_users:
+          - "ahmad"
+        user_packages:
+          - curl
+          - htop
+          - lsof
+          - mlocate
+
