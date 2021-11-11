@@ -1,0 +1,48 @@
+---
+- name: Apply hardened SSH configuration
+  include_role:
+    name: 0x0i.openssh
+  vars:
+    ssh_config:
+        service:
+          AuthenticationMethods: "publickey"
+          AuthorizedKeysFile: ".ssh/authorized_keys .ssh/authorized_keys2"
+          ChallengeResponseAuthentication: "no"
+          PasswordAuthentication: "no"
+          PermitRootLogin: "prohibit-password"
+          IgnoreRhosts: "yes"
+
+- name: Install fail2ban packages
+  become: true
+  when: install_fail2ban|bool == true
+  ansible.builtin.package:
+    name: "fail2ban"
+    state: present
+
+- name: Apply reasonable fail2ban SSH settings
+  become: true
+  when: install_fail2ban|bool == true
+  blockinfile:
+    path: /etc/fail2ban/jail.d/ssh.local
+    create: yes
+    block: |
+      [sshd]
+      enabled = true
+      banaction = ufw
+      port = 22
+      filter = sshd
+      logpath = %(sshd_log)s
+      maxretry = 5
+
+- name: Restart system access security services
+  become: true
+  ansible.builtin.service:
+    name: "sshd"
+    state: restarted
+
+- name: Restart system access security services
+  become: true
+  when: install_fail2ban|bool == true
+  ansible.builtin.service:
+    name: "fail2ban"
+    state: restarted

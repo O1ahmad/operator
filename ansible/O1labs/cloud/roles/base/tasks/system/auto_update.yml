@@ -1,0 +1,30 @@
+---
+- name: Install auto-update packages
+  become: true
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "unattended-upgrades"
+    - "update-notifier-common"
+
+- name: Apply reasonable auto-update settings
+  become: true
+  blockinfile:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    block: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+      APT::Periodic::AutocleanInterval "7";
+      Unattended-Upgrade::Remove-Unused-Dependencies "true";
+      Unattended-Upgrade::Remove-New-Unused-Dependencies "true";
+
+      # This is the most important choice: auto-reboot.
+      Unattended-Upgrade::Automatic-Reboot "true";
+      Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+
+- name: Restart auto-update, unattended upgrade system services
+  become: true
+  ansible.builtin.service:
+    name: "unattended-upgrades"
+    state: restarted

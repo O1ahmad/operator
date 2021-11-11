@@ -74,3 +74,6 @@ all:
       hosts:
         cyclops:
         morph:
+    base:
+      hosts:
+        morph:
