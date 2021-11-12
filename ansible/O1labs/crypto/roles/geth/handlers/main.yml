@@ -1,2 +1,21 @@
 ---
-# handlers file for geth
+- name: Uninstall Geth container
+  community.docker.docker_container:
+    name: geth
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Geth exporter container
+  community.docker.docker_container:
+    name: geth-exporter
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove Geth generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ config_env_file }}"
+    state: absent
+  listen: Container uninstall

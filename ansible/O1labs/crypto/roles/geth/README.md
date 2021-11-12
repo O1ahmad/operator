@@ -9,7 +9,7 @@ Configure and operate Geth (Go-Ethereum): an Ethereum blockchain client written 
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -19,7 +19,7 @@ Role Variables
 | *image* | Geth service container image to deploy | `0labs/geth:latest` |
 | *chain* | Ethereum network/chain to connect geth instance to | `rinkeby` |
 | *config_dir* | configuration directory path within container | `/etc/geth` |
-| *config_env_file* | Path to environment file to load by compose geth container | `/var/tmp/openethereum/.env` |
+| *config_env_file* | Path to environment file to load by geth container | `/var/tmp/geth/.env` |
 | *config* | dict of client configuration settings (reference [here](https://gist.github.com/0x0I/5887dae3cdf4620ca670e3b194d82cba) for examples of available options) | see `defaults/main.yml` for base/default config |
 | *env_vars* | dict of client runtime environment settings (reference [here](https://github.com/0x0I/container-file-geth#operations) for examples of available options) | `{}` |
 | *p2p_port* | Peer-to-peer network discovery and communication listening port | `30303` |
@@ -36,6 +36,10 @@ Role Variables
 | *exporter_port* | Exporter metrics collection listening port | `10090` |
 | *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`geth` and/or `geth-exporter`) | `["geth", "geth-exporter"]` |
+| *setup_mode* | infrastructure provisioning and setup mode (either *container* or *systemd*) | `container` |
+| *log_mode* | `geth` application logging mode/format (either *debug* or *json*) | `debug` |
+| *verbosity_level* | logging verbosity | `3 (info)` |
+
 
 Dependencies
 ------------
