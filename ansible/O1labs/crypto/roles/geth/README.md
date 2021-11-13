@@ -39,6 +39,9 @@ Role Variables
 | *setup_mode* | infrastructure provisioning and setup mode (either *container* or *systemd*) | `container` |
 | *log_mode* | `geth` application logging mode/format (either *debug* or *json*) | `debug` |
 | *verbosity_level* | logging verbosity | `3 (info)` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `4g` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 
 Dependencies

@@ -33,6 +33,7 @@ Role Variables
 | *cpus* | available CPU resources each deployed component can use | `1.0` |
 | *memory* | available memory resources each deployed component can use | `1g` |
 | *restart_policy* | container restart policy | `unless-stopped` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------

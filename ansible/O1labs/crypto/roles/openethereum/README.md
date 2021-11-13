@@ -9,7 +9,7 @@ Configure and operate OpenEthereum: a fast and feature-rich multi-network Ethere
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -27,7 +27,7 @@ Role Variables
 | *rpc_port* | HTTP-RPC server listening portport | `8545` |
 | *ws_port* | WS-RPC server listening port | `8546` |
 | *metrics_port* | Metrics HTTP server listening port | `3000` |
-| *config_env_file* | Path to environment file to load by compose OpenEthereum container | `/var/tmp/openethereum/.env` |
+| *config_env_file* | Path to environment file to load by the OpenEthereum container | `/var/tmp/openethereum/.env` |
 | *host_data_dir* | Host directory to store client runtime/operational data | `/var/tmp/openethereum` |
 | *data_dir* | data directory within container to store client runtime/operational data | `/data/openethereum` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/openethereum` |
@@ -36,6 +36,9 @@ Role Variables
 | *exporter_image* | OpenEthereum data exporter image to deploy | `hunterlong/gethexporter:latest` |
 | *exporter_rpc_addr* | Network address `ip:port` of openethereum rpc instance to export data from | `http://localhost:8545` |
 | *exporter_port* | Exporter metrics collection listening port | `10090` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `4g` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------

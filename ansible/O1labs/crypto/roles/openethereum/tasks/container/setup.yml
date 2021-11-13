@@ -1,0 +1,86 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Create bridged Ethereum network for components to communicate
+  community.docker.docker_network:
+    name: ethereum
+
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate OpenEthereum container environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ config_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    conf: "{{ _default_config|combine(config) }}"
+    env_conf: "{{ env_vars }}"
+  register: "container_env"
+
+- name: Set OpenEthereum container volume list
+  set_fact:
+    openethereum_volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+
+- name: Add host config path to volume list when set
+  when: host_config is defined and host_config|length > 0
+  set_fact:
+    openethereum_volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+      - "{{ host_config }}:{{ config_dir }}/config.toml"
+
+- name: Start OpenEthereum service
+  when: '"openethereum" in target_services'
+  community.docker.docker_container:
+    name: openethereum
+    image: "{{ image }}"
+    command:
+      - "openethereum"
+      - "--chain={{ chain }}"
+      - "--config={{ config_dir }}/config.toml"
+      - "--warp-barrier={{ warp_barrier }}"
+    env_file: "{{ config_env_file }}"
+    published_ports:
+      - "{{ p2p_port }}:30303/tcp"
+      - "{{ p2p_port }}:30303/udp"
+      - "{{ rpc_port }}:8545"
+      - "{{ ws_port }}:8546"
+      - "{{ metrics_port }}:3000"
+    volumes: "{{ openethereum_volumes }}"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
+
+- name: Start Geth/OpenEthereum Exporter
+  when: '"openethereum-exporter" in target_services'
+  community.docker.docker_container:
+    name: openethereum-exporter
+    image: "{{ exporter_image }}"
+    env:
+      GETH: "{{ exporter_rpc_addr }}"
+    published_ports:
+      - "{{ exporter_port }}:9090"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"

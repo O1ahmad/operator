@@ -1,5 +1,5 @@
 ---
-setup_mode: compose
+setup_mode: container
 target_state: present
 target_services: [ 'openethereum', 'openethereum-exporter']
 ops_runtime_dir: /var/tmp/openethereum
@@ -15,6 +15,9 @@ p2p_port: 30303
 rpc_port: 8545
 ws_port: 8546
 metrics_port: 6060
+
+cpus: 1.0
+memory: 4g
 
 exporter_image: hunterlong/gethexporter:latest
 exporter_rpc_addr: http://localhost:8545
@@ -44,3 +47,5 @@ _default_config:
 config: {}
 
 env_vars: {}
+
+uninstall: false
