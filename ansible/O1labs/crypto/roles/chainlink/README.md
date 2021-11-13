@@ -9,7 +9,7 @@ Configure and operate Chainlink: a smart-contract platform data oracle network.
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -32,11 +32,13 @@ Role Variables
 | *sslmode* | postgres db SSL encrypted access support mode (see [here](https://www.postgresql.org/docs/9.1/libpq-ssl.html) for more details) | `disable` |
 | *env_vars* | Path to environment file to load | `/var/tmp/chainlink/.env` |
 | *config* | node operator runtime config environment (see [here](https://docs.chain.link/docs/configuration-variables/) for available options) | `disable` |
-| *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
 | *target_services* | list of services to include in deployment process (`chainlink` and/or `postgres`) | `["chainlink", "postgres"]` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/chainlink` |
 | *security_output_dir* | directory within container to maintain secure credentials files | `/var/tmp/chainlink` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `2g` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------

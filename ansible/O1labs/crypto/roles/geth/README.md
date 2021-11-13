@@ -34,7 +34,6 @@ Role Variables
 | *exporter_image* | Geth data exporter image to deploy | `hunterlong/gethexporter:latest` |
 | *exporter_rpc_addr* | Network address `ip:port` of geth rpc instance to export data from | `http://localhost:8545` |
 | *exporter_port* | Exporter metrics collection listening port | `10090` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`geth` and/or `geth-exporter`) | `["geth", "geth-exporter"]` |
 | *setup_mode* | infrastructure provisioning and setup mode (either *container* or *systemd*) | `container` |
 | *log_mode* | `geth` application logging mode/format (either *debug* or *json*) | `debug` |

@@ -1,9 +1,9 @@
 ---
-setup_mode: compose
+setup_mode: container
 target_state: present
 target_services: [ 'chainlink', 'postgres']
 ops_runtime_dir: /var/tmp/chainlink
-env_vars: "{{ ops_runtime_dir }}/.env"
+config_env_file: "{{ ops_runtime_dir }}/.env"
 
 image: 0labs/chainlink:latest
 ui_port: 6688
@@ -22,6 +22,8 @@ postgres_db: postgres
 sslmode: disable
 PGDATA: /var/lib/postgresql/data
 
+cpus: 1.0
+memory: 2g
 restart_policy: unless-stopped
 
 _default_config:
@@ -39,3 +41,7 @@ _default_config:
   GAS_UPDATER_ENABLED: true
   ALLOW_ORIGINS: '*'
 config: {}
+
+env_vars: {}
+
+uninstall: false

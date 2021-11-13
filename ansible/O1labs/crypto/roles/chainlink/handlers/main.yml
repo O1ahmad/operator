@@ -1,2 +1,21 @@
 ---
-# handlers file for chainlink
+- name: Uninstall Chainlink container
+  community.docker.docker_container:
+    name: chainlink
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Postgres container
+  community.docker.docker_container:
+    name: postgres
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove Chainlink generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ config_env_file }}"
+    state: absent
+  listen: Container uninstall
