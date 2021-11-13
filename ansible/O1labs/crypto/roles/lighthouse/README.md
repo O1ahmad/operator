@@ -9,7 +9,7 @@ Configure and operate Lighthouse: an Ethereum 2.0 client, written in Rust and ma
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -29,15 +29,17 @@ Role Variables
 | *data_dir* | container directory to store node runtime/operational data | `/root/.lighthouse` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/lighthouse/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/lighthouse/keys` |
-| *beacon_env_filel* | path to environment file to load by compose Beacon node container | `/var/tmp/lighthouse/.beacon.env` |
+| *beacon_env_filel* | path to environment file to load by the Beacon node container | `/var/tmp/lighthouse/.beacon.env` |
 | *beacon_env_vars* | dict of beacon node client runtime environment settings (reference [here](https://github.com/0x0I/container-file-lighthouse#operations) for examples of available options) | `{}` |
-| *validator_env_file* | Path to environment file to load by compose Validator container | `/var/tmp/lighthouse/.validator.env` |
+| *validator_env_file* | Path to environment file to load by the Validator container | `/var/tmp/lighthouse/.validator.env` |
 | *validator_env_vars* | dict of validator client runtime environment settings (reference [here](https://github.com/0x0I/container-file-lighthouse#operations) for examples of available options) | `{}` |
-| *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
 | *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/lighthouse` |
 | *restart_policy* | container restart policy | `unless-stopped` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `4g` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------

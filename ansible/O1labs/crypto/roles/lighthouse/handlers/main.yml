@@ -1,2 +1,28 @@
 ---
-# handlers file for chainlink
+- name: Uninstall Lighthouse beacon-chain container
+  community.docker.docker_container:
+    name: lighthouse-beacon
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Lighthouse validator container
+  community.docker.docker_container:
+    name: lighthouse-validator
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove Lighthouse beacon node generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ beacon_env_file }}"
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Lighthouse validator generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ validator_env_file }}"
+    state: absent
+  listen: Container uninstall

@@ -8,7 +8,7 @@
         target_services: [ 'beacon-node', 'validator' ]
         host_keys_dir: /operations/prysm/keys
         beacon_config:
-          pyrmont: true
+          prater: true
           db-backup-output-dir: /data/backups
           http-web3provider: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
         validator_config:
@@ -36,7 +36,6 @@
         eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
         setup_validator: "true"
-        override_keys_dir: /operations/lighthouse/keys
         host_data_dir: /operations/lighthouse/data
         host_keys_dir: /operations/lighthouse/keys
         beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c"
