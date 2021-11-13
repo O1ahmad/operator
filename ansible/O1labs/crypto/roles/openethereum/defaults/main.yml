@@ -1,6 +1,5 @@
 ---
 setup_mode: container
-target_state: present
 target_services: [ 'openethereum', 'openethereum-exporter']
 ops_runtime_dir: /var/tmp/openethereum
 config_env_file: "{{ ops_runtime_dir }}/.env"

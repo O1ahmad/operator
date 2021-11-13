@@ -1,6 +1,5 @@
 ---
-setup_mode: compose
-target_state: present
+setup_mode: container
 target_services: [ 'beacon-node', 'validator']
 ops_runtime_dir: /var/tmp/prysm
 beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
@@ -33,6 +32,9 @@ restart_policy: unless-stopped
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
 
+cpus: 1.0
+memory: 4g
+
 _default_beacon_config:
   accept-terms-of-use: true
   genesis-state: /prysm/data/genesis.ssz
@@ -58,3 +60,5 @@ _default_validator_config:
   enable-db-backup-webhook: true
   db-backup-output-dir: /data/backups
 validator_config: {}
+
+uninstall: false

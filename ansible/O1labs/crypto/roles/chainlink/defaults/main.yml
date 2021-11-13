@@ -1,6 +1,5 @@
 ---
 setup_mode: container
-target_state: present
 target_services: [ 'chainlink', 'postgres']
 ops_runtime_dir: /var/tmp/chainlink
 config_env_file: "{{ ops_runtime_dir }}/.env"

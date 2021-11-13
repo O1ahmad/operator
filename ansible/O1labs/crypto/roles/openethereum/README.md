@@ -17,7 +17,6 @@ Role Variables
 | var | description | default |
 | :---: | :---: | :---: |
 | *image* | OpenEthereum service container image to deploy | `0labs/openethereum:latest` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
 | *target_services* | list of services to include in deployment process (`openethereum` and/or `openethereum-exporter`) | `["openethereum", "openethereum-exporter"]` |
 | *chain* | Ethereum network/chain to connect openethereum instance to | `kovan` |
 | *config_dir* | configuration directory path within container | `/etc/openethereum` |

@@ -9,7 +9,7 @@ Configure and operate Prysm: A full-featured client for the Ethereum 2.0 protoco
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -31,17 +31,19 @@ Role Variables
 | *data_dir* | container directory to store node runtime/operational data | `/data` |
 | *host_wallet_dir* | host directory to store node account wallets | `/var/tmp/prysm/wallets` |
 | *host_keys_dir* | host directory to store node account keys | `/var/tmp/prysm/keys` |
-| *beacon_env_file* | path to environment file to load by compose Beacon node container | `/var/tmp/prysm/.beacon.env` |
+| *beacon_env_file* | path to environment file to load by Beacon node container | `/var/tmp/prysm/.beacon.env` |
 | *beacon_env_vars* | dict of beacon node client runtime environment settings (reference [here](https://github.com/0x0I/container-file-prysm#operations) for examples of available options) | `{}` |
-| *validator_env_file* | Path to environment file to load by compose Validator container | `/var/tmp/prysm/.validator.env` |
+| *validator_env_file* | Path to environment file to load by Validator container | `/var/tmp/prysm/.validator.env` |
 | *validator_env_vars* | dict of validator client runtime environment settings (reference [here](https://github.com/0x0I/container-file-prysm#operations) for examples of available options) | `{}` |
-| *setup_mode* | infrastructure provisioning setup mode (either `compose`, leveraging **docker-compose**, or `systemd` are supported) | `compose` |
-| *target_state* | desired role deployment state (either *present* or *absent*) | `present` |
+| *setup_mode* | infrastructure provisioning setup mode (either `container` or `systemd` are supported) | `container` |
 | *target_services* | list of services to include in deployment process (`beacon-node` and/or `validator`) | `["beacon-node", "validator"]` |
 | *ops_runtime_dir* | operational directory to store runtime artifacts | `/var/tmp/prysm` |
 | *restart_policy* | container restart policy | `unless-stopped` |
 | *beacon_config* | beacon chain node configuration options settings (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#beacon-node-configuration) of available config options) | `{}` **note:** reference `defaults/main.yml` |
 | *validator_config* | validator client configuration options settings (see [list](https://docs.prylabs.network/docs/prysm-usage/parameters/#validator-configuration)) of available config options | `{}` **note:** reference `defaults/main.yml` |
+| *cpus* | available CPU resources each deployed component can use | `1.0` |
+| *memory* | available memory resources each deployed component can use | `4g` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------
