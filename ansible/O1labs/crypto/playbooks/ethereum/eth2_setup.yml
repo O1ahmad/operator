@@ -15,18 +15,20 @@
           prater: true
           db-backup-output-dir: /data/backups
 
-- name: Setup Pyrmont Teku instances
-  hosts: teku_pyrmont
+- name: Setup Prater Teku instances
+  hosts: teku_prater
   roles:
     - role: "../../roles/teku"
       vars:
-        eth2_chain: pyrmont
+        eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
         eth1_endpoints: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
         beacon_config:
-          network: pyrmont
+          network: prater
           data-path: /data
-          initial-state: https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-pyrmont.infura.io/eth/v1/debug/beacon/states/finalized
+          initial-state: https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-prater.infura.io/eth/v1/debug/beacon/states/finalized
+        validator_config:
+          network: prater
 
 - name: Setup Prater Lighthouse instances
   hosts: lighthouse_prater

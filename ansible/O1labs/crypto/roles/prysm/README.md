@@ -18,7 +18,7 @@ Role Variables
 | :---: | :---: | :---: |
 | *image* | Prysm client container image to deploy | `0labs/prysm:latest` |
 | *prysm_config_dir* | configuration directory path within container | `/etc/prysm` |
-| *eth2_chain* | Ethereum 2.0 chain to target during client helper operations | `pyrmont` |
+| *eth2_chain* | Ethereum 2.0 chain to target during client helper operations | `prater` |
 | *p2p_tcp_port* | peer-to-peer network communication and listening port | `13000` |
 | *p2p_udp_port* | peer-to-peer network discovery port | `12000` |
 | *eth2_api_port* | Ethereum 2.0 RESTful HTTP API listening port | `3501` |
@@ -60,7 +60,7 @@ Example Playbook
 
 * Enable automatic acceptance of the terms of use when launching either a beacon-chain or validator node:
 ```
-  - role: 0x0I.prysm
+  - role: o1labs.crypto.prysm
     vars:
       beacon_config:
         accept-terms-of-use: true
@@ -68,7 +68,7 @@ Example Playbook
 
 * Launch a Prysm beacon-chain node connected to the Pyrmont Ethereum 2.0 testnet using a Goerli web3 Ethereum provider:
 ```
-  - role: 0x0I.prysm
+  - role: o1labs.crypto.prysm
     vars:
       beacon_config:
         http-web3provider: http://ethereum-rpc.goerli.01labs.net:8545
@@ -77,7 +77,7 @@ Example Playbook
 
 * Customize the deploy container image and host + container node data directory:
 ```
-  - role: 0x0I.prysm
+  - role: o1labs.crypto.prysm
     vars:
       image: 0labs/prysm:v2.0.0
       host_data_dir=/my/host/data
@@ -86,7 +86,7 @@ Example Playbook
 
 * Install Eth2 deposit CLI tool and automatically setup multiple validator accounts/keys to register on the Prater testnet:
 ```
-  - role: 0x0I.prysm
+  - role: o1labs.crypto.prysm
     vars:
       setup_deposit_cli: true
       eth2_chain: prater
@@ -98,7 +98,7 @@ Example Playbook
 
 * Setup automatic cron backups of a localhost beacon-chain node DB every 12 hours (or twice a day):
 ```
-  - role: 0x0I.prysm
+  - role: o1labs.crypto.prysm
     vars:
       target_services: ["beacon-node']
       auto_backup_db: true

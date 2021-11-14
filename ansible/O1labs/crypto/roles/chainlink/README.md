@@ -46,6 +46,7 @@ Dependencies
 collections:
 - name: community.docker
 ```
+
 Example Playbook
 ----------------
 ```
@@ -55,7 +56,7 @@ Example Playbook
 
 * Launch a Chainlink node connected to the Rinkeby Ethereum testnet:
 ```
-  - role: 0x0I.chainlink
+  - role: o1labs.crypto.chainlink
     vars:
       security_output_dir: /mnt/secure
       config:
@@ -69,7 +70,7 @@ Example Playbook
 
 * Deploy non-default Chainlink node container image againt Ethereum mainnet with debug logging:
 ```
-  - role: 0x0I.chainlink
+  - role: o1labs.crypto.chainlink
     vars:
       image: 0labs/chainlink:v0.10.13
       config:
@@ -83,7 +84,7 @@ Example Playbook
 
 * Allow node API service to accept incoming requests for all interfaces and enable backup Ethereum nodes:
 ```
-  - role: 0x0I.chainlink
+  - role: o1labs.crypto.chainlink
     vars:
       config:
         ALLOW_ORIGINS: "*"
@@ -94,7 +95,7 @@ Example Playbook
 
 * Activate HTTPS connections to the API service and store generated certificates at custom host location:
 ```
-  - role: 0x0I.chainlink
+  - role: o1labs.crypto.chainlink
     vars:
       sslmode=prefer
       config:
@@ -105,7 +106,7 @@ Example Playbook
 
 * Connect to non-default Postres db instance with custom credentials:
 ```
-  - role: 0x0I.chainlink
+  - role: o1labs.crypto.chainlink
     vars:
       postgres_host=my-postgres.prod.instance
       postgres_db=chainlink

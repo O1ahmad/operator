@@ -2,7 +2,7 @@
 galaxy_info:
   author: O1 Labs
   role_name: lighthouse
-  description: lighthouse, an Ethereum 2.0 client, written in Rust and maintained by Sigma Prime
+  description: Lighthouse, an Ethereum 2.0 client, written in Rust and maintained by Sigma Prime
   company: "O1.IO"
   license: MIT
   min_ansible_version: 2.5

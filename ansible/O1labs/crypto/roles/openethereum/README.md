@@ -54,7 +54,7 @@ Example Playbook
 
 * Launch an Ethereum archive node and connect it to the Goerli PoS (Proof of Stake) test network:
 ```
-  - role: 0x0I.openethereum
+  - role: o1labs.crypto.openethereum
     vars:
       chain: goerli
       config:
@@ -64,7 +64,7 @@ Example Playbook
 
 * Customize OpenEthereum deploy image and p2p port
 ```
-  - role: 0x0I.openethereum
+  - role: o1labs.crypto.openethereum
     vars:
       image: 0labs/openethereum:v3.2.6
       p2p_port: 30313
@@ -72,7 +72,7 @@ Example Playbook
 
 * Run *warp* sync with automatic daily backups of custom keystore directory on kovan testnet:
 ```
-  - role: 0x0I.openethereum
+  - role: o1labs.crypto.openethereum
     vars:
       chain: kovan
       warp_barrier: 27183279
@@ -85,7 +85,7 @@ Example Playbook
 
 * Expose OpenEthereum network components on *ALL* interfaces:
 ```
-  - role: 0x0I.openethereum
+  - role: o1labs.crypto.openethereum
     vars:
       config:
         network:

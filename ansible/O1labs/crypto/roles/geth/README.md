@@ -58,7 +58,7 @@ Example Playbook
 
 * Launch an Ethereum light client and connect it to the Ropsten, best current like-for-like representation of Ethereum, PoW (Proof of Work) test network:
 ```
-  - role: 0x0I.geth
+  - role: o1labs.crypto.geth
     vars:
       chain: ropsten
       config:
@@ -68,7 +68,7 @@ Example Playbook
 
 * Customize Geth deploy image and p2p port:
 ```
-  - role: 0x0I.geth
+  - role: o1labs.crypto.geth
     vars:
       image: 0labs/geth:v1.10.11
       p2p_port: 30313
@@ -76,7 +76,7 @@ Example Playbook
 
 * Run *fast* sync node with automatic daily backups of custom keystore directory:
 ```
-  - role: 0x0I.geth
+  - role: o1labs.crypto.geth
     vars:
       chain: mainnet
       config:
@@ -91,7 +91,7 @@ Example Playbook
 
 * Enable HTTP and metrics servers and expose on all interfaces:
 ```
-  - role: 0x0I.geth
+  - role: o1labs.crypto.geth
     vars:
       enable_http_server: true
       enable_metrics_server: true
@@ -106,7 +106,7 @@ Example Playbook
 
 * Set host data directory to load from and customize geth runtime data directory:
 ```
-  - role: 0x0I.geth
+  - role: o1labs.crypto.geth
     vars:
       host_data_dir: /my/host/data
       data_dir: /container/data
