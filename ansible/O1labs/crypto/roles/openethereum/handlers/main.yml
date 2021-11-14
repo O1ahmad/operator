@@ -1,2 +1,21 @@
 ---
-# handlers file for openethereum
+- name: Uninstall OpenEthereum container
+  community.docker.docker_container:
+    name: openethereum
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Geth/OpenEthereum exporter container
+  community.docker.docker_container:
+    name: openethereum-exporter
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove OpenEthereum generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ config_env_file }}"
+    state: absent
+  listen: Container uninstall

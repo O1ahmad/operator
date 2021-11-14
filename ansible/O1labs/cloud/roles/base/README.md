@@ -38,14 +38,14 @@ Example Playbook
 
 * Enable automatic, unattended system updates:
 ```
-  - role: 0x0I.base
+  - role: o1labs.cloud.base
     vars:
       auto_update: true
 ```
 
 * Apply hardened, best-practice SSH configuration and install the Fail2ban intrusion prevention service
 ```
-  - role: 0x0I.base
+  - role: o1labs.cloud.base
     vars:
       harden_ssh_access: true
       install_fail2ban: true
@@ -53,7 +53,7 @@ Example Playbook
 
 * Install docker/containerization tooling and add additional users to `docker` system group:
 ```
-  - role: 0x0I.base
+  - role: o1labs.cloud.base
     vars:
       install_docker: true
       docker_users: ['user_a', 'user_b']
@@ -61,7 +61,7 @@ Example Playbook
 
 * Install additional system packages:
 ```
-  - role: 0x0I.base
+  - role: o1labs.cloud.base
     vars:
       user_packages: ['curl', 'htop']
 ```

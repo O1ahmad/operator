@@ -1,6 +1,5 @@
 ---
-setup_mode: compose
-target_state: present
+setup_mode: container
 target_services: [ 'beacon-node', 'validator']
 ops_runtime_dir: /var/tmp/teku
 beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
@@ -28,10 +27,13 @@ data_dir: /data
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
 
+cpus: 1.0
+memory: 4g
+
 restart_policy: unless-stopped
 
 _default_beacon_config:
-  network: pyrmont
+  network: prater
   data-path: "{{ data_dir }}"
   rest-api-enabled: true
   rest-api-interface: 0.0.0.0
@@ -50,3 +52,5 @@ _default_validator_config:
   metrics-interface: 0.0.0.0
   metrics-host-allowlist: "*"
 validator_config: {}
+
+uninstall: false

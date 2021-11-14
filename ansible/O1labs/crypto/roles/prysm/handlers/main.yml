@@ -1,2 +1,28 @@
 ---
-# handlers file for chainlink
+- name: Uninstall Prysm beacon-chain container
+  community.docker.docker_container:
+    name: prysm-beacon
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Prysm validator container
+  community.docker.docker_container:
+    name: prysm-validator
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove Prysm beacon node generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ beacon_env_file }}"
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Prysm validator generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ validator_env_file }}"
+    state: absent
+  listen: Container uninstall

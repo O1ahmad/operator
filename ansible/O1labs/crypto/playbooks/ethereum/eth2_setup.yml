@@ -1,35 +1,34 @@
 ---
-- name: Setup Pyrmont Prysm instances
-  hosts: prysm_pyrmont
+- name: Setup Prater Prysm instances
+  hosts: prysm_prater
   roles:
     - role: "../../roles/prysm"
       vars:
-        eth2_chain: pyrmont
+        eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
-        override_keys_dir: /tmp/keys
         host_keys_dir: /operations/prysm/keys
         beacon_config:
-          pyrmont: true
-          datadir: /data
+          prater: true
           db-backup-output-dir: /data/backups
           http-web3provider: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
         validator_config:
-          pyrmont: true
-          datadir: /data
+          prater: true
           db-backup-output-dir: /data/backups
 
-- name: Setup Pyrmont Teku instances
-  hosts: teku_pyrmont
+- name: Setup Prater Teku instances
+  hosts: teku_prater
   roles:
     - role: "../../roles/teku"
       vars:
-        eth2_chain: pyrmont
+        eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
         eth1_endpoints: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
         beacon_config:
-          network: pyrmont
+          network: prater
           data-path: /data
-          initial-state: https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-pyrmont.infura.io/eth/v1/debug/beacon/states/finalized
+          initial-state: https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-prater.infura.io/eth/v1/debug/beacon/states/finalized
+        validator_config:
+          network: prater
 
 - name: Setup Prater Lighthouse instances
   hosts: lighthouse_prater
@@ -39,7 +38,6 @@
         eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
         setup_validator: "true"
-        override_keys_dir: /operations/lighthouse/keys
         host_data_dir: /operations/lighthouse/data
         host_keys_dir: /operations/lighthouse/keys
         beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c"

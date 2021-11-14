@@ -1,6 +1,5 @@
 ---
-setup_mode: compose
-target_state: present
+setup_mode: container
 target_services: [ 'geth', 'geth-exporter']
 ops_runtime_dir: /var/tmp/geth
 config_env_file: "{{ ops_runtime_dir }}/.env"
@@ -19,6 +18,12 @@ enable_http_server: true
 enable_metrics_server: true
 metrics_port: 6060
 metrics_addr: 0.0.0.0
+
+log_mode: debug
+verbosity_level: 3
+
+cpus: 1.0
+memory: 4g
 
 exporter_image: hunterlong/gethexporter:latest
 exporter_rpc_addr: http://geth:8545
@@ -41,3 +46,5 @@ _default_config:
 config: {}
 
 env_vars: {}
+
+uninstall: false

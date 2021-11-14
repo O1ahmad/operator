@@ -1,0 +1,93 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Create bridged Ethereum network for components to communicate
+  community.docker.docker_network:
+    name: ethereum
+
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate Lighthouse beacon environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ beacon_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    extra_args: "{{ beacon_extra_args }}"
+    env_conf: "{{ beacon_env_vars }}"
+  register: "beacon_container_env"
+
+- name: Generate Lighthouse validator environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ validator_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    extra_args: "{{ validator_extra_args }}"
+    env_conf: "{{ validator_env_vars }}"
+  register: "validator_container_env"
+
+- name: Start Lighthouse beacon-chain service
+  when: '"beacon-node" in target_services'
+  community.docker.docker_container:
+    name: lighthouse-beacon
+    image: "{{ image }}"
+    command:
+      - "lighthouse"
+      - "beacon_node"
+    env_file: "{{ beacon_env_file }}"
+    published_ports:
+      - "{{ p2p_tcp_port }}:9000/tcp"
+      - "{{ p2p_udp_port }}:9000/udp"
+      - "{{ beacon_api_port }}:5052/tcp"
+      - "{{ beacon_metrics_port }}:5054/tcp"
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
+
+- name: Start Lighthouse validator service
+  when: '"validator" in target_services'
+  community.docker.docker_container:
+    name: lighthouse-validator
+    image: "{{ image }}"
+    command:
+      - "lighthouse"
+      - "validator_client"
+    env_file: "{{ validator_env_file }}"
+    published_ports:
+      - "{{ validator_api_port }}:5062/tcp"
+      - "{{ validator_metrics_port }}:5064/tcp"
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+      - "{{ host_wallet_dir }}:/wallets"
+      - "{{ host_keys_dir }}:/keys"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"

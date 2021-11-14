@@ -1,6 +1,5 @@
 ---
-setup_mode: compose
-target_state: present
+setup_mode: container
 target_services: [ 'beacon-node', 'validator']
 ops_runtime_dir: /var/tmp/lighthouse
 beacon_env_file: "{{ ops_runtime_dir }}/.beacon.env"
@@ -31,4 +30,9 @@ data_dir: /root/.lighthouse
 # override_wallet_dir: "{{ host_wallet_dir }}"
 # override_keys_dir: "{{ host_keys_dir }}"
 
+cpus: 1.0
+memory: 4g
+
 restart_policy: unless-stopped
+
+uninstall: false

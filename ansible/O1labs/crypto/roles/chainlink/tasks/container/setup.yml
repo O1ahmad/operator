@@ -1,0 +1,80 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Create bridged Chainlink network for components to communicate
+  community.docker.docker_network:
+    name: chainlink
+
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate Chainlink container environment vars file
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ config_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    conf: "{{ _default_config|combine(config) }}"
+    env_conf: "{{ env_vars }}"
+  register: "container_env"
+
+- name: Start Postgres database server
+  when: '"postgres" in target_services'
+  community.docker.docker_container:
+    name: postgres
+    image: "{{ postgres_image }}"
+    env:
+      POSTGRES_DB: "{{ postgres_db }}"
+      POSTGRES_USER: "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password}}"
+      PGDATA: "{{ PGDATA }}"
+    published_ports:
+      - "{{ postgres_port }}:5432"
+    networks:
+      - name: chainlink
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
+
+- name: Start Chainlink service
+  when: '"chainlink" in target_services'
+  community.docker.docker_container:
+    name: chainlink
+    image: "{{ image }}"
+    command:
+      - "chainlink"
+      - "node"
+      - "start"
+      - "--password"
+      - "{{ security_output_dir }}/.password"
+      - "--api"
+      - "{{ security_output_dir }}/.api"
+    env:
+      DATABASE_URL: "postgresql://{{ postgres_user }}:{{ postgres_password }}@{{ postgres_host }}:{{ postgres_port }}/{{ postgres_db }}?sslmode={{ sslmode }}"
+    env_file: "{{ config_env_file }}"
+    published_ports:
+      - "{{ ui_port }}:6688/tcp"
+      - "{{ https_port }}:6689/tcp"
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+    networks:
+      - name: chainlink
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"

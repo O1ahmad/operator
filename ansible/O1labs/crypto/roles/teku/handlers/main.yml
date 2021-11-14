@@ -1,2 +1,28 @@
 ---
-# handlers file for chainlink
+- name: Uninstall Teku beacon-chain container
+  community.docker.docker_container:
+    name: teku-beacon
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Uninstall Teku validator container
+  community.docker.docker_container:
+    name: teku-validator
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove Teku beacon node generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ beacon_env_file }}"
+    state: absent
+  listen: Container uninstall
+
+- name: Remove Teku validator generated container environment vars file
+  become: true
+  ansible.builtin.file:
+    path: "{{ validator_env_file }}"
+    state: absent
+  listen: Container uninstall

@@ -9,7 +9,7 @@ Configure and operate Operator: an open and decentralized managed infrastructure
 Requirements
 ------------
 
-[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` and `docker-compose` tools.
+[Docker SDK](https://docker-py.readthedocs.io/en/stable/) for Python (for Python 2.6 support, use the deprecated `docker-py` library instead) or installation of the `docker` engine.
 
 Role Variables
 --------------
@@ -29,10 +29,10 @@ Role Variables
 | *cert_dir* | directory to store and retrieve HTTPS certificates | `/var/www/certbot` |
 | *email* | email address to register/associate with HTTPS certificates | `none` |
 | *domain_names* | domain name(s) to register/associate with HTTPS certificates | `[]` |
-| *uninstall* | whether to remove installed components | `false` |
 | *cpus* | available CPU resources each deployed component can use | `1.0` |
 | *memory* | available memory resources each deployed component can use | `1g` |
 | *restart_policy* | container restart policy | `unless-stopped` |
+| *uninstall* | whether to remove installed components and artifacts | `false` |
 
 Dependencies
 ------------
@@ -49,28 +49,28 @@ Example Playbook
 
 * Modify the operator HTTP API service image:
 ```
-  - role: 0x0I.operator
+  - role: o1labs.cloud.operator
     vars:
       image: 0labs/operator:v0.1.0
 ```
 
 * Launch an operator HTTP API service on a custom listening port:
 ```
-  - role: 0x0I.operator
+  - role: o1labs.cloud.operator
     vars:
       api_port: 8080
 ```
 
 * Enable HTTPS secure communication with locally signed certificates:
 ```
-  - role: 0x0I.operator
+  - role: o1labs.cloud.operator
     vars:
       enable_https: true
 ```
 
 * Enable HTTPS secure communication with Let's Encrypt signed certificates and associated certificate credentials:
 ```
-  - role: 0x0I.operator
+  - role: o1labs.cloud.operator
     vars:
       enable_https: true
       enable_certbot_certs: true

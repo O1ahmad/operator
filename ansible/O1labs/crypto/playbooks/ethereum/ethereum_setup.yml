@@ -1,4 +1,15 @@
 ---
+- name: Setup kovan openethereum instances
+  hosts: openethereum_rpc_kovan
+  roles:
+    - role: "../../roles/openethereum"
+      vars:
+        chain: kovan
+        exporter_rpc_addr: http://openethereum:8545
+        config:
+          network:
+            allow_ips: all
+
 - name: Setup rinkeby geth instances
   hosts: geth_rpc_rinkeby
   roles:

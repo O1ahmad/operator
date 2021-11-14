@@ -1,0 +1,104 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Create bridged Ethereum network for components to communicate
+  community.docker.docker_network:
+    name: ethereum
+
+- name: Ensure existence of runtime dir
+  become: true
+  file:
+    path: "{{ ops_runtime_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate Teku beacon environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ beacon_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    conf: "{{ _default_beacon_config|combine(beacon_config) }}"
+    env_conf: "{{ beacon_env_vars }}"
+  register: "beacon_container_env"
+
+- name: Generate Teku validator environment vars
+  become: true
+  template:
+    src: ".env.j2"
+    dest: "{{ validator_env_file }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    conf: "{{ _default_validator_config|combine(validator_config) }}"
+    env_conf: "{{ validator_env_vars }}"
+  register: "validator_container_env"
+
+- name: Set Teku container volume list
+  set_fact:
+    teku_volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+
+- name: Add host config path to volume list when set
+  when: host_config is defined and host_config|length > 0
+  set_fact:
+    teku_volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+      - "{{ host_config }}:{{ teku_config_dir }}/config.yml"
+
+- name: Start Teku beacon-chain service
+  when: '"beacon-node" in target_services'
+  community.docker.docker_container:
+    name: teku-beacon
+    image: "{{ image }}"
+    command:
+      - "teku"
+      - "--config-file={{ teku_config_dir }}/config.yml"
+    env_file: "{{ beacon_env_file }}"
+    published_ports:
+      - "{{ p2p_tcp_port }}:9000/tcp"
+      - "{{ p2p_udp_port }}:9000/udp"
+      - "{{ beacon_api_port }}:5051/tcp"
+      - "{{ beacon_metrics_port }}:8008/tcp"
+    volumes: "{{ teku_volumes }}"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
+
+- name: Start Teku validator service
+  when: '"validator" in target_services'
+  community.docker.docker_container:
+    name: teku-validator
+    image: "{{ image }}"
+    command:
+      - "teku"
+      - "validator-client"
+      - "--config-file={{ teku_config_dir }}/config.yml"
+    env_file: "{{ validator_env_file }}"
+    published_ports:
+      - "{{ validator_metrics_port }}:8008/tcp"
+    volumes:
+      - "{{ host_data_dir }}:{{ data_dir }}"
+      - "{{ host_wallet_dir }}:/wallets"
+      - "{{ host_keys_dir }}:/keys"
+    networks:
+      - name: ethereum
+    cpus: "{{ cpus }}"
+    memory: "{{ memory }}"
+    restart_policy: "{{ restart_policy }}"
