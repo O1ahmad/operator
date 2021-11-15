@@ -24,11 +24,15 @@ all:
     chainlink_goerli:
       hosts:
         storm:
+        morph:
     chainlink_rinkeby:
       hosts:
         cyclops:
     chainlink_kovan:
       hosts:
+    openethereum_rpc_kovan:
+      hosts:
+        morph:
     geth_rpc_mainnet:
       hosts:
         nightcrawler:
@@ -40,8 +44,7 @@ all:
         jubilee:
     geth_rpc_ropsten:
       hosts:
-        morph:
-    prysm_pyrmont:
+    prysm_prater:
       hosts:
     prysm_mainnet:
       hosts:
@@ -51,9 +54,11 @@ all:
         storm:
     lighthouse_mainnet:
       hosts:
-    teku_mainnet:
+    teku_prater:
       hosts:
         morph:
+    teku_mainnet:
+      hosts:
         nightcrawler:
     grafana:
       hosts:

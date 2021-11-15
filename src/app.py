@@ -1,5 +1,4 @@
 import ansible_runner
-import ast
 from flask import Flask, request
 import json
 import os
@@ -12,17 +11,94 @@ app = Flask(__name__)
 KEYS_DIR = "/keys"
 WORK_DIR = "/var/tmp"
 ROLES_DIR = os.environ.get("ROLES_DIR", "{}/roles".format(WORK_DIR))
+COLLECTIONS_DIR = os.environ.get("COLLECTIONS_DIR", "{}/collections".format(WORK_DIR))
+
+os.environ['ANSIBLE_COLLECTIONS_PATH'] = COLLECTIONS_DIR
+os.environ['ANSIBLE_ROLES_PATH'] = ROLES_DIR
 
 CONSTRUCTS = {}
+
+def resolve_role_url(role_url):
+    if len(role_url) == 0:
+        return { 'error': "A valid role identifier is required." }
+
+    url_components = role_url.split('.')
+    if len(url_components) == 3:
+        # url represents role apart of a collection - ensure collection exists locally
+        # components = 1. namespace, 2. collection, 3. role
+        if os.path.isdir("{dir}/ansible_collections/{namespace}/{collection}/roles/{role}".format(
+            dir=COLLECTIONS_DIR,
+            namespace=url_components[0],
+            collection=url_components[1],
+            role=url_components[2]
+            )):
+
+            return { 'message:' "Collection role, {}, exists.".format('.'.join(url_components)) }
+
+        install_id = "{namespace}.{collection}".format(namespace=url_components[0], collection=url_components[1])
+        cmd_args = [
+            'collection',
+            "install",
+            install_id,
+            "--collections-path",
+            COLLECTIONS_DIR
+        ]
+
+        out, err, rc = ansible_runner.run_command(
+            executable_cmd='ansible-galaxy',
+            cmdline_args=cmd_args,
+            input_fd=sys.stdin
+        )
+        if rc == 0:
+            return { 'message': "{} successfully installed. {}".format(role_url, out) }
+        else:
+            return { 'error': err, 'rc': rc }
+    elif len(url_components) == 2:
+        # url represents a remote galaxy server role - ensure role exists locally
+        # components = 1. namespace, 2. role
+        if os.path.isdir("{}/{}".format(ROLES_DIR, '.'.join(url_components))):
+            return { 'message:' "Role, {}, exists.".format('.'.join(url_components)) }
+
+        install_id = "{namespace}.{role}".format(namespace=url_components[0], role=url_components[1])
+        cmd_args = [
+            'role',
+            "install",
+            install_id,
+            "--roles-path",
+            ROLES_DIR
+        ]
+
+        out, err, rc = ansible_runner.run_command(
+            executable_cmd='ansible-galaxy',
+            cmdline_args=cmd_args,
+            input_fd=sys.stdin
+        )
+        if rc == 0:
+            return { 'message': "{} successfully installed. {}".format(role_url, out) }
+        else:
+            return { 'error': err, 'rc': rc }
+    else:
+        # url likely represents a locally installed role - ensure role exists locally
+        if os.path.isdir("{}/{}".format(ROLES_DIR, role_url)):
+            return { 'message:' "Role, {}, exists.".format(role_url) }
+
+        return { 'error': "Invalid role url/identifier provided." }
 
 def generate_setup(spec):
     with open("{dir}/{id}.yaml".format(dir=WORK_DIR, id=spec['id']), 'w') as f:
         for role in spec['setup']:
+            status = resolve_role_url(role['url'])
+            if 'error' in status:
+                return status
+
+            role_id = "{dir}/{url}".format(dir=ROLES_DIR, url=role['url'])
+            if len(role['url'].split('.')) >= 2:
+                role_id = role['url']
             d = [{
                 "name": "Deploy {role} roles".format(role=role['type']),
                 "hosts": role['type'],
                 "roles" : [{
-                    "role": "{dir}/{url}".format(dir=ROLES_DIR, url=role['url']),
+                    "role": "{id}".format(id=role_id),
                     "vars": role['properties']
                 }]
             }]
@@ -74,7 +150,7 @@ def key():
 
         return { 'message': "SSH key, {key}, successfully uploaded.".format(key=file.filename) }
     
-    return { 'message': "No SSH key was provided for upload." }
+    return { 'error': "No SSH key was provided for upload." }
 
 @app.route("/v1/view/<cid>", methods=['GET'])
 def view(cid):
@@ -115,8 +191,8 @@ def view(cid):
         else:
             return {
                 'id': cid,
-                'message': err,
-                'rc': rc
+                'error': err,
+                'result': rc
             }
 
 @app.route("/v1/run/<cid>", methods=['POST'])
@@ -125,7 +201,7 @@ def run(cid):
         if not request.get_json(silent=True) and 'run_args' not in request.get_json(force=True):
             return {
                 'id': cid,
-                'message': 'Specification of command "run_args" is required within request data - None provided.',
+                'error': 'Specification of command "run_args" is required within request data - None provided.',
                 'result': ''
             }
         
@@ -166,16 +242,19 @@ def run(cid):
         else:
             return {
                 'id': cid,
-                'message': rc,
-                'result': err
+                'error': err,
+                'result': rc
             }
 
 @app.route("/v1/construct", methods=['GET', 'POST'])
 def construct():
     if request.method == 'POST':
         data = request.get_json(force=True)
+
         generate_inventory(data)
-        generate_setup(data)
+        status = generate_setup(data)
+        if 'error' in status:
+            return status
 
         cmd_args = [
             '{dir}/{id}.yaml'.format(dir=WORK_DIR, id=data['id']),
@@ -206,8 +285,8 @@ def construct():
         else:
             return {
                 'id': data['id'],
-                'message': err,
-                'rc': rc
+                'error': err,
+                'result': rc
             }
     elif request.method == 'GET':
         if 'id' in request.args and request.args['id'] in CONSTRUCTS:
@@ -219,7 +298,7 @@ def construct():
         elif 'id' in request.args and request.args['id'] not in CONSTRUCTS:
             return {
                 'id': request.args['id'],
-                'message': "Retrieval failed - construct does not exist.".format(id=request.args['id'])
+                'error': "Retrieval failed - construct does not exist.".format(id=request.args['id'])
             }
         else:
             ret = {
