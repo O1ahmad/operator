@@ -70,7 +70,7 @@ Example Playbook
       p2p_port: 30313
 ```
 
-* Run *warp* sync with automatic daily backups of custom keystore directory on kovan testnet:
+* Run *warp* sync with custom host and container data directory on kovan testnet:
 ```
   - role: o1labs.crypto.openethereum
     vars:
