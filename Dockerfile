@@ -2,6 +2,7 @@ FROM python:slim-buster
 
 ENV FLASK_APP=/src/app
 ENV ROLES_DIR=/roles
+ENV COLLECTIONS_DIR=/collections
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt install -y python3-pip sshpass git openssh-client libhdf5-dev libssl-dev libffi-dev && \
@@ -13,6 +14,7 @@ RUN pip install -r /src/requirements.txt
 
 COPY src /src
 COPY ansible/O1labs/crypto/roles /roles
+RUN mkdir /collections
 
 #         web
 #          ↓

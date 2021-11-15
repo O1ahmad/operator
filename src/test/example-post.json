@@ -2,24 +2,30 @@
     "id": "Ethereum_2.0_Validators",
     "setup": [
         {
-            "type": "prysm",
-            "url": "prysm",
+            "type": "geth",
+            "url": "o1labs.crypto.geth",
             "properties": {
-                "eth2_chain": "pyrmont",
-                "beacon_config": {
-                    "pyrmont": true
-                },
-                "target_state": "present",
-                "target_services": ["beacon-node"]
+            }
+        },
+        {
+            "type": "tmux",
+            "url": "0x0i.tmux",
+            "properties": {
+            }
+        },
+        {
+            "type": "nonexistent",
+            "url": "0x0i.nonexistent",
+            "properties": {
             }
         }
     ],
     "inventory": [
         {
-            "name": "cyclops",
-            "address": "35.232.8.60",
-            "user": "ops",
-            "roles": ["prysm"]
+            "name": "morph",
+            "address": "192.168.1.162",
+            "user": "ahmad",
+            "roles": ["geth", "tmux", "nonexistent"]
         }
     ]
 }
