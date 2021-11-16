@@ -3,6 +3,7 @@ ansible/inventory
 ansible/01labss/crypto
 !ansible/01labs/crypto/roles
 docs
+examples
 img
 venv
 .gitignore
