@@ -19,7 +19,7 @@
                 "harden_ssh_access": true,
                 "install_fail2ban": true,
                 "auto_update": true,
-                "docker_users": ["example-user"],
+                "docker_users": ["another-example-user"],
                 "user_packages": [
                     "curl",
                     "htop",
