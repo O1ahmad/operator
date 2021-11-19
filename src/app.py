@@ -264,7 +264,7 @@ def construct():
         ]
 
         if 'ssh_key' in request.args and os.path.exists("/{}/{}".format(KEYS_DIR, request.args['ssh_key'])):
-            cmd_args.extend(["--private-key", "/{}/{}".format(KEYS_DIR, request.args['ssh_key'])])
+            cmd_args.extend(["--private-key", "{}/{}".format(KEYS_DIR, request.args['ssh_key'])])
         else:
             cmd_args.append("--ask-pass")
 
