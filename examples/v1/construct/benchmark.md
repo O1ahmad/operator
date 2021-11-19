@@ -13,12 +13,13 @@
             "properties": {
                 "install_type": "archive",
                 "archive_url": "https://github.com/phoronix-test-suite/phoronix-test-suite/releases/download/v10.6.1/phoronix-test-suite-10.6.1.tar.gz",
-                "inspect_system": false,
-                "default_run_asynchronous": true,
+                "inspect_system": true,
+                "default_run_asynchronous": false,
                 "default_autopilot": true,
                 "user_configs": [
                     {
                         "user": "example-user",
+                        "run_recommended_tests": true,
                         "config": {
                             "BatchMode": {
                                 "SaveResults": true
