@@ -1,0 +1,20 @@
+---
+- name: td-agent launch integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-fluentd
+      vars:
+        install_type: package
+        config:
+          - directives:
+              - plugin: source
+                attributes:
+                  "@type": http
+                  "@id": test_case
+                  port: 2411
+              - plugin: match
+                match: "test.*"
+                attributes:
+                  "@type": stdout
+        extra_run_args:
+          - '--verbose '

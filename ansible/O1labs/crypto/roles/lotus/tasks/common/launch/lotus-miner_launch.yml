@@ -1,0 +1,29 @@
+---
+- name: Setup Lotus Storage Miner systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: lotus-miner
+        Unit:
+          Description: Lotus Storage Miner
+          Documentation: https://github.com/filecoin-project/lotus/blob/master/documentation/en/mining.md
+          Wants: network-online.target lotus.service
+          After: network-online.target
+        Service: "{{ _default_miner_unit | combine(custom_miner_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+    - miner
+
+- name: Ensure start of lotus miner service
+  become: true
+  service:
+    name: lotus-miner
+    state: started
+    enabled: "yes"
+  changed_when: false
+  tags:
+    - launch
+    - miner

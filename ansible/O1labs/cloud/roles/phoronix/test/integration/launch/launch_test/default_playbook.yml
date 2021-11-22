@@ -1,0 +1,39 @@
+---
+- name: Default playbook for test-run launch testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-phoronix
+      vars:
+        install_type: archive
+        default_run_asynchronous: true
+        default_autopilot: true
+        user_configs:
+          - run_recommended_tests: false
+            run_available_suites: false
+            config:
+              BatchMode:
+                SaveResults: true
+                PromptForTestIdentifier: false
+                PromptForTestDescription: false
+                PromptSaveName: false
+                RunAllTestCombinations: true
+                Configured: true
+            test_runs:
+              - name: pts/compress-gzip
+                unit_properties:
+                  ExecStopPost: "/usr/bin/test_post_exec.sh gzip-results"
+          - user: kitchen
+            config:
+              BatchMode:
+                SaveResults: true
+                PromptForTestIdentifier: false
+                PromptForTestDescription: false
+                PromptSaveName: false
+                RunAllTestCombinations: true
+                Configured: true
+            test_runs:
+              - name: pts/encode-mp3
+          - user: kitchen
+            test_runs:
+              - name: pts/apache
+                autopilot: false

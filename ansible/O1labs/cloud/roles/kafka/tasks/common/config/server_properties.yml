@@ -1,0 +1,27 @@
+---
+- name: Create Kafka topic logs directory
+  become: true
+  file:
+    path: "{{ server_properties['log.dirs']|default(server_properties.log.dirs)|default(log_dirs) }}"
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+  tags:
+    - config
+    - data
+
+- name: Render server.properties configuration
+  become: true
+  template:
+    src: "{{ _kafka_config }}.j2"
+    dest: "{{ config_dir }}/{{ _kafka_config }}"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+    mode: 0644
+  vars:
+    properties: "{{ server_properties }}"
+  notify:
+    - Restart service
+  when: server_properties is defined and server_properties.keys()|length > 0
+  tags:
+    - config

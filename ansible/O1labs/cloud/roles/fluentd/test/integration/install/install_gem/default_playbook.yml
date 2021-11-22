@@ -1,0 +1,14 @@
+---
+- name: Fluentd gem installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: geerlingguy.ruby
+      vars:
+        ruby_install_gems_user: kitchen
+        ruby_install_bundler: false
+        ruby_install_from_source: true
+        workspace: /home/kitchen
+    - role: ansible-role-fluentd
+      vars:
+        install_type: gem
+        gem_version: 1.7.3

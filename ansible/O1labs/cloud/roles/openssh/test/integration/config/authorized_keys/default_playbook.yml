@@ -1,0 +1,39 @@
+---
+- name: OpenSSH authorized keys configuration integration test playbook
+  hosts: test-kitchen
+  pre_tasks:
+    - name: Create test user
+      user:
+        name: test
+    - name: Ensure existence of test's .ssh DIR
+      file:
+        path: /home/test/.ssh
+        state: directory
+        owner: test
+  roles:
+    - role: ansible-role-openssh
+      vars:
+        managed_configs:
+          - authorized_keys
+        ssh_config:
+          authorized_keys:
+            test:
+              "test-key-string":
+                options:
+                  - "command='dump /home'"
+                  - no-pty
+                  - no-port-forwarding
+                key: "ssh-rsa @k3y comments"
+              "test-key-dict":
+                options:
+                  - "from='*.test.example.net,!*.bad.test.example.net'"
+                key:
+                  type: "ssh-rsa"
+                  encoding: "th!s !s @ k3y"
+                  comments: "these are the key comments"
+              "test-key-file":
+                options:
+                  - 'environment="NAME=value"'
+                key: "/etc/ssh/ssh_host_rsa_key.pub"
+              "test-key-no-options":
+                key: "/etc/ssh/ssh_host_rsa_key.pub"

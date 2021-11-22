@@ -1,0 +1,28 @@
+---
+- name: Fluentd launch integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: geerlingguy.ruby
+      vars:
+        ruby_install_gems_user: kitchen
+        ruby_install_bundler: false
+        ruby_install_from_source: true
+        ruby_download_url: https://cache.ruby-lang.org/pub/ruby/2.6/ruby-2.6.3.tar.gz
+        ruby_version: 2.6.3
+        workspace: /home/kitchen
+    - role: ansible-role-fluentd
+      vars:
+        install_type: gem
+        config:
+          - directives:
+              - plugin: source
+                attributes:
+                  "@type": http
+                  "@id": test_case
+                  port: 2411
+              - plugin: match
+                match: "test.*"
+                attributes:
+                  "@type": stdout
+        extra_run_args:
+          - '--verbose '

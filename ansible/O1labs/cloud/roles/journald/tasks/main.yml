@@ -1,0 +1,20 @@
+---
+- name: Include common preflight tasks
+  include_tasks: "common/preflight.yml"
+  tags:
+    - preflight
+
+- name: Include common config tasks
+  include_tasks: "common/config.yml"
+  tags:
+    - config
+
+- name: Include common launch tasks
+  include_tasks: "common/launch.yml"
+  tags:
+    - launch
+
+- name: Include common systemd-journal group tasks
+  include_tasks: "common/systemd-journal-group.yml"
+  tags:
+    - systemd-journal-group

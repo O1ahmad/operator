@@ -1,0 +1,16 @@
+---
+- name: Ensure existence of Elasticsearch config directory
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+  tags:
+    - config
+
+- name: Include designated managed configuration tasks
+  include_tasks: "common/config/{{ item }}.yml"
+  with_items: "{{ managed_configs }}"
+  tags:
+    - config

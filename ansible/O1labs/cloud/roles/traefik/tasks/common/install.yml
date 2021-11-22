@@ -1,0 +1,49 @@
+---
+- name: Ensure Traefek system group exists
+  become: true
+  group:
+    name: "{{ traefik_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Traefik system user
+  become: true
+  user:
+    comment: Traefik service account
+    name: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+  tags:
+    - install
+
+- name: Perform designated installation
+  include_tasks: "common/install/install_{{ install_type }}.yml"
+  tags:
+    - install
+
+- name: Create a symbolic link to installed binary
+  become: true
+  when: install_type == "archive"
+  file:
+    src: "{{ install_dir }}/traefik"
+    dest: "{{ exe_dir }}/traefik"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    state: link
+  tags:
+    - install
+    - archive

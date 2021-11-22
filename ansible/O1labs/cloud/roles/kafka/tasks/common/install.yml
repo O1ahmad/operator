@@ -1,0 +1,37 @@
+---
+- name: Ensure Kafka group exists
+  become: true
+  group:
+    name: "{{ kafka_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Kafka user
+  become: true
+  user:
+    comment: Kafka service account
+    name: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Create Kafka home directory
+  file:
+    path: "{{ kafka_home }}"
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+  become: true
+  when: install_type == "archive"
+  tags:
+    - install
+
+- name: Install Kafka binaries based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install

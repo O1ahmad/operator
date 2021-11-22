@@ -1,0 +1,20 @@
+---
+- name: tmux uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-tmux
+      vars:
+        perform_uninstall: false
+        tmux_config:
+          kitchen:
+            - comment: "Enable faster command sequences"
+              commands:
+                - "set": "-s escape-time 10"
+    - role: ansible-role-tmux
+      vars:
+        perform_uninstall: true
+        tmux_config:
+          kitchen:
+            - comment: "Enable faster command sequences"
+              commands:
+                - "set": "-s escape-time 10"

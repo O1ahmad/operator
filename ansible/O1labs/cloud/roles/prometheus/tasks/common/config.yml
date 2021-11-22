@@ -1,0 +1,73 @@
+---
+- name: Ensure existence of config dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ config_dir }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    state: directory
+  tags:
+    - config
+
+- name: Ensure existence of Alertmanager config dir
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "{{ alertmgr_configdir }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    state: directory
+  tags:
+    - config
+    - alertmanager
+
+- name: Render rules files
+  when: '"prometheus" in managed_services'
+  include_tasks: "common/config/rule_files.yml"
+  with_items: "{{ prometheus_rule_files }}"
+  tags:
+    - config
+    - rules
+
+- name: Render file_sd configs
+  when: '"prometheus" in managed_services'
+  include_tasks: "common/config/file_sds.yml"
+  with_items: "{{ prometheus_file_sd }}"
+  tags:
+    - config
+    - filesd
+
+- name: Render prometheus.yml config
+  when: '"prometheus" in managed_services'
+  include_tasks: "common/config/prometheus_config.yml"
+  tags:
+    - config
+
+- name: Ensure existence of data dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ data_dir }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    state: directory
+  tags:
+    - config
+    - data
+
+- name: Render Alertmanager template files
+  when: '"alertmanager" in managed_services'
+  include_tasks: "common/config/alertmanager_templates.yml"
+  with_items: "{{ alertmanager_templates }}"
+  tags:
+    - config
+    - alertmanager
+    - templates
+
+- name: Render Alertmanager config
+  when: '"alertmanager" in managed_services'
+  include_tasks: "common/config/alertmanager_config.yml"
+  tags:
+    - config
+    - alertmanager

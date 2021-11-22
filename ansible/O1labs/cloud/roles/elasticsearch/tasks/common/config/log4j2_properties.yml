@@ -1,0 +1,17 @@
+---
+- name: Render log4j2.properties configuration
+  become: true
+  when: log4j2_properties is defined and log4j2_properties|length > 0
+  template:
+    src: "{{ _log4j2_properties_config }}.j2"
+    dest: "{{ config_dir|default(default_config_dir) }}/{{ _log4j2_properties_config }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    mode: 0644
+  vars:
+    properties: "{{ log4j2_properties }}"
+  notify:
+    - Restart service
+  tags:
+    - config
+    - log4j

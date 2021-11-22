@@ -1,0 +1,46 @@
+---
+- name: Create configuration directory
+  become: true
+  file:
+    path: "{{ cfg.path|default(config_dir) }}"
+    state: directory
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+  tags:
+    - config
+
+- name: Create configuration log directory
+  become: true
+  when: cfg.config.traefikLog is defined and cfg.config.traefikLog.filePath is defined and cfg.config.traefikLog.filePath|length > 0
+  file:
+    path: "{{ cfg.config.traefikLog.filePath|dirname }}"
+    state: directory
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+  tags:
+    - config
+
+- name: Create configuration access log directory
+  become: true
+  when: cfg.config.accessLog is defined and cfg.config.accessLog.filePath is defined and cfg.config.accessLog.filePath|length > 0
+  file:
+    path: "{{ cfg.config.accessLog.filePath|dirname }}"
+    state: directory
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+  tags:
+    - config
+
+- name: Render configuration file
+  become: true
+  template:
+    src: traefik.yml.j2
+    dest: "{{ cfg.path|default(config_dir) }}/{{ cfg.name|default(_service_name) }}.yml"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: 0664
+    backup: true
+  vars:
+    conf: "{{ cfg.config }}"
+  tags:
+    - config

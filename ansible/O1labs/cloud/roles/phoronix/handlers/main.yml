@@ -1,0 +1,96 @@
+---
+- name: Uninstall phoronix-test-suite package
+  become: true
+  package:
+    name: "{{ package_name }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove installation directory
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove test operational helper scripts
+  become: true
+  file:
+    path: "/usr/bin/{{ item }}"
+    state: absent
+  loop:
+    - test_post_exec.sh
+    - wait_for_completion.sh
+  listen: Uninstall service
+
+- name: Remove user test-run configurations
+  become: true
+  when: user_configs|length > 0
+  file:
+    path: "/home/{{ item.user }}/.phoronix-test-suite/user-config.xml"
+    state: absent
+  loop: "{{ user_configs }}"
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove user test-run runtime environment config
+  become: true
+  when: user_configs|length > 0
+  file:
+    path: "/home/{{ item.user }}/.phoronix-test-suite/runtime"
+    state: absent
+  loop: "{{ user_configs }}"
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Collect list of all test-runs
+  set_fact:
+    _uninstall_tests: "{{ _uninstall_tests + item.test_runs if item.test_runs is defined }}"
+  loop: "{{ user_configs }}"
+  listen: Uninstall service
+
+- name: Remove user designated test-run systemd units
+  become: true
+  when: user_configs|length > 0
+  service:
+    name: "{{ item.name | regex_replace('^pts/', 'pts-') }}"
+    state: stopped
+    enabled: false
+  loop: "{{ _uninstall_tests }}"
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove recommended test-run systemd units if necessary
+  become: true
+  service:
+    name: "{{ item.name | regex_replace('^pts/', 'pts-') }}"
+    state: stopped
+    enabled: false
+  loop: "{{ _recommended_tests }}"
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove available suite test-run systemd units
+  become: true
+  service:
+    name: "{{ item.name | regex_replace('^pts/', 'pts-') }}"
+    state: stopped
+    enabled: false
+  loop: "{{ _available_suites }}"
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove Phoronix user
+  become: true
+  user:
+    name: "{{ phoronix_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Phoronix group
+  become: true
+  group:
+    name: "{{ phoronix_user }}"
+    state: absent
+  listen: Uninstall service

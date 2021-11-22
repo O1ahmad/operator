@@ -1,0 +1,57 @@
+---
+prometheus_user: prometheus
+
+managed_services: ['prometheus']
+
+install_type: archive
+
+archive_url: https://github.com/prometheus/prometheus/releases/download/v2.15.1/prometheus-2.15.1.linux-amd64.tar.gz
+archive_checksum: f8d2b9e8f9551a3dd6f476a43ea9f699d18d2cc6558baf0eebe0143d8f9c1d5a
+checksum_format: sha256
+
+alertmgr_archive_url: https://github.com/prometheus/alertmanager/releases/download/v0.20.0/alertmanager-0.20.0.linux-amd64.tar.gz
+alertmgr_archive_checksum: 3a826321ee90a5071abf7ba199ac86f77887b7a4daa8761400310b4191ab2819
+alertmgr_checksum_format: sha256
+
+install_dir: /opt/prometheus
+alertmgr_installdir: /opt/alertmanager
+
+config_dir: "{{ install_dir }}"
+_prometheus_config_file: prometheus.yml
+prometheus_config:
+  global: {}
+  scrape_configs: []
+  rule_files: []
+  remote_write: []
+  remote_read: []
+
+alertmgr_configdir: "{{ alertmgr_installdir }}"
+
+filesd_path: "{{ install_dir }}/file_sd"
+_file_sd_template: file_sd.j2
+prometheus_file_sd: []
+
+rules_path: "{{ install_dir }}/rules.d"
+_rule_files_template: rules.j2
+prometheus_rule_files: []
+
+data_dir: /var/data/prometheus
+alertmgr_datadir: /var/data/alertmanager
+
+custom_unit_properties: {}
+extra_run_args: []
+
+templates_path: "{{ alertmgr_installdir }}/templates"
+_alertmanager_templates_template: alertmanager.tmpl.j2
+alertmanager_templates: []
+
+_alertmgr_config_file: alertmanager.yml
+alertmgr_config: {}
+
+custom_alertmgr_properties: {}
+extra_alertmgr_args: []
+
+exporter_installdir: "{{ install_dir }}/exporters"
+prometheus_exporters: []
+
+perform_uninstall: false

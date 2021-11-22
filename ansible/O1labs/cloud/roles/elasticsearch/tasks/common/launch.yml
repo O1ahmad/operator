@@ -1,0 +1,27 @@
+---
+- name: Setup elasticsearch systemd unit
+  when: install_type == 'archive'
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: elasticsearch
+        Unit:
+          Description: Elasticsearch
+          Documentation: http://www.elastic.co
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Start Elasticsearch service
+  become: true
+  service:
+    name: elasticsearch
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

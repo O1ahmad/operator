@@ -1,0 +1,17 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-zcashd
+      vars:
+        install_type: archive
+        git_url: https://github.com/zcash/zcash.git
+        git_version: v2.1.1-1
+        config_dir: /etc/zcashd
+        zcashd_config:
+          testnet: 1
+          bind: 0.0.0.0
+          server: 1
+          sendfreetransactions: 1
+          gen: 1
+          genproclimit: -1

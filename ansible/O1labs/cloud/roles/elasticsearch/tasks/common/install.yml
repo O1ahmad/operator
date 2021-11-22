@@ -1,0 +1,36 @@
+---
+- name: Ensure Elasticsearch group exists
+  become: true
+  group:
+    name: "{{ elasticsearch_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Elasticsearch user
+  become: true
+  user:
+    comment: Elasticsearch service account
+    name: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    system: true
+    create_home: true
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  when: install_type == "archive"
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+  tags:
+    - install
+
+- name: Install Elasticsearch based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install

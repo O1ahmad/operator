@@ -1,0 +1,59 @@
+---
+- name: Clone Zcashd git repository
+  become: true
+  when: install_type == "source"
+  git:
+    repo: "{{ git_url }}"
+    dest: "{{ install_dir }}"
+    version: "{{ git_version }}"
+  tags:
+    - install
+    - source
+
+- name: Build zcashd binaries from source
+  become: true
+  when: install_type == "source"
+  command:
+    cmd: "{{ install_dir }}/zcutil/build.sh -j{{ ansible_processor_vcpus }}"
+    creates: "{{ install_dir }}/src/zcashd"
+  changed_when: false
+  tags:
+    - install
+    - source
+
+- name: Ensure proper permissions of working directory
+  become: true
+  when: install_type == "source"
+  file:
+    path: "{{ install_dir }}"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    state: directory
+    recurse: true
+
+- name: Fetch generated parameters from MPC
+  become: true
+  become_user: "{{ zcashd_user }}"
+  command:
+    cmd: "{{ install_dir }}/zcutil/fetch-params.sh"
+    creates: "/home/{{ zcashd_user }}/.zcash_params"
+  changed_when: false
+  tags:
+    - install
+    - source
+
+- name: Create a symbolic link to installed binary
+  become: true
+  when: install_type == "source"
+  file:
+    src: "{{ install_dir }}/src/{{ item }}"
+    dest: "{{ _exe_dir }}/{{ item }}"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    state: link
+  with_items:
+    - zcashd
+    - zcash-cli
+  tags:
+    - install
+    - source

@@ -1,0 +1,13 @@
+---
+- name: Elasticsearch JVM configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-elasticsearch
+      vars:
+        install_type: archive
+        managed_configs: ['jvm_options']
+        jvm_options:
+          - comment: set the min and max JVM heap size (to the same value)
+            arguments:
+              - '-Xms1g'
+              - '-Xmx1g'

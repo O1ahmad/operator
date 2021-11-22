@@ -1,0 +1,37 @@
+---
+- name: Create Kibana group
+  become: true
+  group:
+    name: "{{ kibana_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Kibana user
+  become: true
+  user:
+    comment: Kibana service account
+    name: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  when: install_type == "archive"
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+  tags:
+    - install
+
+- name: Install Kibana based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install

@@ -1,0 +1,47 @@
+---
+- name: Create Kibana config directory
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+  tags:
+    - config
+
+- name: Render kibana.yml configuration
+  become: true
+  when: config is defined and config.keys()|length > 0
+  template:
+    src: "{{ _kibana_config_file }}.j2"
+    dest: "{{ config_dir }}/{{ _kibana_config_file }}"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+    mode: 0644
+  vars:
+    conf: "{{ config }}"
+  tags:
+    - config
+
+- name: Create Kibana data directory
+  become: true
+  file:
+    path: "{{ data_dir }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+  tags:
+    - config
+    - data
+
+- name: Create Kibana log directory
+  become: true
+  when: logs_dir is defined
+  file:
+    path: "{{ logs_dir }}"
+    state: directory
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_user }}"
+  tags:
+    - config
+    - log

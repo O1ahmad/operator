@@ -1,0 +1,30 @@
+---
+- name: Journald uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-journald
+      vars:
+        perform_uninstall: false
+        journald_configs:
+          - name: debug-overrides.conf
+            path: /etc/systemd/journald.conf.d
+            config:
+              Storage: persistent
+              Compress: true
+              RateLimitInvertalSec: 0
+              RateLimitBurst: 0
+              MaxLevelStore: debug
+              SyncIntervalSec: 1m
+    - role: ansible-role-journald
+      vars:
+        perform_uninstall: true
+        journald_configs:
+          - name: debug-overrides.conf
+            path: /etc/systemd/journald.conf.d
+            config:
+              Storage: persistent
+              Compress: true
+              RateLimitInvertalSec: 0
+              RateLimitBurst: 0
+              MaxLevelStore: debug
+              SyncIntervalSec: 1m

@@ -1,0 +1,44 @@
+---
+- name: Default playbook for PTS uninstall testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-phoronix
+      vars:
+        perform_uninstall: false
+        install_type: archive
+        synchronous_run: false
+        default_autopilot: true
+        user_configs:
+          - run_recommended_tests: false
+            run_available_suites: false
+            config:
+              BatchMode:
+                SaveResults: true
+                PromptForTestIdentifier: false
+                PromptForTestDescription: false
+                PromptSaveName: false
+                RunAllTestCombinations: true
+                Configured: true
+            test_runs:
+              - name: pts/compress-gzip
+    - role: ansible-role-phoronix
+      vars:
+        perform_uninstall: true
+        install_type: archive
+        default_run_asynchronous: true
+        default_autopilot: true
+        user_configs:
+          - run_recommended_tests: false
+            run_available_suites: false
+            config:
+              BatchMode:
+                SaveResults: true
+                PromptForTestIdentifier: false
+                PromptForTestDescription: false
+                PromptSaveName: false
+                RunAllTestCombinations: true
+                Configured: true
+            test_runs:
+              - name: pts/compress-gzip
+                unit_properties:
+                  ExecStopPost: "/usr/bin/test_post_exec.sh gzip-results"

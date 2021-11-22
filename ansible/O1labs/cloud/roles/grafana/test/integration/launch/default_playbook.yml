@@ -1,0 +1,38 @@
+---
+- name: Grafana service launch integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-grafana
+      vars:
+        install_type: archive
+        provision_configs:
+          - dashboards
+          - datasources
+        grafana_config:
+          instance_name: test
+        grafana_dashboards:
+          - name: node_main
+            urls:
+              - name: node_exporter_prometheus
+                src: https://grafana.com/api/dashboards/11173/revisions/1/download
+            providers:
+              - name: default
+                orgId: 1
+                folder: default
+                type: file
+                options:
+                  path: "/opt/grafana/conf/provisioning/dashboards"
+        grafana_datasources:
+          - name: main_datasources
+            datasources:
+              - name: Prometheus
+                type: prometheus
+                orgId: 1
+                url: http://localhost:9090
+              - name: Elasticsearch
+                type: elasticsearch
+                orgId: 1
+                url: http://localhost:9200
+            deleteDatasources:
+              - name: Graphite
+                orgId: 1

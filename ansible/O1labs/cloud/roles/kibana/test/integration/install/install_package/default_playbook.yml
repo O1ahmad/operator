@@ -1,0 +1,7 @@
+---
+- name: Kibana package installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-kibana
+      vars:
+        install_type: package

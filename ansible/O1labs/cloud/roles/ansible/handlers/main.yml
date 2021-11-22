@@ -1,0 +1,29 @@
+---
+- name: Uninstall ansible service package
+  become: true
+  when: install_type == "package"
+  package:
+    name: "{{ package_name }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Ansible install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Ansible config dir
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove system-wide configuration dir envvar
+  become: true
+  file:
+    path: /etc/profile.d/ansible-vars.sh
+    state: absent
+  listen: Uninstall service

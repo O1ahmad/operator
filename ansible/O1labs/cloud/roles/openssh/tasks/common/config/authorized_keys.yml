@@ -1,0 +1,17 @@
+---
+- name: Render authorized_keys configuration
+  become: true
+  when: ssh_config.authorized_keys is defined and ssh_config.authorized_keys.keys()|length > 0
+  template:
+    src: authorized_keys.j2
+    dest: "/home/{{ item.key }}/.ssh/{{ _authorized_keys_file }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0644
+    backup: true
+  vars:
+    account: "{{ item.key }}"
+  with_dict: "{{ ssh_config.authorized_keys }}"
+  tags:
+    - config
+    - authorized_keys

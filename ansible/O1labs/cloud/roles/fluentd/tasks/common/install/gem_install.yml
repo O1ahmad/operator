@@ -1,0 +1,28 @@
+---
+- name: Register list of installed gems
+  become: true
+  when: install_type == "gem"
+  command: "gem list"
+  register: installed_gems
+  changed_when: false
+  tags:
+    - install
+    - gem
+
+- name: Install fluentd gem
+  become: true
+  when: 'install_type == "gem" and "fluentd" not in installed_gems.stdout'
+  command: "gem install fluentd -v {{ gem_version }}"
+  tags:
+    - install
+    - gem
+
+- name: Execute fluentd setup
+  become: true
+  when: install_type == "gem"
+  command:
+    cmd: "{{ _exe_path }}/fluentd --setup {{ _config_dir }}"
+    creates: "{{ _config_dir }}/{{ _config_file }}"
+  tags:
+    - install
+    - gem

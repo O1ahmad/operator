@@ -1,0 +1,29 @@
+---
+dependencies:
+  - 0x0i.systemd
+
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: zecminer
+  description: EWBF Zecminer, a Zcash CUDA miner based on the Equihash Proof-of-Work algorithm
+  company: "O1.IO"
+  license: license (Apache, BSD, MIT)
+  min_ansible_version: 2.6
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - zcash
+    - blockchain
+    - privacy
+    - zec

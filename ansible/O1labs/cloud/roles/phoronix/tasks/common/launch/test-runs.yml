@@ -1,0 +1,47 @@
+---
+- name: Resolve test-run suite of tests to execute
+  set_fact:
+    _run_recommended_tests: "{{ run_cfg.run_recommended_tests | default(false) }}"
+    _run_available_suites: "{{ run_cfg.run_available_suites | default(false) }}"
+    _test_runs: "{{ run_cfg.test_runs | default([]) }}"
+    _test_user: "{{ run_cfg.user | default(phoronix_user) }}"
+
+- name: Batch install recommended tests
+  when: _run_recommended_tests
+  become_user: "{{ _test_user }}"
+  command: "{{ exe_path }} batch-install {{ _recommended_tests | map(attribute='name') | join(' ') }}"
+  register: recommended_testrun_installs
+
+- name: Execute recommended PTS tests
+  when: _run_recommended_tests
+  include_tasks: "common/launch/systemd-test.yml"
+  with_items: "{{ _recommended_tests }}"
+  loop_control:
+    loop_var: test
+
+- name: Batch install available suites
+  when: _run_available_suites
+  become_user: "{{ _test_user }}"
+  command: "{{ exe_path }} batch-install {{ _available_suites | map(attribute='name') | join(' ') }}"
+  register: available_suite_installs
+
+- name: Execute available PTS suites
+  when: _run_available_suites
+  include_tasks: "common/launch/systemd-test.yml"
+  with_items: "{{ _available_suites }}"
+  loop_control:
+    loop_var: test
+
+- name: Batch install designated tests
+  when: _test_runs|length > 0
+  become_user: "{{ _test_user }}"
+  command: "{{ exe_path }} batch-install {{ _test_runs | map(attribute='name') | join(' ') }}"
+  register: _test_run_installs
+
+- name: Execute designated PTS test runs
+  when: _test_runs|length > 0
+  include_tasks: "common/launch/systemd-test.yml"
+  with_items: "{{ _test_runs }}"
+  register: designated_test_runs
+  loop_control:
+    loop_var: test

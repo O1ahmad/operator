@@ -1,0 +1,43 @@
+---
+- name: Ensure user shell has an environment variable for the ssh-auth socket
+  become: true
+  when: auto_enable_agent is defined and auto_enable_agent.keys()|length > 0
+  lineinfile:
+    path: "/home/{{ item.key }}/.bash_profile"
+    line: 'export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"'
+    state: present
+  with_dict: "{{ auto_enable_agent }}"
+  tags:
+    - install
+    - ssh-agent
+
+- name: Ensure existence of users systemd config directory
+  become: true
+  when: auto_enable_agent is defined and auto_enable_agent.keys()|length > 0
+  file:
+    path: "/home/{{ item.key }}/.config/systemd/user"
+    state: directory
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+  with_dict: "{{ auto_enable_agent }}"
+  tags:
+    - config
+    - ssh-agent
+
+- name: Render user controlled ssh-agent service file
+  become: true
+  when: auto_enable_agent is defined and auto_enable_agent.keys()|length > 0
+  template:
+    src: ssh-agent.service.j2
+    dest: "/home/{{ item.key }}/.config/systemd/user/ssh-agent.service"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: 0644
+    backup: true
+  vars:
+    owner: "{{ item.key }}"
+    run_args: "{{ item.value.run_args }}"
+  with_dict: "{{ auto_enable_agent }}"
+  tags:
+    - launch
+    - ssh-agent

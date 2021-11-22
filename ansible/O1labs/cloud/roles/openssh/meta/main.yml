@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: openssh
+  description: OpenSSH (Secure Shell), a remote login tool based on the SSH protocol
+  company: "O1.IO"
+  license: license (MIT)
+  min_ansible_version: 2.5
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - ssh
+    - secure
+    - shell
+    - remote
+    - login

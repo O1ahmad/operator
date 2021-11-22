@@ -1,0 +1,23 @@
+---
+fluentd_user: fluentd
+
+install_type: gem
+gem_version: "1.7.4"
+
+package_url: ''
+_package_install_noop_msg: ''
+
+_config_dir: "/etc/fluent"
+_config_file: fluent.conf
+config: []
+
+_service_name: fluentd
+_exe_path: /usr/local/bin
+extra_run_args: []
+
+custom_unit_properties: {}
+
+plugins: []
+_plugin_exe: "fluent-gem"
+
+perform_uninstall: false

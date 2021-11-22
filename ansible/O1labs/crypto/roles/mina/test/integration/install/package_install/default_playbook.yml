@@ -1,0 +1,7 @@
+---
+- name: Default playbook for package installation testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-coda
+      vars:
+        install_type: package

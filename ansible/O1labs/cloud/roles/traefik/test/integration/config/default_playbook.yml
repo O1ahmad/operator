@@ -1,0 +1,39 @@
+---
+- name: Traefik configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-traefik
+      vars:
+        traefik_configs:
+          - config:
+              log_level: debug
+              traefikLog:
+                filePath: /var/log/traefik/traefik.log
+              accessLog:
+                filePath: /var/log/traefik/access/traefik-access.log
+              entryPoints:
+                web:
+                  address: :8081
+              providers:
+                file:
+                  directory: /mnt/etc/traefik
+          - name: example-config
+            path: /mnt/etc/traefik
+            config:
+              http:
+                routers:
+                  to-whoami:
+                    rule: "Host(`domain`) && PathPrefix(`/whoami/`)"
+                    middlewares:
+                      - test-user
+                    service: whoami
+                middlewares:
+                  test-user:
+                    basicAuth:
+                      users:
+                        - test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+                services:
+                  whoami:
+                    loadBalancer:
+                      servers:
+                        - url: http://private/whoami-service

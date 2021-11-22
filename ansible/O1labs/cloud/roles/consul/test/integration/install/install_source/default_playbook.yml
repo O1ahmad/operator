@@ -1,0 +1,9 @@
+---
+- name: Consul source installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-consul
+      vars:
+        install_type: source
+        git_version: v1.6.1
+        go_autoinstall: true

@@ -1,0 +1,13 @@
+---
+- name: Prometheus service configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        install_type: archive
+        config_dir: /etc/prometheus
+        prometheus_config:
+          global:
+            scrape_interval: 10s
+            external_labels:
+              monitor: test

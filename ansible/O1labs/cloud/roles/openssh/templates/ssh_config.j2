@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+# see: ssh_config man specification -- http://man7.org/linux/man-pages/man5/ssh_config.5.html
+
+{% for spec in ssh_config.client[account] %}
+{{ ssh_config.client[account][spec].keyword|default("Host", true) }} {{ spec }}
+{% for key, value in ssh_config.client[account][spec].options.items() %}
+  {{ key }} {{ value }}
+{% endfor %}
+
+{% endfor %}

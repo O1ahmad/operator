@@ -1,0 +1,16 @@
+---
+- name: Render Prometheus configuration
+  become: true
+  when: prometheus_config is defined and prometheus_config.keys()|length > 0
+  template:
+    src: "{{ _prometheus_config_file }}.j2"
+    dest: "{{ config_dir }}/{{ _prometheus_config_file }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0644
+    validate: "{{ install_dir }}/promtool check config %s"
+  vars:
+    conf: "{{ prometheus_config }}"
+  notify: Restart prometheus
+  tags:
+    - config

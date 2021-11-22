@@ -1,0 +1,35 @@
+---
+- name: Render custom global known hosts configuration
+  become: true
+  when: ssh_config.known_hosts is defined and "global" in ssh_config.known_hosts
+  template:
+    src: known_hosts.j2
+    dest: "{{ _global_config_dir }}/{{ _global_knownhosts_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  vars:
+    account: global
+  tags:
+    - config
+    - known_hosts
+    - global
+
+- name: Render user known hosts configuration
+  become: true
+  when: ssh_config.known_hosts is defined and ssh_config.known_hosts.keys() | difference(['global']) | length > 0
+  template:
+    src: known_hosts.j2
+    dest: "/home/{{ item }}/.ssh/{{ _user_knownhosts_file }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0644
+    backup: true
+  vars:
+    account: "{{ item }}"
+  with_items: "{{ ssh_config.known_hosts.keys() | difference(['global']) }}"
+  tags:
+    - config
+    - known_hosts
+    - user

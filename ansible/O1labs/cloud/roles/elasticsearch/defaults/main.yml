@@ -1,0 +1,30 @@
+---
+elasticsearch_user: elasticsearch
+
+install_type: archive
+install_dir: /opt/elasticsearch
+
+managed_configs: ['elasticsearch_config', 'jvm_options', 'log4j2_properties']
+
+archive_url: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-linux-x86_64.tar.gz
+archive_checksum: https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.0-linux-x86_64.tar.gz.sha512
+checksum_format: sha512
+
+config_dir: "{{ install_dir }}/config"
+data_dir: "/var/data/elasticsearch"
+logs_dir: "/var/log/elasticsearch"
+
+_elasticsearch_config: elasticsearch.yml
+config: {}
+
+_jvm_options_config: jvm.options
+jvm_options: []
+
+_log4j2_properties_config: log4j2.properties
+log4j2_properties: []
+
+extra_run_args: []
+
+perform_uninstall: false
+
+custom_unit_properties: {}

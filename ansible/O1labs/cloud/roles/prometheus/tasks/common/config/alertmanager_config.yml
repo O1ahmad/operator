@@ -1,0 +1,30 @@
+---
+- name: Render Alertmanager configuration
+  become: true
+  when: alertmgr_config is defined and alertmgr_config.keys()|length > 0
+  template:
+    src: "{{ _alertmgr_config_file }}.j2"
+    dest: "{{ alertmgr_configdir }}/{{ _alertmgr_config_file }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0644
+    validate: "{{ alertmgr_installdir }}/amtool check-config %s"
+  vars:
+    conf: "{{ alertmgr_config }}"
+  notify: Restart alertmanager
+  tags:
+    - config
+    - alertmanager
+
+- name: Ensure existence of Alertmanager data dir
+  when: '"alertmanager" in managed_services'
+  become: true
+  file:
+    path: "{{ alertmgr_datadir }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    state: directory
+  tags:
+    - config
+    - alertmanager
+    - data

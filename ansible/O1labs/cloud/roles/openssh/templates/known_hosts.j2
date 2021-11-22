@@ -1,0 +1,13 @@
+{{ ansible_managed | comment }}
+# see: known_hosts man specification -- https://man.openbsd.org/sshd#SSH_KNOWN_HOSTS_FILE_FORMAT for more details
+
+{% for spec in ssh_config.known_hosts[account].values() %}
+{% if '.pub' in spec.key %}
+{{ spec.marker|default('') }} {{ spec.hostnames|join(' ') }} {{ lookup('file', spec.key) }}
+{% elif spec.key is mapping %}
+{{ spec.marker|default('') }} {{ spec.hostnames|join(' ') }} {{ spec.key.type }} {{ spec.key.encoding }} {{ spec.key.comments }}
+{% else %}
+{{ spec.marker|default('') }} {{ spec.hostnames|join(' ') }} {{ spec.key }}
+{% endif %}
+
+{% endfor %}

@@ -1,0 +1,27 @@
+---
+- name: Setup Kibana systemd unit
+  when: install_type == 'archive'
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: kibana
+        Unit:
+          Description: Kibana
+          Documentation: https://www.elastic.co/products/kibana
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of kibana service
+  become: true
+  service:
+    name: kibana
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

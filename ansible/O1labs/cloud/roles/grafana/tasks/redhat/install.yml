@@ -1,0 +1,25 @@
+---
+- name: Download Grafana RPM package ({{ package_url }})
+  become: true
+  when: ansible_os_family|lower == "redhat" and install_type == "package"
+  get_url:
+    url: "{{ package_url }}"
+    dest: "/tmp/{{ package_url | urlsplit('path') | basename }}"
+    checksum: "{{ checksum_format }}:{{ package_checksum }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: '0775'
+  register: package_tmp
+  tags:
+    - install
+    - package
+
+- name: Install Grafana rpm package
+  become: true
+  when: ansible_os_family|lower == "redhat" and install_type == "package"
+  yum:
+    name: "{{ package_tmp.dest }}"
+    state: present
+  tags:
+    - install
+    - package

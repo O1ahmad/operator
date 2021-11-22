@@ -1,0 +1,37 @@
+---
+- name: Set Coda daemon service unit [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "/usr/local/bin/coda daemon -config-directory {{ config_dir }} {{ extra_run_args|join(' ') }}"
+      User: "{{ coda_user }}"
+      Group: "{{ coda_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+
+- name: Setup Coda daemon systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: coda-daemon
+        Unit:
+          Description: "Coda - client of the first cryptocurrency protocol with a succinct blockchain"
+          Documentation: https://codaprotocol.com/docs/node-operator
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_daemon_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of Coda daemon service
+  become: true
+  service:
+    name: coda-daemon
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

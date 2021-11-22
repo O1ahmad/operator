@@ -1,0 +1,15 @@
+---
+- name: Register list of installed Fluentd plugins
+  command: "{{ _exe_path }}/{{ _plugin_exe }} list"
+  changed_when: false
+  register: installed_plugins
+  tags:
+    - plugins
+
+- name: Install list of Fluentd plugins
+  when: 'item.name not in installed_plugins.stdout and plugins is defined and plugins|length > 0'
+  command: "{{ _exe_path }}/{{ _plugin_exe }} install {{ item.name }}{{ ' -v ' + item.version if ('version' in item) else '' }}"
+  loop: "{{ plugins }}"
+  notify: Restart service
+  tags:
+    - plugins

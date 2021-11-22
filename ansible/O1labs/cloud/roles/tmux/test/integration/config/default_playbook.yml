@@ -1,0 +1,25 @@
+---
+- name: tmux configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-tmux
+      vars:
+        tmux_config:
+          global:
+            - comment: "Add ctrl-A as secondary prefix key"
+              commands:
+                - "set": "-g prefix2 C-a"
+                  "bind": "C-a send-prefix -2"
+            - commands:
+                - "setw": "-g xterm-keys on"
+          kitchen:
+            - comment: "Enable faster command sequences"
+              commands:
+                - "set": "-s escape-time 10"
+            - comment: "Bind current vertical/horizontal split-window keys to values not requiring ^(shift)"
+              commands:
+                - "bind": "- split-window -v"
+                - "bind": "/ split-window -h"
+            - commands:
+                - "bind": "C-c new-session"
+                  "set": "-g status-interval 10"

@@ -1,0 +1,29 @@
+---
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: tmux
+  description: "tmux, a terminal multiplexer enabling multiple terminals to be \
+               created, accessed, and controlled from a single screen"
+  company: "O1.IO"
+  license: license (MIT)
+  min_ansible_version: 2.5
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - tmux
+    - terminal
+    - multiplexer
+    - window
+    - session
+    - management

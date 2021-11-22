@@ -1,0 +1,8 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-zcashd
+      vars:
+        install_type: archive
+        archive_url: https://z.cash/downloads/zcash-2.1.1-1-linux64-debian-jessie.tar.gz

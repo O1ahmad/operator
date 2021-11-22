@@ -1,0 +1,16 @@
+---
+- name: Ensure existence of Kafka config directory
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+  become: true
+  tags:
+    - config
+
+- name: Include designated managed configuration tasks
+  include_tasks: "common/config/{{ item }}.yml"
+  with_items: "{{ managed_configs }}"
+  tags:
+    - config

@@ -1,0 +1,189 @@
+---
+- name: Restart Prometheus service
+  become: true
+  when: '"prometheus" in managed_services'
+  service:
+    name: prometheus
+    state: restarted
+  listen: Restart prometheus
+  ignore_errors: true
+
+- name: Stop Prometheus systemd service
+  become: true
+  when: '"prometheus" in managed_services'
+  service:
+    name: prometheus
+    state: stopped
+    enabled: false
+  listen: Uninstall prometheus
+  ignore_errors: true
+
+- name: Remove Prometheus systemd service file
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "/etc/systemd/system/prometheus.service"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus install dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus config dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ config_dir }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus data dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ data_dir }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus default file-discovery dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ filesd_path }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus default rule files
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ rules_path }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus custom rule files
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ item | dirname }}"
+    state: absent
+  with_items: "{{ prometheus_config.rule_files }}"
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus user
+  become: true
+  when: '"prometheus" in managed_services'
+  user:
+    name: "{{ prometheus_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus group
+  become: true
+  when: '"prometheus" in managed_services'
+  group:
+    name: "{{ prometheus_user }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Restart Alertmanager systemd service
+  become: true
+  when: '"alertmanager" in managed_services'
+  service:
+    name: alertmanager
+    state: restarted
+  listen: Restart alertmanager
+  ignore_errors: true
+
+- name: Stop Alertmanager systemd service
+  become: true
+  when: '"alertmanager" in managed_services'
+  service:
+    name: alertmanager
+    state: stopped
+    enabled: false
+  listen: Uninstall alertmanager
+  ignore_errors: true
+
+- name: Remove Alertmanager systemd service file
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "/etc/systemd/system/alertmanager.service"
+    state: absent
+  listen: Uninstall alertmanager
+
+- name: Remove Alertmanager install dir
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "{{ alertmgr_installdir }}"
+    state: absent
+  listen: Uninstall alertmanager
+
+- name: Remove Alertmanager config dir
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "{{ alertmgr_configdir }}"
+    state: absent
+  listen: Uninstall alertmanager
+
+- name: Remove Alertmanager data dir
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "{{ alertmgr_datadir }}"
+    state: absent
+  listen: Uninstall alertmanager
+
+- name: Remove Alertmanager templates dir
+  become: true
+  when: '"alertmanager" in managed_services'
+  file:
+    path: "{{ templates_path }}"
+    state: absent
+  listen: Uninstall alertmanager
+
+- name: Remove Prometheus exporters dir
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ exporter_installdir }}"
+    state: absent
+  listen: Uninstall prometheus
+
+- name: Stop Prometheus exporters systemd services
+  become: true
+  when: '"prometheus" in managed_services'
+  service:
+    name: "{{ item.name }}"
+    state: stopped
+    enabled: false
+  with_items: "{{ prometheus_exporters }}"
+  listen: Uninstall prometheus
+  ignore_errors: true
+
+- name: Remove Prometheus exporters systemd service file
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "/etc/systemd/system/{{ item.name }}.service"
+    state: absent
+  with_items: "{{ prometheus_exporters }}"
+  listen: Uninstall prometheus
+
+- name: Remove Prometheus exporter dirs
+  become: true
+  when: '"prometheus" in managed_services'
+  file:
+    path: "{{ item.path | default(exporter_installdir) }}/{{ item.name }}"
+    state: absent
+  with_items: "{{ prometheus_exporters }}"
+  listen: Uninstall prometheus

@@ -1,0 +1,82 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - ansible-role-consul
+  vars:
+    install_type: archive
+    consul_configs:
+      - name: test-defaults
+        config:
+          datacenter: east-example
+          data_dir: /var/data/consul
+          log_level: warn
+          log_file: /mnt/var/log/consul/consul.log
+      - name: test-http-check
+        config:
+          check:
+            id: example-api
+            name: Example HTTP API on port 5000
+            http: https://localhost:5000/health
+            method: POST
+            header:
+              x-foo: ["bar", "baz"]
+            interval: 10s
+            timeout: 1s
+      - name: test-service-defaults
+        path: /mnt/etc/consul.d
+        config:
+          config_entries:
+            bootstrap:
+              - Kind: service-defaults
+                Name: example-api
+                Protocol: http
+      - name: test-proxy-defaults
+        path: /mnt/etc/consul.d
+        config:
+          Kind: proxy-defaults
+          Name: global
+          config:
+            protocol: http
+            local_connect_timeout_ms: 500
+            handshake_timeout_ms: 500
+      - name: test-service-router
+        path: /mnt/etc/consul.d
+        config:
+          Kind: service-router
+          Name: example-api
+          routes:
+            - match:
+                http:
+                  path_prefix: admin
+              destination:
+                service: admin
+            - match:
+                http:
+                  header:
+                    - name: x-debug
+                      exact: 1
+              destination:
+                service: web
+                service_subset: canary
+      - name: test-service-splitter
+        path: /mnt/etc/consul.d
+        config:
+          Kind: service-splitter
+          Name: example-api
+          splits:
+            - weight: 90
+              service_subset: v1
+            - weight: 10
+              service_subset: v2
+      - name: test-service-resolver
+        path: /mnt/etc/consul.d
+        config:
+          Kind: service-resolver
+          Name: example-api
+          default_subset: v1
+          subsets:
+            v1:
+              filter: "Service.Meta.version == v1"
+            v2:
+              filter: "Service.Meta.version == v2"

@@ -1,0 +1,27 @@
+---
+- name: Setup Grafana systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _service_name }}"
+        Unit:
+          Description: Grafana - analytics and monitoring observability service
+          Documentation: https://grafana.com/docs/grafana/latest/
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  when: install_type != "package"
+  tags:
+    - launch
+
+- name: Ensure start of grafana service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

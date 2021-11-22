@@ -1,0 +1,44 @@
+---
+- name: Create config dir
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    owner: "{{ controller_user }}"
+    group: "{{ controller_user }}"
+    state: directory
+  tags:
+    - config
+
+- name: Create log file directory
+  become: true
+  when: config.defaults is defined and config.defaults.log_path is defined and config.defaults.log_path|length > 0
+  file:
+    path: "{{ config.defaults.log_path | dirname }}"
+    owner: "{{ controller_user }}"
+    group: "{{ controller_user }}"
+    state: directory
+  tags:
+    - config
+    - log
+
+- name: Render Ansible configuration
+  become: true
+  template:
+    src: "{{ _ansible_config_file }}.j2"
+    dest: "{{ config_dir }}/{{ _ansible_config_file }}"
+    owner: "{{ controller_user }}"
+    group: "{{ controller_user }}"
+    mode: 0644
+  vars:
+    conf: "{{ config }}"
+  when: config is defined and config.keys()|length > 0
+  tags:
+    - config
+
+- name: Set system-wide configuration dir envvar
+  become: true
+  copy:
+    dest: /etc/profile.d/ansible-vars.sh
+    content: 'ANSIBLE_CONFIG={{ config_dir }}'
+  tags:
+    - config

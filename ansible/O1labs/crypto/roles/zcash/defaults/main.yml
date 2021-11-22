@@ -1,0 +1,24 @@
+---
+zcashd_user: zcashd
+
+system_dependencies: []
+
+install_type: archive
+install_dir: /opt/zcashd
+
+archive_url: https://z.cash/downloads/zcash-2.1.1-1-linux64-debian-jessie.tar.gz
+archive_options: []
+
+git_url: https://github.com/zcash/zcash.git
+git_version: v2.1.1-1
+
+config_dir: "/home/{{ zcashd_user }}"
+zcashd_config: {}
+
+_exe_dir: /usr/bin
+_service_name: zcashd
+
+extra_run_args: []
+custom_unit_properties: {}
+
+perform_uninstall: false

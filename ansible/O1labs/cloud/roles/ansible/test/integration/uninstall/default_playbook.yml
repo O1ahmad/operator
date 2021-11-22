@@ -1,0 +1,18 @@
+---
+- name: Ansible uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-ansible
+      vars:
+        perform_uninstall: false
+        install_type: archive
+        config_dir: /usr/local/etc/ansible
+        config:
+          defaults:
+            log_path: /var/log/ansible.log
+            debug: True
+            enable_task_debugger: True
+    - role: ansible-role-ansible
+      vars:
+        perform_uninstall: true
+        config_dir: /usr/local/etc/ansible

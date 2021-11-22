@@ -1,0 +1,71 @@
+---
+- name: Ensure Lotus group exists
+  become: true
+  group:
+    name: "{{ lotus_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Lotus user
+  become: true
+  user:
+    comment: Lotus service account
+    name: "{{ lotus_user }}"
+    group: "{{ lotus_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Ensure existence of install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    owner: "{{ lotus_user }}"
+    group: "{{ lotus_user }}"
+    state: directory
+  tags:
+    - install
+
+- name: Perform designated installation procedure
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install
+
+- name: Make & install benchmark tool
+  become: true
+  when: include_benchmarks
+  make:
+    chdir: "{{ install_dir }}"
+    target: lotus-bench
+  environment:
+    PATH: "{{ cargo_home }}/bin:{{ ansible_env.PATH }}"
+  changed_when: false
+  tags:
+    - install
+
+- name: Symbolic link the benchmark tool
+  become: true
+  when: include_benchmarks
+  file:
+    src: "{{ install_dir }}/lotus-bench"
+    dest: "/usr/local/bin/lotus-bench"
+    state: link
+  tags:
+    - install
+
+- name: Create symbolic links to managed services binaries
+  become: true
+  when: install_type == "archive"
+  file:
+    src: "{{ install_dir }}/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+  loop: "{{ managed_services }}"
+  notify:
+    - Restart service
+  tags:
+    - install

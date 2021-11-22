@@ -1,0 +1,49 @@
+---
+- name: Extract zcashd archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_url }}"
+    dest: "{{ install_dir }}"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    mode: '0775'
+    remote_src: true
+    extra_opts: "{{ archive_options }}"
+  tags:
+    - install
+    - archive
+
+- name: Create a symbolic link to installed binary
+  become: true
+  when: install_type == "archive"
+  file:
+    src: "{{ install_dir }}/bin/{{ item }}"
+    dest: "{{ _exe_dir }}/{{ item }}"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    state: link
+  with_items:
+    - zcashd
+    - zcash-cli
+    - zcash-fetch-params
+  tags:
+    - install
+    - archive
+
+- name: Install archive install dependencies
+  become: true
+  package:
+    name:
+      - wget
+      - curl
+    state: present
+
+- name: Fetch generated parameters from MPC
+  become: true
+  become_user: "{{ zcashd_user }}"
+  command: "zcash-fetch-params"
+  changed_when: false
+  tags:
+    - install
+    - archive

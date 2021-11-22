@@ -1,0 +1,84 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+  tags:
+    - always
+
+- name: Set Prometheus file_sd path
+  when: install_type == 'archive'
+  set_fact:
+    filesd_path: '{{ install_dir }}/file_sd'
+  tags:
+    - preflight
+    - filesd
+
+- name: Set Prometheus rule_files path
+  when: install_type == 'archive'
+  set_fact:
+    rule_files: '{{ install_dir }}/rules.d'
+  tags:
+    - preflight
+    - rules
+
+- name: Set Prometheus exporters install dir
+  when: '"prometheus" in managed_services'
+  set_fact:
+    exporter_installdir: '{{ install_dir }}/exporters'
+  tags:
+    - preflight
+    - exporters
+
+- name: Set Alertmanager templates path
+  when: '"alertmanager" in managed_services'
+  set_fact:
+    templates_path: '{{ install_dir }}/templates'
+  tags:
+    - preflight
+    - alertmanager
+    - templates
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify:
+        - Uninstall prometheus
+        - Uninstall alertmanager
+  always:
+    - name: Flush handlers
+      meta: flush_handlers
+    - name: End play following uninstallation
+      meta: end_play
+  tags:
+    - preflight
+
+- name: Set Prometheus unit [Service] configuration
+  when: '"prometheus" in managed_services'
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ install_dir }}/prometheus --config.file={{ config_dir }}/prometheus.yml --storage.tsdb.path={{ data_dir }} {{ extra_run_args|join(' ') }}"
+      User: "{{ prometheus_user }}"
+      Group: "{{ prometheus_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+
+- name: Set Alertmanager unit [Service] configuration
+  when: '"alertmanager" in managed_services'
+  set_fact:
+    _alertmgr_service_unit:
+      ExecStart: "{{ alertmgr_installdir }}/alertmanager --config.file={{ alertmgr_configdir }}/alertmanager.yml {{ extra_alertmgr_args|join(' ') }}"
+      User: "{{ prometheus_user }}"
+      Group: "{{ prometheus_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+    - alertmanager

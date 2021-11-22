@@ -1,0 +1,56 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+  tags:
+    - preflight
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify:
+        - Uninstall service
+  always:
+    - name: Ensure flush of handlers
+      meta: flush_handlers
+    - name: End play following uninstallation
+      meta: end_play
+  tags:
+    - preflight
+
+- name: Fail on archive installation of unsupported system distributions
+  when: install_type == 'archive' and ansible_os_family|lower != 'debian'
+  fail:
+    msg: "Sorry Zcashd doesn't support archive installation on {{ ansible_distribution }} installations. Exiting."
+  tags:
+    - preflight
+    - assert
+
+- name: Set extra archive extraction arguments based on type
+  become: true
+  when: install_type == 'archive' and archive_url | basename | regex_search('(zip$)', ignorecase=True)
+  package:
+    name: unzip
+    state: present
+
+- name: Set extra archive extraction arguments if tar type
+  when: install_type == 'archive' and not archive_url | basename | regex_search('(zip$)', ignorecase=True)
+  set_fact:
+    archive_options:
+      - --strip-components
+      - '1'
+
+- name: Update system dependencies
+  become: true
+  when: install_type == 'source'
+  package:
+    name: "{{ system_dependencies }}"
+    state: present
+  tags:
+    - preflight

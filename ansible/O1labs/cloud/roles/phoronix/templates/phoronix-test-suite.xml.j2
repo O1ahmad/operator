@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--Phoronix Test Suite v9.0.1-->
+<?xml-stylesheet type="text/xsl" href="xsl/pts-user-config-viewer.xsl"?>
+<PhoronixTestSuite>
+  <Options>
+  {% for option, cfg_map in conf.items() %}
+    <{{ option }}>
+    {% for key, value in cfg_map.items() %}
+      <{{ key }}>{{ value }}</{{ key }}>
+    {% endfor %}
+    </{{ option }}>
+  {% endfor %}
+  </Options>
+</PhoronixTestSuite>

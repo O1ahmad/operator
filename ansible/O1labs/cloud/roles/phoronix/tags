@@ -1,0 +1,103 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+"{{ _test_name }}"	tasks/common/launch/systemd-test.yml	/^      - name: "{{ _test_name }}"$/;"	k
+Batch install available suites	tasks/common/launch/test-runs.yml	/^- name: Batch install available suites$/;"	k
+Batch install designated tests	tasks/common/launch/test-runs.yml	/^- name: Batch install designated tests$/;"	k
+Batch install recommended tests	tasks/common/launch/test-runs.yml	/^- name: Batch install recommended tests$/;"	k
+Broadcast uninstall signal	tasks/common/install.yml	/^    - name: Broadcast uninstall signal$/;"	k
+Check for uninstall signal	tasks/common/install.yml	/^- name: Check for uninstall signal$/;"	k
+Collect list of all test-runs	handlers/main.yml	/^- name: Collect list of all test-runs$/;"	k
+Create Phoronix group	tasks/common/install.yml	/^- name: Create Phoronix group$/;"	k
+Create Phoronix user	tasks/common/install.yml	/^- name: Create Phoronix user$/;"	k
+Create installation directory	tasks/common/install.yml	/^- name: Create installation directory$/;"	k
+Create user configuration directory	tasks/common/config/user-config.yml	/^- name: Create user configuration directory$/;"	k
+Debian	meta/main.yml	/^    - name: Debian$/;"	k
+Default playbook for PTS uninstall testing	test/integration/uninstall/default_playbook.yml	/^- name: Default playbook for PTS uninstall testing$/;"	k
+Default playbook for archive installation testing	test/integration/install/archive_install/default_playbook.yml	/^- name: Default playbook for archive installation testing$/;"	k
+Default playbook for package installation testing	test/integration/install/package_install/default_playbook.yml	/^- name: Default playbook for package installation testing$/;"	k
+Default playbook for test-run launch testing	test/integration/launch/launch_test/default_playbook.yml	/^- name: Default playbook for test-run launch testing$/;"	k
+Default playbook for user configuration testing	test/integration/config/user_config/default_playbook.yml	/^- name: Default playbook for user configuration testing$/;"	k
+Determine pts executable path	tasks/common/preflight.yml	/^- name: Determine pts executable path$/;"	k
+Download and extract Phoronix archive	tasks/common/install/archive_install.yml	/^- name: Download and extract Phoronix archive$/;"	k
+EL	meta/main.yml	/^    - name: EL$/;"	k
+End play following uninstallation	tasks/common/install.yml	/^    - name: End play following uninstallation$/;"	k
+Ensure existence of Phoronix test runtime config dir	tasks/common/launch/systemd-test.yml	/^- name: Ensure existence of Phoronix test runtime config dir$/;"	k
+Execute available PTS suites	tasks/common/launch/test-runs.yml	/^- name: Execute available PTS suites$/;"	k
+Execute designated PTS test runs	tasks/common/launch/test-runs.yml	/^- name: Execute designated PTS test runs$/;"	k
+Execute initial batch(autonomous) testing setup	tasks/common/config/user-config.yml	/^- name: Execute initial batch(autonomous) testing setup$/;"	k
+Execute recommended PTS tests	tasks/common/launch/test-runs.yml	/^- name: Execute recommended PTS tests$/;"	k
+Execute test profiles based on launch type	tasks/common/launch.yml	/^- name: Execute test profiles based on launch type$/;"	k
+Fedora	meta/main.yml	/^    - name: Fedora$/;"	k
+Format PTS available test suites	tasks/common/preflight/test-list.yml	/^- name: Format PTS available test suites$/;"	k
+Format PTS recommended test data	tasks/common/preflight/test-list.yml	/^- name: Format PTS recommended test data$/;"	k
+Format PTS system and diagnostic data	tasks/common/preflight/inspect.yml	/^- name: Format PTS system and diagnostic data$/;"	k
+Gather Phoronix system diagnostics	tasks/common/preflight/inspect.yml	/^- name: Gather Phoronix system diagnostics$/;"	k
+Gather Phoronix system information	tasks/common/preflight/inspect.yml	/^- name: Gather Phoronix system information$/;"	k
+Gather Phoronix system network information	tasks/common/preflight/inspect.yml	/^- name: Gather Phoronix system network information$/;"	k
+Gather Phoronix system sensor information	tasks/common/preflight/inspect.yml	/^- name: Gather Phoronix system sensor information$/;"	k
+Gather available Phoronix test suites	tasks/common/preflight/test-list.yml	/^- name: Gather available Phoronix test suites$/;"	k
+Gather recommened Phoronix tests (test-name by subsystem)	tasks/common/preflight/test-list.yml	/^- name: Gather recommened Phoronix tests (test-name by subsystem)$/;"	k
+Generate designated configurations	tasks/common/config.yml	/^- name: Generate designated configurations$/;"	k
+Include OS and distribution specific variables.	tasks/common/preflight.yml	/^- name: Include OS and distribution specific variables.$/;"	k
+Include PTS system inspection tasks	tasks/common/install.yml	/^- name: Include PTS system inspection tasks$/;"	k
+Include PTS test listing inspection	tasks/common/preflight/inspect.yml	/^- name: Include PTS test listing inspection$/;"	k
+Include PTS test suites inspection tasks	tasks/common/install.yml	/^- name: Include PTS test suites inspection tasks$/;"	k
+Include common config tasks	tasks/main.yml	/^- name: Include common config tasks$/;"	k
+Include common install tasks	tasks/main.yml	/^- name: Include common install tasks$/;"	k
+Include common launch tasks	tasks/main.yml	/^- name: Include common launch tasks$/;"	k
+Include common preflight tasks	tasks/main.yml	/^- name: Include common preflight tasks$/;"	k
+Initialize uninstallation tests list	tasks/common/install.yml	/^    - name: Initialize uninstallation tests list$/;"	k
+Install Phoronix based on install type	tasks/common/install.yml	/^- name: Install Phoronix based on install type$/;"	k
+Install Phoronix package	tasks/common/install/package_install.yml	/^- name: Install Phoronix package$/;"	k
+Reconcile runtime test-run specifications - Step 1	tasks/common/launch/systemd-test.yml	/^- name: Reconcile runtime test-run specifications - Step 1$/;"	k
+Reconcile runtime test-run specifications - Step 2	tasks/common/launch/systemd-test.yml	/^- name: Reconcile runtime test-run specifications - Step 2$/;"	k
+Reconcile test-run (default) runtime configuration	tasks/common/launch/systemd-test.yml	/^- name: Reconcile test-run (default) runtime configuration$/;"	k
+Reconcile test-run *runtime* configuration	tasks/common/launch/systemd-test.yml	/^- name: Reconcile test-run *runtime* configuration$/;"	k
+Remove Phoronix group	handlers/main.yml	/^- name: Remove Phoronix group$/;"	k
+Remove Phoronix user	handlers/main.yml	/^- name: Remove Phoronix user$/;"	k
+Remove available suite test-run systemd units	handlers/main.yml	/^- name: Remove available suite test-run systemd units$/;"	k
+Remove installation directory	handlers/main.yml	/^- name: Remove installation directory$/;"	k
+Remove recommended test-run systemd units if necessary	handlers/main.yml	/^- name: Remove recommended test-run systemd units if necessary$/;"	k
+Remove test operational helper scripts	handlers/main.yml	/^- name: Remove test operational helper scripts$/;"	k
+Remove user designated test-run systemd units	handlers/main.yml	/^- name: Remove user designated test-run systemd units$/;"	k
+Remove user test-run configurations	handlers/main.yml	/^- name: Remove user test-run configurations$/;"	k
+Remove user test-run runtime environment config	handlers/main.yml	/^- name: Remove user test-run runtime environment config$/;"	k
+Render Phoronix runtime environment configuration	tasks/common/launch/systemd-test.yml	/^- name: Render Phoronix runtime environment configuration$/;"	k
+Render Phoronix test-run post-exec script	tasks/common/config/scripts.yml	/^- name: Render Phoronix test-run post-exec script$/;"	k
+Render Phoronix user configuration	tasks/common/config/user-config.yml	/^- name: Render Phoronix user configuration$/;"	k
+Render operational/configuration scripts	tasks/common/config.yml	/^- name: Render operational\/configuration scripts$/;"	k
+Render test-run completion wait script	tasks/common/config/scripts.yml	/^- name: Render test-run completion wait script$/;"	k
+Resolve configuration directory based on user spec	tasks/common/config/user-config.yml	/^- name: Resolve configuration directory based on user spec$/;"	k
+Resolve configuration user based on configuration spec	tasks/common/config/user-config.yml	/^- name: Resolve configuration user based on configuration spec$/;"	k
+Resolve test-run suite of tests to execute	tasks/common/launch/test-runs.yml	/^- name: Resolve test-run suite of tests to execute$/;"	k
+Sanitize PTS available suites data	tasks/common/preflight/test-list.yml	/^- name: Sanitize PTS available suites data$/;"	k
+Sanitize PTS recommended test data	tasks/common/preflight/test-list.yml	/^- name: Sanitize PTS recommended test data$/;"	k
+Set PTS diagnostic data map	tasks/common/preflight/inspect.yml	/^- name: Set PTS diagnostic data map$/;"	k
+Set test run unit configuration	tasks/common/launch/systemd-test.yml	/^- name: Set test run unit configuration$/;"	k
+Setup Test run systemd unit	tasks/common/launch/systemd-test.yml	/^- name: Setup Test run systemd unit$/;"	k
+Start PTS test-run service	tasks/common/launch/systemd-test.yml	/^    - name: Start PTS test-run service$/;"	k
+Start and wait for completion of test	tasks/common/launch/systemd-test.yml	/^- name: Start and wait for completion of test$/;"	k
+Ubuntu	meta/main.yml	/^    - name: Ubuntu$/;"	k
+Uninstall phoronix-test-suite package	handlers/main.yml	/^- name: Uninstall phoronix-test-suite package$/;"	k
+Update executable path based on install type	tasks/common/preflight.yml	/^- name: Update executable path based on install type$/;"	k
+Update system dependencies	tasks/common/preflight.yml	/^- name: Update system dependencies$/;"	k
+Wait for completion of test-run	tasks/common/launch/systemd-test.yml	/^    - name: Wait for completion of test-run$/;"	k
+archive_install	kitchen.yml	/^  - name: archive_install$/;"	k
+centos-7	kitchen.yml	/^  - name: centos-7$/;"	k
+fedora-29	kitchen.yml	/^  - name: fedora-29$/;"	k
+fedora-30	kitchen.yml	/^  - name: fedora-30$/;"	k
+fedora-31	kitchen.yml	/^  - name: fedora-31$/;"	k
+launch_test	kitchen.yml	/^  - name: launch_test$/;"	k
+package_install	kitchen.yml	/^  - name: package_install$/;"	k
+pts/apache	test/integration/launch/launch_test/default_playbook.yml	/^              - name: pts\/apache$/;"	k
+pts/compress-gzip	test/integration/launch/launch_test/default_playbook.yml	/^              - name: pts\/compress-gzip$/;"	k
+pts/compress-gzip	test/integration/uninstall/default_playbook.yml	/^              - name: pts\/compress-gzip$/;"	k
+pts/encode-mp3	test/integration/launch/launch_test/default_playbook.yml	/^              - name: pts\/encode-mp3$/;"	k
+ubuntu-18.04	kitchen.yml	/^  - name: ubuntu-18.04$/;"	k
+ubuntu-19.04	kitchen.yml	/^  - name: ubuntu-19.04$/;"	k
+uninstall	kitchen.yml	/^  - name: uninstall$/;"	k
+user_config	kitchen.yml	/^  - name: user_config$/;"	k

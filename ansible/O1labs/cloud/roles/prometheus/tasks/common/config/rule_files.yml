@@ -1,0 +1,28 @@
+---
+- name: Ensure existence of rules file directory
+  become: true
+  file:
+    path: "{{ item.path | default(rules_path) }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+  tags:
+    - config
+    - rules
+
+- name: Render Prometheus rules file configuration
+  become: true
+  when: item.config is defined and item.config.keys()|length > 0
+  template:
+    src: "{{ _rule_files_template }}"
+    dest: "{{ item.path | default(rules_path) }}/{{ item.name }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0644
+    validate: "{{ install_dir }}/promtool check rules %s"
+  vars:
+    conf: "{{ item.config }}"
+  notify: Restart prometheus
+  tags:
+    - config
+    - rules

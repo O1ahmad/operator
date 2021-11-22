@@ -1,0 +1,19 @@
+---
+- name: Extract Kafka archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_url }}"
+    dest: "{{ kafka_home }}"
+    creates: "{{ kafka_home }}/bin"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+    mode: '0775'
+    validate_certs: false
+    extra_opts:
+      - --strip-components
+      - '1'
+    remote_src: true
+  tags:
+    - install
+    - archive

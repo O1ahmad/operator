@@ -1,0 +1,46 @@
+---
+- name: Set Coda zk-SNARKS worker service unit [Service] configuration
+  set_fact:
+    _default_worker_unit:
+      ExecStart: "/usr/local/bin/coda internal snark-worker -daemon-address {{ snark_coordinator }} {{ extra_worker_args|join(' ') }}"
+      User: "{{ coda_user }}"
+      Group: "{{ coda_user }}"
+      Type: simple
+      Restart: always
+      RestartSec: 10
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+
+- name: Setup Coda zk-SNARKS worker systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: coda-snark-worker@
+        Unit:
+          Description: Coda Snark Worker Service %i
+          Documentation: https://codaprotocol.com/docs/node-operator
+          StartLimitIntervalSec: 60
+          StartLimitBurst: 3
+          Requires: coda-daemon.service
+          Wants: network-online.target
+          After: coda-daemon.service
+        Service: "{{ _default_worker_unit | combine(custom_worker_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of Coda zk-SNARKs worker service(s)
+  become: true
+  service:
+    name: "coda-snark-worker@{{ worker_num }}"
+    state: started
+    enabled: yes
+  loop: "{{ range(1, snark_workers + 1)|list }}"
+  loop_control:
+    loop_var: worker_num
+  tags:
+    - launch

@@ -1,0 +1,110 @@
+---
+- name: Reconcile runtime test-run specifications - Step 1
+  set_fact:
+    _default_runtime_dir: "{{ install_dir }}/runtime"
+
+    _test_name: "{{ test.name | regex_replace('^pts/', 'pts-') }}"
+    _test_unit_path: "{{ cfg.test_unit_path | default('/etc/systemd/system') }}"
+
+    _autopilot: "{{ test.autopilot | default(default_autopilot) }}"
+    _run_asynchronous: "{{ test.run_asynchronous | default(default_run_asynchronous) }}"
+
+    _id_base: "{{ ansible_form_factor }}-{{ ansible_architecture }}-{{ ansible_distribution }}-{{ ansible_distribution_version }}"
+  tags:
+    - launch
+
+- name: Reconcile runtime test-run specifications - Step 2
+  set_fact:
+    _runtime_dir: "{{ '/home/'+_test_user+'/.phoronix-test-suite/runtime' if _test_user != 'auto' else _default_runtime_dir }}"
+    _default_test_id: "{{ _id_base }}-{{ _test_name }}-{{ ansible_hostname }}-{{ ansible_date_time.epoch }}"
+  tags:
+    - launch
+
+- name: Reconcile test-run (default) runtime configuration
+  set_fact:
+    _default_runtime_config:
+      test_results_name: "{{ cfg.prefix | default('0xO1') }}-{{ _test_name }}-{{ ansible_hostname }}"
+      test_results_description: '"{{ _test_name }} results for {{ ansible_hostname }}"'
+      test_results_identifier: "{{ cfg.id | default(_default_test_id) }}"
+      pts_silent_mode: 1
+  tags:
+    - launch
+
+- name: Reconcile test-run *runtime* configuration
+  set_fact:
+    _runtime_config: "{{ _default_runtime_config | combine(test.runtime_config | default({})) }}"
+  tags:
+    - launch
+
+- name: Ensure existence of Phoronix test runtime config dir
+  become: true
+  file:
+    path: "{{ _runtime_dir }}"
+    state: directory
+    mode: '0755'
+  tags:
+    - launch
+
+- name: Render Phoronix runtime environment configuration
+  become: true
+  template:
+    src: "{{ _phoronix_runtimecfg_file }}.j2"
+    dest: "{{ _runtime_dir }}/{{ _test_name }}.env"
+    owner: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+    mode: 0644
+  vars:
+    cfg: "{{ _runtime_config }}"
+  tags:
+    - launch
+    - config
+
+- name: Set test run unit configuration
+  when: _autopilot
+  set_fact:
+    _default_test_unit:
+      User: "{{ _test_user | default(phoronix_user) }}"
+      Group: "{{ _test_user | default(phoronix_user) }}"
+      ExecStart: "{{ exe_path }} batch-run {{ test.name }}"
+      ExecReload: "{{ exe_path }} finish-run {{ _runtime_config.test_results_name | default(_default_runtime_config.test_results_name) }}"
+      EnvironmentFile: "{{ _runtime_dir }}/{{ _test_name }}.env"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - launch
+
+- name: Setup Test run systemd unit
+  when: _autopilot
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _test_name }}"
+        path: "{{ _test_unit_path }}"
+        Unit:
+          Description: "Phoronix-Test-Suite | Test: {{ _test_name }} | User: {{ _test_user }}"
+          Documentation: https://www.phoronix-test-suite.com/documentation/
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_test_unit | combine(test.unit_properties | default({})) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Start and wait for completion of test
+  when: _autopilot
+  block:
+    - name: Start PTS test-run service
+      become: true
+      service:
+        name: "{{ _test_name }}"
+        state: started
+        enabled: "yes"
+    - name: Wait for completion of test-run
+      become: true
+      when: not _run_asynchronous
+      command:
+        cmd: "wait_for_completion.sh {{ _test_name }}"
+  tags:
+    - launch

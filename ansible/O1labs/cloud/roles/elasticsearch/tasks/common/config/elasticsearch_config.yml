@@ -1,0 +1,48 @@
+---
+- name: Create Elasticsearch config directory
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+  tags:
+    - config
+
+- name: Create Elasticsearch data directory
+  become: true
+  file:
+    path: "{{ data_dir }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+  tags:
+    - config
+    - data
+
+- name: Create Elasticsearch log directory
+  become: true
+  file:
+    path: "{{ logs_dir }}"
+    state: directory
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+  tags:
+    - config
+    - log
+
+- name: Render elasticsearch.yml configuration
+  become: true
+  when: config is defined and config.keys()|length > 0
+  template:
+    src: "{{ _elasticsearch_config }}.j2"
+    dest: "{{ config_dir|default(default_config_dir) }}/{{ _elasticsearch_config }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    mode: 0644
+  vars:
+    conf: "{{ config }}"
+  notify:
+    - Restart service
+  tags:
+    - config

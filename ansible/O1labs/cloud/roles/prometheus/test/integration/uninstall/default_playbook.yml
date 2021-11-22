@@ -1,0 +1,76 @@
+---
+- name: Prometheus uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        perform_uninstall: false
+        managed_services: ['prometheus', 'alertmanager']
+        prometheus_config:
+          scrape_configs:
+            - job_name: file-sd-test
+              file_sd_configs:
+                - files:
+                    - /opt/prometheus/file_sd/*.slow.json
+          rule_files:
+            - /etc/prometheus/rules.d/nondefault-path-example-rules.yml
+        prometheus_file_sd:
+          - name: example-file.slow.json
+            config:
+              - targets: ["host1:1234"]
+                labels:
+                  test-label: file-sd-json
+        prometheus_rule_files:
+          - name: nondefault-path-example-rules.yml
+            path: /etc/prometheus/rules.d
+            config:
+              groups:
+                - name: alerting rule example
+                  rules:
+                    - alert: HighRequestLatency
+                      expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+                      for: 10m
+                      labels:
+                        severity: page
+                      annotations:
+                        summary: High request latency
+        prometheus_exporters:
+          - name: node_exporter
+            path: /opt
+            url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+    - role: ansible-role-prometheus
+      vars:
+        perform_uninstall: true
+        managed_services: ['prometheus', 'alertmanager']
+        prometheus_config:
+          scrape_configs:
+            - job_name: file-sd-test
+              file_sd_configs:
+                - files:
+                    - /opt/prometheus/file_sd/*.slow.json
+          rule_files:
+            - /etc/prometheus/rules.d/nondefault-path-example-rules.yml
+        prometheus_file_sd:
+          - name: example-file.slow.json
+            config:
+              - targets: ["host1:1234"]
+                labels:
+                  test-label: file-sd-json
+        prometheus_rule_files:
+          - name: nondefault-path-example-rules.yml
+            path: /etc/prometheus/rules.d
+            config:
+              groups:
+                - name: alerting rule example
+                  rules:
+                    - alert: HighRequestLatency
+                      expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+                      for: 10m
+                      labels:
+                        severity: page
+                      annotations:
+                        summary: High request latency
+        prometheus_exporters:
+          - name: node_exporter
+            path: /opt
+            url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz

@@ -1,0 +1,22 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-kafka
+      vars:
+        install_type: archive
+        managed_configs: ['log4j_properties']
+        log4j_properties:
+          - comment: Set root logger list
+            settings:
+              - log4j.rootLogger: INFO,stdout,kafkaAppender
+          - comment: Define stdout logger appender
+            settings:
+              - log4j.appender.stdout: org.apache.log4j.ConsoleAppender
+              - log4j.appender.stdout.layout: org.apache.log4j.PatternLayout
+          - comment: Define kafka logger appender
+            settings:
+              - log4j.appender.kafkaAppender: org.apache.log4j.DailyRollingFileAppender
+              - log4j.appender.kafkaAppender.DatePattern: "'.'yyyy-MM-dd-HH"
+              - log4j.appender.kafkaAppender.File: "${kafka.logs.dir}/server.log"
+              - log4j.appender.kafkaAppender.layout: org.apache.log4j.PatternLayout

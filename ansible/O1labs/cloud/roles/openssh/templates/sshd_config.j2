@@ -1,0 +1,6 @@
+{{ ansible_managed | comment }}
+# see: sshd_config manual -- http://man7.org/linux/man-pages/man5/sshd_config.5.html for more details
+
+{% for key, value in ssh_config.service.items() %}
+{{ key }} {{ value }}
+{% endfor %}

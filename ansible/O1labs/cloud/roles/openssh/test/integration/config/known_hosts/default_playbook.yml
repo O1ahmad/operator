@@ -1,0 +1,31 @@
+---
+- name: OpenSSH known hosts configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-openssh
+      vars:
+        managed_configs:
+          - known_hosts
+        ssh_config:
+          known_hosts:
+            global:
+              "test-key-string":
+                hostnames:
+                  - "mainnet,192.168.1.1"
+                  - "*.test.com"
+                  - "|1|JfKTdBh7rNbXkVAQCRp4OQoPfmI=|USECr3SWf1JUPsms5AqfD5QfxkM="
+                key: "ssh-rsa @k3y"
+                marker: "@revoked"
+            kitchen:
+              "test-key-dict":
+                hostnames:
+                  - "*"
+                key:
+                  type: "ssh-rsa"
+                  encoding: "th!s !s @ k3y"
+                  comments: "these are the key comments"
+              "test-key-file":
+                hostnames:
+                  - "*"
+                key: "/etc/ssh/ssh_host_rsa_key.pub"
+                marker: "@cert-authority"

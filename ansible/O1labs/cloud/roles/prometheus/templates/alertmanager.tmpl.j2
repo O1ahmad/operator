@@ -1,0 +1,6 @@
+{{ ansible_managed | comment }}
+# see https://prometheus.io/docs/alerting/notifications/ for more details
+
+{% for entry in conf %}
+{{ "{{" }} define "{{ entry.define }}" {{ "}}" }}{{ entry.template|replace("\{", "{")|replace("\}", "}") }}{{ "{{" }} end {{ "}}" }}
+{% endfor %}

@@ -1,0 +1,9 @@
+---
+- name: Render Traefik configuration files
+  when: traefik_configs is defined and traefik_configs|length > 0
+  include_tasks: "common/config/traefik.yml"
+  with_items: "{{ traefik_configs }}"
+  loop_control:
+    loop_var: cfg
+  tags:
+    - config

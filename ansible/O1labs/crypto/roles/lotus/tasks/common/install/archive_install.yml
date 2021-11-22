@@ -1,0 +1,32 @@
+---
+- name: Download Lotus archive ({{ archive_url }})
+  become: true
+  when: install_type == "archive"
+  get_url:
+    url: "{{ archive_url }}"
+    dest: "/tmp/{{ archive_url | urlsplit('path') | basename }}"
+    checksum: "{{ (archive_checksum|length > 0) | ternary(checksum_format+':'+archive_checksum, '') }}"
+    mode: '0775'
+  register: archive_tmp
+  tags:
+    - install
+    - archive
+
+- name: Extract Lotus archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_tmp.dest }}"
+    dest: "{{ install_dir }}"
+    mode: '0775'
+    owner: "{{ lotus_user }}"
+    group: "{{ lotus_user }}"
+    extra_opts:
+      - --strip-components
+      - '1'
+    remote_src: true
+  notify:
+    - Restart service
+  tags:
+    - install
+    - archive

@@ -1,0 +1,47 @@
+---
+- name: Set config include clause for service launch
+  set_fact:
+    _config_specs: "{{ _config_specs }} + ['{{ item.cfg.path|default(config_dir) }}/{{ item.cfg.name }}.json']"
+  with_items: "{{ registered_configs.results }}"
+  tags:
+    - preflight
+    - launch
+
+- name: Set unit [Service] configuration
+  set_fact:
+    default_service_unit:
+      ExecStart: "{{ exe_dir }}/consul agent{{ ' -config-file ' + _config_specs | join(' -config-file ') if consul_configs|length > 0  }}  {{ extra_run_args|join(' ') }}"
+      User: "{{ consul_user }}"
+      Group: "{{ consul_user }}"
+      WorkingDirectory: "{{ install_dir }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+    - launch
+
+- name: Setup Consul systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _service_name }}"
+        Unit:
+          Description: Consul - service mesh and discoverability networking tool
+          Documentation: https://www.consul.io/docs/index.html
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of consul service
+  become: true
+  systemd:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

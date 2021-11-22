@@ -1,0 +1,8 @@
+---
+- name: Execute test profiles based on launch type
+  include_tasks: "common/launch/test-runs.yml"
+  with_items: "{{ user_configs }}"
+  loop_control:
+    loop_var: run_cfg
+  tags:
+    - launch

@@ -1,0 +1,73 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+  tags:
+    - always
+
+- name: Determine configuration directory
+  when: install_type == 'package'
+  set_fact:
+    _config_dir: '/etc/td-agent'
+  tags:
+    - preflight
+
+- name: Determine configuration file name
+  when: install_type == 'package'
+  set_fact:
+    _config_file: 'td-agent.conf'
+  tags:
+    - preflight
+
+- name: Determine service name
+  when: install_type == 'package'
+  set_fact:
+    _service_name: 'td-agent'
+  tags:
+    - preflight
+
+- name: Set Fluentd unit [Service] configuration
+  when: install_type == 'gem'
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ _exe_path }}/{{ _service_name }} -c {{ _config_dir }}/{{ _config_file }} {{ extra_run_args|join(' ') }}"
+      User: "{{ fluentd_user }}"
+      Group: "{{ fluentd_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  notify:
+    - reload service
+  tags:
+    - preflight
+
+- name: Determine plugin exe path
+  when: install_type == 'package'
+  set_fact:
+    _exe_path: '/usr/sbin'
+  tags:
+    - preflight
+
+- name: Determine plugin exe
+  when: install_type == 'package'
+  set_fact:
+    _plugin_exe: 'td-agent-gem'
+  tags:
+    - preflight
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Uninstall service
+  always:
+    - name: Flush handlers
+      meta: flush_handlers
+    - name: End play following uninstallation
+      meta: end_play
+  tags:
+    - preflight

@@ -1,0 +1,40 @@
+---
+- name: Alertmanager setup integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        managed_services: ['alertmanager']
+        alertmanager_templates:
+          - name: test
+            config:
+              - define: "myorg.test.guide"
+                template: 'https://internal.myorg.net/wiki/alerts/\{\{ .GroupLabels.app \}\}/\{\{ .GroupLabels.alertname \}\}'
+          - name: test2
+            path: /etc/alertmanager/templates
+            config:
+              - define: "myorg.test.text"
+                template: 'summary: \{\{ .CommonAnnotations.summary \}\}\ndescription: \{\{ .CommonAnnotations.description \}\}'
+        alertmgr_config:
+          global:
+            smtp_smarthost: 'localhost:25'
+            smtp_from: 'alertmanager@example.org'
+          route:
+            receiver: team-X-mails
+            routes:
+              - match_re:
+                  service: ^(foo1|foo2|baz)$
+                receiver: team-X-mails
+          receivers:
+            - name: 'team-X-mails'
+              email_configs:
+                - to: 'team-X+alerts@example.org'
+          templates:
+            - /opt/alertmanager/templates/test.tmpl
+            - /etc/alertmanager/templates/test2.tmpl
+        extra_alertmgr_args:
+          - --storage.path=/var/data/alertmanager
+          - --web.listen-address=0.0.0.0:9090
+          - --log.level=debug
+        custom_alertmgr_properties:
+          LimitDATA: 1G

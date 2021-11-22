@@ -1,0 +1,13 @@
+---
+- name: Kibana configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-kibana
+      vars:
+        install_type: archive
+        config:
+          server.name: kibana-test
+          path.data: /mnt/data/kibana
+          logging:
+            verbose: true
+            json: true

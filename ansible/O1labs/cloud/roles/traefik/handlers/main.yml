@@ -1,0 +1,72 @@
+---
+- name: Restart Traefik service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Stop Traefik systemd service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: stopped
+    enabled: false
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove Traefik systemd service file
+  become: true
+  file:
+    path: "/etc/systemd/system/{{ _service_name }}.service"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Traefik install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Traefik config files
+  become: true
+  file:
+    path: "{{ item.path|default(config_dir) }}/{{ item.name|default(_service_name) }}.yml"
+    state: absent
+  with_items: "{{ traefik_configs }}"
+  listen: Uninstall service
+
+- name: Remove Traefik log directories and files
+  become: true
+  when: item.config.traefikLog.filePath is defined
+  file:
+    path: "{{ item.config.traefikLog.filePath }}"
+    state: absent
+  with_items: "{{ traefik_configs }}"
+  listen: Uninstall service
+
+- name: Remove Traefik access log directories and files
+  become: true
+  when: item.config.accessLog.filePath is defined
+  file:
+    path: "{{ item.config.accessLog.filePath }}"
+    state: absent
+  with_items: "{{ traefik_configs }}"
+  listen: Uninstall service
+
+- name: Remove Traefik user
+  become: true
+  user:
+    name: "{{ traefik_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Traefik group
+  become: true
+  group:
+    name: "{{ traefik_user }}"
+    state: absent
+  listen: Uninstall service

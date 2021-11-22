@@ -1,0 +1,17 @@
+---
+- name: Launch designated services
+  include_tasks: "common/launch/{{ item }}.yml"
+  loop: "{{ managed_services }}"
+  tags:
+    - launch
+    - alertmanager
+
+- name: Launch designated exporters
+  when: prometheus_exporters is defined and prometheus_exporters|length > 0
+  include_tasks: "common/launch/exporter.yml"
+  with_items: "{{ prometheus_exporters }}"
+  loop_control:
+    loop_var: exporter
+  tags:
+    - launch
+    - exporters

@@ -1,0 +1,16 @@
+---
+- name: Default playbook for daemon configuration testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-coda
+      vars:
+        install_type: package
+        coda_config:
+          client-port: 2000
+          libp2p-port: 2001
+          rest-port: 2002
+          external-port: 2003
+        managed_services: ['daemon', 'snark-worker']
+        extra_run_args: ['-seed']
+        snark_coordinator: localhost:2000
+        snark_workers: 2

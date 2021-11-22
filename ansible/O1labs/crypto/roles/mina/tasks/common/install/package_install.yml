@@ -1,0 +1,15 @@
+---
+- name: Add Coda Debian repository
+  become: true
+  when: install_type == "package"
+  apt_repository:
+    repo: "{{ package_repo }}"
+    state: present
+
+- name: Install Coda Debian package
+  become: true
+  apt:
+    name: "{{ package_name }}"
+    default_release: "{{ package_release }}"
+    state: present
+    update_cache: yes

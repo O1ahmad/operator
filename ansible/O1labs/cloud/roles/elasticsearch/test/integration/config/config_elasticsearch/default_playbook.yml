@@ -1,0 +1,14 @@
+---
+- name: Elasticsearch service configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-elasticsearch
+      vars:
+        install_type: archive
+        managed_configs: ['elasticsearch_config']
+        config:
+          node.name: "${HOSTNAME}"
+          cluster.name: test-cluster
+          path.data: /mnt/data/elasticsearch
+          path:
+            logs: /mnt/logs/elasticsearch

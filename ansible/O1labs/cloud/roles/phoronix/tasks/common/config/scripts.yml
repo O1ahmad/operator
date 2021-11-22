@@ -1,0 +1,25 @@
+---
+- name: Render Phoronix test-run post-exec script
+  become: true
+  template:
+    src: "post_exec.sh.j2"
+    dest: "/usr/bin/test_post_exec.sh"
+    owner: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+    mode: 0755
+  vars:
+    exe: "{{ exe_path }}"
+    result_path: "{{ install_dir }}"
+  tags:
+    - config
+
+- name: Render test-run completion wait script
+  become: true
+  template:
+    src: "wait_for_completion.sh.j2"
+    dest: "/usr/bin/wait_for_completion.sh"
+    owner: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+    mode: 0755
+  tags:
+    - config

@@ -1,0 +1,13 @@
+---
+- name: Render jvm_options configuration
+  template:
+    src: "{{ _jvm_options_config }}.j2"
+    dest: "{{ config_dir }}/{{ _jvm_options_config }}"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+    mode: 0644
+  vars:
+    options: "{{ jvm_options }}"
+  tags:
+    - config
+    - jvm

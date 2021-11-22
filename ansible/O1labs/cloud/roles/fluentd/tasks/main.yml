@@ -1,0 +1,25 @@
+---
+- name: Include common preflight tasks
+  include_tasks: "common/preflight.yml"
+  tags:
+    - preflight
+
+- name: Include common install  tasks
+  include_tasks: "common/install.yml"
+  tags:
+    - install
+
+- name: Include common config tasks
+  include_tasks: "common/config.yml"
+  tags:
+    - config
+
+- name: Include common launch tasks
+  include_tasks: "common/launch.yml"
+  tags:
+    - launch
+
+- name: Include common plugins tasks
+  include_tasks: "common/plugins.yml"
+  tags:
+    - plugins

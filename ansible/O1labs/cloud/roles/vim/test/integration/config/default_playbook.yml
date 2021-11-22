@@ -1,0 +1,32 @@
+---
+- name: vim configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-vim
+      vars:
+        vimrc_config:
+          global:
+            - comment: command/setting (e.g. Turn on syntax highlighting)
+              commands:
+                - syntax: "on"
+          kitchen:
+            - comment: Multiple commands/settings as list (e.g. Search as characters are entered and highlight matches)
+              commands:
+                - set: incsearch
+                - set: hlsearch
+            - comment: Multiple commands/settings as dict (e.g. Move vertically by visual line)
+              commands:
+                - nnoremap j: gj
+                  nnoremap k: gk
+            - comment: >-
+                Specify single command grouping over multiple lines preserving
+                formatting (e.g. Allow cursor change in tmux mode)
+              commands:
+                - if: |
+                     exists('$TMUX')
+                       let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+                       let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+                     else
+                       let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+                       let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+                     endif

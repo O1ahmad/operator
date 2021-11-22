@@ -1,0 +1,6 @@
+{{ ansible_managed | comment }}
+# see: Kafka configuration reference -- https://kafka.apache.org/documentation/#brokerconfigs
+
+{% for key,value in properties.items() %}
+{{ key }} = {{ value }}
+{% endfor %}

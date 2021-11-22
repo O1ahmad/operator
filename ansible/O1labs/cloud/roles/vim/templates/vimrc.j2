@@ -1,0 +1,15 @@
+{{ ansible_managed | comment(decoration='" ') }}
+" see: vim online help documentation -- https://vimhelp.org/starting.txt.html#vimrc for more details
+
+{% for spec in config %}
+{% if 'comment' in spec %}
+" {{ spec.comment }} {{ '{{{' }}
+{% endif %}
+{% for entry in spec.commands %}
+{% for cmd,flags in entry.items() %}
+{{ cmd }} {{ flags }}
+{% endfor %}
+{% endfor %}
+" }}}
+
+{% endfor %}

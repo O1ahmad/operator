@@ -1,0 +1,44 @@
+---
+- name: Create Prometheus system group
+  become: true
+  group:
+    name: "{{ prometheus_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Prometheus system user
+  become: true
+  user:
+    comment: Prometheus service account
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Install Prometheus based on install type
+  when: '"prometheus" in managed_services'
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install
+
+- name: Install Alertmanager
+  when: '"alertmanager" in managed_services'
+  include_tasks: "common/install/alertmanager_install.yml"
+  tags:
+    - install
+    - alertmanager
+
+- name: Install Exporters
+  when: prometheus_exporters is defined and prometheus_exporters|length > 0
+  include_tasks: "common/install/exporter_install.yml"
+  with_items: "{{ prometheus_exporters }}"
+  loop_control:
+    loop_var: exporter
+  tags:
+    - install
+    - exporters

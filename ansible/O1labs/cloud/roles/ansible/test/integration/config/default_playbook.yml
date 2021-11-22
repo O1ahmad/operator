@@ -1,0 +1,13 @@
+---
+- name: Ansible configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-ansible
+      vars:
+        config_dir: /usr/local/etc/ansible
+        config:
+          defaults:
+            install_type: archive
+            log_path: /var/log/ansible.log
+            debug: True
+            enable_task_debugger: True

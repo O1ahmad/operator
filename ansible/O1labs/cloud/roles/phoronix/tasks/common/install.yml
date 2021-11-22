@@ -1,0 +1,55 @@
+---
+- name: Create Phoronix group
+  become: true
+  group:
+    name: "{{ phoronix_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Phoronix user
+  become: true
+  user:
+    comment: Phoronix service account
+    name: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+    system: true
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+  tags:
+    - install
+
+- name: Install Phoronix based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install
+
+- name: Include PTS system inspection tasks
+  include_tasks: "common/preflight/inspect.yml"
+
+- name: Include PTS test suites inspection tasks
+  include_tasks: "common/preflight/test-list.yml"
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Initialize uninstallation tests list
+      set_fact:
+        _uninstall_tests: []
+
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Uninstall service
+
+    - name: End play following uninstallation
+      meta: end_play
+  ignore_errors: true

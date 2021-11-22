@@ -1,0 +1,24 @@
+---
+- name: Create configuration directory
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ coda_user }}"
+    group: "{{ coda_user }}"
+  tags:
+    - config
+
+- name: Copy Coda configuration in place
+  become: true
+  when: coda_config is defined and coda_config.keys()|length > 0
+  template:
+    src: "{{ _config_template }}.j2"
+    dest: "{{ config_dir }}/{{ _config_template }}"
+    owner: "{{ coda_user }}"
+    group: "{{ coda_user }}"
+    mode: 0644
+  vars:
+    cfg: "{{ coda_config }}"
+  tags:
+    - config

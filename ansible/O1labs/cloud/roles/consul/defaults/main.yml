@@ -1,0 +1,32 @@
+---
+consul_user: consul
+
+install_type: archive
+
+go_autoinstall: false
+go_url: https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz
+go_install_dir: /usr/local
+go_exe_dir: /usr/local/go/bin
+
+git_url: https://github.com/hashicorp/consul.git
+git_version: v1.6.2
+
+archive_url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip
+archive_checksum: 78d127e5b8edd310c3f9f89487fb833a5c7bcb4e09cb731a4d39100fc53b38be
+checksum_format: sha256
+archive_options: []
+
+install_dir: /opt/consul
+
+config_dir: /etc/consul.d
+consul_configs: []
+_config_specs: []
+
+_datadir_set: false
+
+_service_name: consul
+exe_dir: /usr/local/bin
+custom_unit_properties: {}
+extra_run_args: []
+
+perform_uninstall: false

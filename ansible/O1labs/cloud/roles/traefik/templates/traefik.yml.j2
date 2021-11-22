@@ -1,0 +1,4 @@
+{{ ansible_managed | comment }}
+# see: https://docs.traefik.io/getting-started/configuration-overview/
+
+{{ conf | to_nice_yaml(indent=2) }}

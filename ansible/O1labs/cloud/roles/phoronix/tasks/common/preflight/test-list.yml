@@ -1,0 +1,53 @@
+---
+- name: Gather recommened Phoronix tests (test-name by subsystem)
+  shell:
+    cmd: "set -o pipefail && {{ exe_path }} list-recommended-tests | awk '{print $1}'"
+    executable: "{{ _shell_exe }}"
+  register: cmd_result
+  changed_when: false
+  tags:
+    - preflight
+    - inspect
+
+- name: Format PTS recommended test data
+  set_fact:
+    _fmt_recommended_tests: "{{ cmd_result.stdout_lines | map('trim') | map('regex_replace', _ansi_removal_regex) | list }}"
+    _recommended_tests: []
+  tags:
+    - preflight
+    - inspect
+
+- name: Sanitize PTS recommended test data
+  set_fact:
+    _recommended_tests: "{{ _recommended_tests + [{'name': item}] if 'pts' in item else _recommended_tests }}"
+  loop: "{{ _fmt_recommended_tests }}"
+  tags:
+    - preflight
+    - inspect
+
+# *** PTS Suite info ***
+- name: Gather available Phoronix test suites
+  shell:
+    cmd: "{{ exe_path }} list-available-suites | awk '{print $1}'"
+    executable: "{{ _shell_exe }}"
+  register: cmd_result
+  changed_when: false
+  tags:
+    - preflight
+    - inspect
+
+- name: Format PTS available test suites
+  set_fact:
+    _fmt_available_suites: "{{ cmd_result.stdout_lines | map('trim') | map('regex_replace', _ansi_removal_regex) | list }}"
+    _available_suites: []
+  tags:
+    - preflight
+    - inspect
+
+- name: Sanitize PTS available suites data
+  set_fact:
+    _available_suites: "{{ _available_suites + [{'name': item}] if 'pts' in item else _available_suites }}"
+  loop: "{{ _fmt_available_suites }}"
+  tags:
+    - preflight
+    - inspect

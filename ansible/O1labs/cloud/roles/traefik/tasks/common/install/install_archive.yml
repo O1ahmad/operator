@@ -1,0 +1,30 @@
+---
+- name: Download Traefik archive ({{ archive_url }})
+  become: true
+  when: install_type == "archive"
+  get_url:
+    url: "{{ archive_url }}"
+    dest: "/tmp/{{ archive_url | urlsplit('path') | basename }}"
+    checksum: "{{ (archive_checksum|length > 0) | ternary(checksum_format+':'+archive_checksum, '') }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0775'
+  register: archive_tmp
+  tags:
+    - install
+    - archive
+
+- name: Extract Traefik archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_tmp.dest }}"
+    dest: "{{ install_dir }}"
+    owner: "{{ traefik_user }}"
+    group: "{{ traefik_user }}"
+    mode: '0775'
+    remote_src: true
+    extra_opts: "{{ archive_options }}"
+  tags:
+    - install
+    - archive

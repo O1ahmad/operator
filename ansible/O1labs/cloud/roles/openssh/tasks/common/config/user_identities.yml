@@ -1,0 +1,30 @@
+---
+- name: Copy user private identities from local controller
+  become: true
+  when: ssh_config.user_identities is defined and ssh_config.user_identities.keys() | length > 0
+  copy:
+    src: "{{ item.value.src }}"
+    dest: "/home/{{ item.key }}/.ssh/{{ item.value.dest|default(item.value.src)|basename }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: '0644'
+  with_dict: "{{ ssh_config.user_identities }}"
+  tags:
+    - config
+    - user_identities
+    - private
+
+- name: Copy user public identities from local controller host in place on remote
+  become: true
+  when: ssh_config.user_identities is defined and ssh_config.user_identities.keys() | length > 0
+  copy:
+    src: "{{ item.value.src }}.pub"
+    dest: "/home/{{ item.key }}/.ssh/{{ item.value.dest|default(item.value.src)|basename }}.pub"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: '0644'
+  with_dict: "{{ ssh_config.user_identities }}"
+  tags:
+    - config
+    - user_identities
+    - public

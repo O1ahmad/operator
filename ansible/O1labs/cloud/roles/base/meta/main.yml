@@ -1,4 +1,7 @@
 ---
+dependencies:
+  - o1labs.cloud.openssh
+
 galaxy_info:
   author: O1 Labs
   role_name: base
@@ -6,8 +9,6 @@ galaxy_info:
   company: "O1.IO"
   license: MIT
   min_ansible_version: 2.5
-  dependencies:
-    - 0x0i.openssh
   platforms:
     - name: Debian
       versions:

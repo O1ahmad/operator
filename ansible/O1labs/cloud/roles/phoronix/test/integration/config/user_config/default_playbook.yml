@@ -1,0 +1,15 @@
+---
+- name: Default playbook for user configuration testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-phoronix
+      vars:
+        install_type: archive
+        user_configs:
+          - config:
+              BatchMode:
+                PromptForTestIdentifier: false
+              Installation:
+                RemoveDownloadFiles: true
+              OpenBenchmarking:
+                AnonymousUsageReporting: true

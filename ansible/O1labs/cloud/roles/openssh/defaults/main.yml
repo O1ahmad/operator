@@ -1,0 +1,48 @@
+---
+service_package: openssh
+_service_name: sshd
+
+_global_config_dir: /etc/ssh
+_service_config_file: sshd_config
+_client_config_file: ssh_config
+
+_global_knownhosts_file: ssh_known_hosts
+_user_knownhosts_file: known_hosts
+
+_authorized_keys_file: authorized_keys
+
+managed_configs:
+  - service
+  - client
+
+ssh_config:
+  service:
+    # user authentication
+    PasswordAuthentication: "no"
+    ChallengeResponseAuthentication: "no"
+    PubKeyAuthentication: "yes"
+    # session privacy and data-integrity
+    Ciphers: >-
+            chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,
+            aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+    MACs: >-
+            hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,
+            umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+    # session management
+    ClientAliveInterval: "300"
+    ClientAliveCountMax: "2"
+  client:
+    global:
+      '*':
+        options:
+          # ssh-agent management
+          ForwardAgent: "yes"
+          AddKeysToAgent: "yes"
+          # client host key connection algorithm preferences
+          HostKeyAlgorithms: "ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa"
+
+extra_run_args: ""
+
+auto_enable_agent: []
+
+perform_uninstall: false

@@ -1,0 +1,16 @@
+---
+- name: Uninstall vim client configs
+  become: true
+  when: vimrc_config is defined
+  file:
+    path: "/home/{{ item }}/.{{ _vimrc_config_file }}"
+    state: absent
+  with_items: "{{ vimrc_config.keys() | difference(['global']) }}"
+  listen: Uninstall service
+
+- name: Uninstall vim package
+  become: true
+  package:
+    name: "{{ package_name }}"
+    state: absent
+  listen: Uninstall service

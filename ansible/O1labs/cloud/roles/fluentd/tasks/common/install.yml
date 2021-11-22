@@ -1,0 +1,26 @@
+---
+- name: Ensure Fluentd group exists
+  become: true
+  group:
+    name: "{{ fluentd_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Fluentd user
+  become: true
+  user:
+    comment: Fluentd service account
+    name: "{{ fluentd_user }}"
+    group: "{{ fluentd_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Install based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install

@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+# see https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config for more details
+
+{% if 'json' in name %}
+{{ conf | to_nice_json(indent=2)  }}
+{% else %}
+{{ conf | to_nice_yaml(indent=2)  }}
+{% endif %}
+

@@ -1,0 +1,22 @@
+---
+- name: Elasticsearch service launch integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-elasticsearch
+      vars:
+        install_type: archive
+        managed_configs: ['elasticsearch_config', 'jvm_options', 'log4j2_properties']
+        config:
+          cluster.name: test-cluster
+          path:
+            data: /mnt/data/elasticsearch
+            logs: /mnt/logs/elasticsearch
+        jvm_options:
+          - comment: set the min and max JVM heap size (to the same value)
+            arguments:
+              - '-Xms2g'
+              - '-Xmx2g'
+        extra_run_args:
+          - '--verbose'
+        custom_unit_properties:
+          Environment: "ES_HOME={{ install_dir }}"

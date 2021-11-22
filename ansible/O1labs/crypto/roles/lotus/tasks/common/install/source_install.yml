@@ -1,0 +1,63 @@
+---
+- name: Clone lotus git repository
+  become: true
+  when: install_type == "source"
+  git:
+    repo: "{{ git_url }}"
+    dest: "{{ install_dir }}"
+    version: "{{ git_version }}"
+  tags:
+    - install
+    - source
+
+- name: Make clean source
+  become: true
+  when: install_type == "source"
+  make:
+    chdir: "{{ install_dir }}"
+    target: clean
+  environment:
+    PATH: "{{ cargo_home }}/bin:{{ ansible_env.PATH }}"
+  changed_when: false
+  tags:
+    - install
+    - source
+
+- name: Build source package
+  become: true
+  when: install_type == "source"
+  make:
+    chdir: "{{ install_dir }}"
+    target: all
+  environment:
+    PATH: "{{ cargo_home }}/bin:{{ ansible_env.PATH }}"
+  changed_when: false
+  tags:
+    - install
+    - source
+
+- name: Install lotus client and miner software
+  become: true
+  when: install_type == "source"
+  make:
+    chdir: "{{ install_dir }}"
+    target: install
+  environment:
+    PATH: "{{ cargo_home }}/bin:{{ ansible_env.PATH }}"
+  changed_when: false
+  tags:
+    - install
+    - source
+
+- name: Ensure proper permissions of install directory post build
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ lotus_user }}"
+    group: "{{ lotus_user }}"
+    recurse: true
+  changed_when: false
+  tags:
+    - install
+    - source

@@ -1,0 +1,9 @@
+---
+- name: Generate designated configurations
+  include_tasks: "common/config/user-config.yml"
+  with_items: "{{ user_configs }}"
+  loop_control:
+    loop_var: cfg
+
+- name: Render operational/configuration scripts
+  include_tasks: "common/config/scripts.yml"

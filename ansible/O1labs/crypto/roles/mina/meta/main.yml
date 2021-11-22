@@ -1,0 +1,25 @@
+---
+dependencies:
+  - 0x0i.systemd
+
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: coda
+  description: Coda, the first cryptocurrency protocol with a succinct blockchain
+  company: "O1.IO"
+  license: MIT
+  min_ansible_version: 2.6
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+
+  galaxy_tags:
+    - coda
+    - cryptocurrency
+    - protocol
+    - blockchain
+    - succinct

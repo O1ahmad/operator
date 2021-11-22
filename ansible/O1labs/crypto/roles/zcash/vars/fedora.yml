@@ -1,0 +1,18 @@
+---
+system_dependencies:
+  - git
+  - pkgconfig
+  - make
+  - automake
+  - autoconf
+  - ncurses-devel
+  - python
+  - python-zmq
+  - curl
+  - gtest-devel
+  - gcc
+  - gcc-c++
+  - libtool
+  - patch
+  - glibc-static
+  - libstdc++-static

@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: fluentd
+  description: Fluentd, a unified and scalable logging and data collection service
+  company: "O1.IO"
+  license: license (MIT)
+  min_ansible_version: 2.5
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - fluentd
+    - logging
+    - data
+    - collection
