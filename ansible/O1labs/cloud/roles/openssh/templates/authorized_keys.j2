@@ -1,0 +1,13 @@
+{{ ansible_managed | comment }}
+# see: authorized_keys man specification -- https://man.openbsd.org/sshd#AUTHORIZED_KEYS_FILE_FORMAT for more details
+
+{% for spec in ssh_config.authorized_keys[account].values() %}
+{% if '.pub' in spec.key %}
+{{ spec.options|default([])|join(',') }} {{ lookup('file', spec.key) }}
+{% elif spec.key is mapping %}
+{{ spec.options|default([])|join(',') }} {{ spec.key.type }} {{ spec.key.encoding }} {{ spec.key.comments }}
+{% else %}
+{{ spec.options|default([])|join(',') }} {{ spec.key }}
+{% endif %}
+
+{% endfor %}

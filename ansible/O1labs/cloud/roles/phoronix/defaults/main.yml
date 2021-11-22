@@ -1,0 +1,40 @@
+---
+phoronix_user: phoronix
+
+install_type: package
+install_dir: /opt/phoronix
+
+package_name: phoronix-test-suite
+archive_url: https://github.com/phoronix-test-suite/phoronix-test-suite/releases/download/v9.4.1/phoronix-test-suite-9.4.1.tar.gz
+
+_system_dependencies:
+  - php
+  - php-xml
+  - php-json
+  - make
+
+inspect_system: true
+
+_shell_exe: /bin/bash
+default_run_asynchronous: false
+
+default_autopilot: false
+_ansi_removal_regex: '\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])'
+
+_default_config_path: /etc/phoronix-test-suite.xml
+_phoronix_usercfg_file: phoronix-test-suite.xml
+_phoronix_runtimecfg_file: runtime.env
+_autopilot_config:
+  BatchMode:
+    SaveResults: true
+    OpenBrowser: false
+    UploadResults: true
+    PromptForTestIdentifier: false
+    PromptForTestDescription: false
+    PromptSaveName: false
+    RunAllTestCombinations: true
+    Configured: true
+
+user_configs: []
+
+perform_uninstall: false

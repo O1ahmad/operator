@@ -1,0 +1,69 @@
+---
+- name: Restart Kibana service
+  become: true
+  service:
+    name: kibana
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Stop Kibana systemd service
+  become: true
+  service:
+    name: kibana
+    state: stopped
+    enabled: false
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove Kibana systemd service file
+  become: true
+  file:
+    path: "/etc/systemd/system/kibana.service"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kibana install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kibana config dir
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kibana data dir
+  become: true
+  when: (config.path is defined and config.path.data is defined) or config['path.data'] is defined
+  file:
+    path: "{{ config.path.data|default(config['path.data']) }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kibana logs dir
+  become: true
+  when: (config.logging is defined and config.logging.dest is defined) or config['logging.dest'] is defined
+  file:
+    path: "{{ config.logging.dest|default(config['logging.dest']) }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kibana user
+  become: true
+  user:
+    name: "{{ kibana_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Kibana group
+  become: true
+  group:
+    name: "{{ kibana_user }}"
+    state: absent
+  listen: Uninstall service

@@ -1,0 +1,11 @@
+---
+- name: OpenSSH ssh-agent setup integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-openssh
+      vars:
+        managed_configs: []
+        auto_enable_agent:
+          kitchen:
+            run_args:
+              - '-t 86400'

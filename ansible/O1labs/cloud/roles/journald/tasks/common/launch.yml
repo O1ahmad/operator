@@ -1,0 +1,9 @@
+---
+- name: Enable and start Journald service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: true
+  tags:
+    - launch

@@ -1,0 +1,21 @@
+---
+controller_user: ansible
+
+install_type: package
+install_dir: /opt/ansible
+
+package_name: ansible
+
+archive_url: https://releases.ansible.com/ansible/ansible-2.9.2.tar.gz
+archive_checksum: https://releases.ansible.com/ansible/ansible-2.9.2.tar.gz.sha
+checksum_format: sha256
+
+config_dir: /etc/ansible
+_ansible_config_file: ansible.cfg
+config: {}
+
+galaxy_roles: []
+galaxy_collections: []
+galaxy_extra_args: []
+
+perform_uninstall: false

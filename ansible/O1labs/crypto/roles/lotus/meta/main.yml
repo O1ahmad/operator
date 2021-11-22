@@ -1,0 +1,32 @@
+---
+dependencies:
+  - 0x0i.systemd
+
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: lotus
+  description: Lotus, an implementation of the Filecoin distributed storage network protocol written in Go
+  company: "O1.IO"
+  license: license (MIT)
+  min_ansible_version: 2.6
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+
+  galaxy_tags:
+    - lotus
+    - filecoin
+    - ipfs
+    - storage
+    - blockchain
+    - miner

@@ -1,0 +1,33 @@
+---
+- name: Render operator specified list of configs
+  include_tasks: "common/config/config_block.yml"
+  register: "registered_configs"
+  with_items: "{{ consul_configs }}"
+  loop_control:
+    loop_var: cfg
+  tags:
+    - config
+
+- name: Scan supplied configs for specification of data_dir
+  command: "grep -q 'data_dir' {{ item.path|default(config_dir) }}/{{ item.name }}.{{ item.type|default('json') }}"
+  register: _datadir_scans
+  check_mode: false
+  changed_when: false
+  with_items: "{{ consul_configs }}"
+  ignore_errors: true
+  tags:
+    - config
+
+- name: Flag whether data_dir setting has been found
+  when: item.rc == 0
+  set_fact:
+    _datadir_set: true
+  with_items: "{{ _datadir_scans.results }}"
+  tags:
+    - config
+
+- name: Assert data_dir flag is True
+  assert:
+    that: _datadir_set
+  tags:
+    - config

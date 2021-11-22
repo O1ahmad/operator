@@ -1,0 +1,11 @@
+---
+- name: Add specified users to privileged systemd-journal group
+  become: true
+  when: journal_group_adds is defined and journal_group_adds|length > 0
+  user:
+    name: "{{ item }}"
+    groups: "{{ journal_group }}"
+    append: yes
+  loop: "{{ journal_group_adds }}"
+  tags:
+    - systemd-journal-group

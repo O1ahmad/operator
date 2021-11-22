@@ -1,0 +1,6 @@
+---
+- name: Launch Coda services
+  include_tasks: "common/launch/{{ item }}.yml"
+  loop: "{{ managed_services }}"
+  tags:
+    - launch

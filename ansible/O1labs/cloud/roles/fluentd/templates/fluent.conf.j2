@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+# see https://docs.fluentd.org/configuration/config-file for more details
+
+{% for directive in directives %}
+{% if 'comment' in directive %}
+# {{ directive.comment }}
+{% endif %}
+{% if 'content' in directive %}
+{{ directive.content }}
+{% else %}
+<{{ directive.plugin }} {{ directive.match|default('') }}>
+{% for param,value in directive.attributes.items() %}
+   {{ param }} {{ value }}
+{% endfor %}
+</{{ directive.plugin }}>
+{% endif %}
+
+{% endfor %}

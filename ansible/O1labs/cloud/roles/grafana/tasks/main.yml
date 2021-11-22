@@ -1,0 +1,39 @@
+---
+- name: Include common preflight tasks
+  include_tasks: "common/preflight.yml"
+  tags:
+    - preflight
+
+- name: Perform common installation tasks
+  include_tasks: "common/install.yml"
+  tags:
+    - install
+
+- name: Include OS and distribution specific installation tasks
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}/install.yml"
+        - "{{ ansible_os_family|lower }}/install.yml"
+      skip: true
+  tags:
+    - install
+
+- name: Include common configuration tasks
+  include_tasks: "common/config.yml"
+  tags:
+    - config
+
+- name: Download and install Grafana provider dashboards
+  include_tasks: "common/install/dashboards.yml"
+  with_items: "{{ grafana_dashboards }}"
+  loop_control:
+    loop_var: provider
+  tags:
+    - install
+    - dashboard
+
+- name: Include common launch tasks
+  include_tasks: "common/launch.yml"
+  tags:
+    - launch

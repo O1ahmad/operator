@@ -1,0 +1,60 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+
+- name: Determine installation directory
+  when: install_type == "package"
+  set_fact:
+    install_dir: '/usr/share/elasticsearch'
+  tags:
+    - preflight
+
+- name: Determine configuration directory
+  when: install_type == "package"
+  set_fact:
+    config_dir: '/etc/elasticsearch'
+  tags:
+    - preflight
+
+- name: Determine logs directory
+  when: config.path is defined or config['path.logs'] is defined
+  set_fact:
+    logs_dir: "{{ config['path.logs']|default(config.path.logs)|default(logs_dir) }}"
+  tags:
+    - preflight
+
+- name: Determine data directory
+  when: config.path is defined or config['path.data'] is defined
+  set_fact:
+    data_dir: "{{ config['path.data']|default(config.path.data)|default(data_dir) }}"
+  tags:
+    - preflight
+
+- name: Set unit [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ install_dir }}/bin/elasticsearch {{ extra_run_args|join(' ') }}"
+      User: "{{ elasticsearch_user }}"
+      Group: "{{ elasticsearch_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify:
+        - Uninstall service
+  always:
+    - name: Ensure flush of handlers
+      meta: flush_handlers
+    - name: End play following uninstallation
+      meta: end_play
+  tags:
+    - preflight

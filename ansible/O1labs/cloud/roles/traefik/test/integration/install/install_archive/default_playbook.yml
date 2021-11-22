@@ -1,0 +1,5 @@
+---
+- name: Traefik archive installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-traefik

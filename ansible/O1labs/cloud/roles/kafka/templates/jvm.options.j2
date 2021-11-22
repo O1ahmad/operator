@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+
+{% if options.keys()|length > 0 %}
+{% for key,value in options.items() %}
+{{ key|upper }}="{{ value|join(' ') }}"
+
+{% endfor %}
+{% endif %}

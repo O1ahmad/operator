@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+# see http://man7.org/linux/man-pages/man1/ssh-agent.1.html for more details
+
+[Unit]
+Description=SSH Key Agent
+
+[Service]
+Type=forking
+User={{ owner }}
+Group={{ owner }}
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK {{ run_args }}
+
+[Install]
+WantedBy=default.target

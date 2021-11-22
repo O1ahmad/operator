@@ -1,0 +1,43 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - ansible-role-kafka
+  vars:
+    install_type: archive
+    managed_configs: ['server_properties', 'jvm_options', 'log4j_properties']
+    server_properties:
+      broker.id: 12
+      zookeeper.connect: 127.0.0.1:2181
+      advertised.host.name: example-broker
+      advertised.listeners: PLAINTEXT://127.0.0.1:9092
+    jvm_options:
+      kafka_heap_opts:
+        - "-Xmx1g -Xms1g"
+      KAFKA_JVM_PERFORMANCE_OPTS:
+        - "-server"
+        - "-XX:+UseConcMarkSweepGC"
+        - "-Djava.awt.headless=true"
+      KAFKA_jmx_OPTS:
+        - "-Dcom.sun.management.jmxremote=true"
+        - "-Dcom.sun.management.jmxremote.port=9999"
+        - "-Dcom.sun.management.jmxremote.authenticate=false"
+        - "-Dcom.sun.management.jmxremote.ssl=false"
+        - "-Djava.net.preferIPv4Stack=true"
+    log4j_properties:
+      - comment: Set root logger list
+        settings:
+          - log4j.rootLogger: INFO,stdout,kafkaAppender
+      - comment: Define stdout logger appender
+        settings:
+          - log4j.appender.stdout: org.apache.log4j.ConsoleAppender
+          - log4j.appender.stdout.layout: org.apache.log4j.PatternLayout
+      - comment: Define kafka logger appender
+        settings:
+          - log4j.appender.kafkaAppender: org.apache.log4j.DailyRollingFileAppender
+          - log4j.appender.kafkaAppender.DatePattern: "'.'yyyy-MM-dd-HH"
+          - log4j.appender.kafkaAppender.File: "${kafka.logs.dir}/server.log"
+          - log4j.appender.kafkaAppender.layout: org.apache.log4j.PatternLayout
+  tasks:
+    - name: Launch local Zookeeper node
+      command: /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties

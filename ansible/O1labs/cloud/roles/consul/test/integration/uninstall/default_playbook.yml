@@ -1,0 +1,32 @@
+---
+- name: Consul uninstallation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-consul
+      vars:
+        perform_uninstall: false
+        install_type: archive
+        consul_configs:
+          - name: test-example
+            config:
+              datacenter: east-example
+              data_dir: /var/data/consul
+              log_level: debug
+              log_file: /var/log/consul/consul.log
+        extra_run_args:
+          - '-dev'
+        custom_unit_properties: {}
+    - role: ansible-role-consul
+      vars:
+        perform_uninstall: true
+        install_type: archive
+        consul_configs:
+          - name: test-example
+            config:
+              datacenter: east-example
+              data_dir: /var/data/consul
+              log_level: debug
+              log_file: /var/log/consul/consul.log
+        extra_run_args:
+          - '-dev'
+        custom_unit_properties: {}

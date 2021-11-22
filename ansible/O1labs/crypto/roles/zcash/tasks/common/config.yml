@@ -1,0 +1,25 @@
+---
+- name: Create configuration directory
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+  tags:
+    - config
+
+- name: Copy Zcashd configuration in place
+  become: true
+  template:
+    src: "zcash.conf.j2"
+    dest: "{{ config_dir }}/zcash.conf"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    mode: 0644
+  vars:
+    config: "{{ zcashd_config }}"
+  notify:
+    - Restart service
+  tags:
+    - config

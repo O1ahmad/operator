@@ -1,0 +1,27 @@
+---
+- name: Journald unit configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-journald
+      vars:
+        journald_configs:
+          - config:
+              Storage: auto
+              Compress: true
+              RateLimitInvertalSec: 10
+              RateLimitBurst: 100
+              MaxLevelStore: notice
+          - path: /run/systemd/journald.conf.d
+            config:
+              Storage: volatile
+              Compress: false
+              MaxLevelStore: alert
+          - name: debug-overrides.conf
+            path: /etc/systemd/journald.conf.d
+            config:
+              Storage: persistent
+              Compress: true
+              RateLimitInvertalSec: 0
+              RateLimitBurst: 0
+              MaxLevelStore: debug
+              SyncIntervalSec: 1m

@@ -1,0 +1,13 @@
+{{ ansible_managed | comment }}
+
+{% for key,value in conf.items() %}
+{% if value is not mapping %}
+{{ key }} = {{ value }}
+{% else %}
+[{{ key }}]
+{% for k, v in value.items() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}

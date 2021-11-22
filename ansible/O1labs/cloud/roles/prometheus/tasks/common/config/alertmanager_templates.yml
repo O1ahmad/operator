@@ -1,0 +1,29 @@
+---
+- name: Ensure existence of Alertmanager templates directory
+  become: true
+  file:
+    path: "{{ templates_path }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+  tags:
+    - config
+    - alertmanager
+    - templates
+
+- name: Render Alertmanager templates configuration
+  become: true
+  when: item.config is defined and item.config|length > 0
+  template:
+    src: "{{ _alertmanager_templates_template }}"
+    dest: "{{ templates_path }}/{{ item.name }}.tmpl"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0644
+  vars:
+    conf: "{{ item.config }}"
+  notify: Restart alertmanager
+  tags:
+    - config
+    - alertmanager
+    - templates

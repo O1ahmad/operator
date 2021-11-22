@@ -1,0 +1,21 @@
+---
+traefik_user: traefik
+
+install_type: archive
+install_dir: /opt/traefik
+
+archive_url: https://github.com/containous/traefik/releases/download/v2.1.3/traefik_v2.1.3_linux_amd64.tar.gz
+archive_checksum: 0c3c81a53fcd63944da852e965118059c042ae3981fdf5df4b58449b57559b68
+checksum_format: sha256
+archive_options: []
+
+config_dir: /etc/traefik
+traefik_configs: []
+
+_service_name: traefik
+
+exe_dir: /usr/local/bin
+extra_run_args: []
+custom_unit_properties: {}
+
+perform_uninstall: false

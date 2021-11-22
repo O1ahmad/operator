@@ -1,0 +1,60 @@
+---
+- name: Set config item properties
+  set_fact:
+    path: "{{ cfg.path | default(config_dir) }}"
+    name: "{{ cfg.name }}"
+    type: "{{ cfg.type | default('json') }}"
+    log_is_file: false
+
+- name: Create configuration directory
+  become: true
+  file:
+    path: "{{ path }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+  tags:
+    - config
+
+- name: Render {{ name }} configuration file
+  become: true
+  template:
+    src: "config.json.j2"
+    dest: "{{ path }}/{{ name }}.{{ type }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    mode: 0664
+    backup: true
+  vars:
+    conf: "{{ cfg.config }}"
+  notify:
+    - Restart service
+  tags:
+    - config
+
+- name: Create data directory if specified
+  become: true
+  when: cfg.config.data_dir is defined and cfg.config.data_dir|length > 0
+  file:
+    path: "{{ cfg.config.data_dir }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    mode: 0755
+  notify:
+    - Restart service
+  tags:
+    - config
+    - data
+
+- name: Create log directory if specified
+  become: true
+  when: cfg.config.log_file is defined and cfg.config.log_file|length > 0
+  file:
+    path: "{{ cfg.config.log_file|dirname }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+  tags:
+    - config
+    - log

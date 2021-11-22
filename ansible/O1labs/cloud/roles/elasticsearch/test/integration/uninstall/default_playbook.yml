@@ -1,0 +1,24 @@
+---
+- name: Elasticsearch uninstallation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-elasticsearch
+      vars:
+        perform_uninstall: false
+        install_type: archive
+        managed_configs: ['elasticsearch_config', 'jvm_options', 'log4j2_properties']
+        config:
+          cluster.name: test-cluster
+        jvm_options:
+          - comment: set the min and max JVM heap size (to the same value)
+            arguments:
+              - '-Xms2g'
+              - '-Xmx2g'
+        log4j2_properties:
+          - comment: log action execution errors for easier debugging
+            settings:
+              - logger.action.name: org.elasticsearch.action
+                logger.action.level: debug
+    - role: ansible-role-elasticsearch
+      vars:
+        perform_uninstall: true

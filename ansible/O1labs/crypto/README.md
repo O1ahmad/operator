@@ -15,6 +15,10 @@
 | [prysm](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/prysm/README.md) | A full-featured client for the Ethereum 2.0 protocol, written in Go |
 | [lighthouse](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/lighthouse/README.md) | an Ethereum 2.0 client, written in Rust and maintained by Sigma Prime |
 | [teku](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/teku/README.md) | an open-source Ethereum 2.0 client written in Java |
+| [lotus](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/lotus/README.md) | a Go-implementation of the Filecoin distributed storage network blockchain protocol |
+| [mina](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/mina/README.md) | client nodes a part of Mina's succinct zero-knowledge protocol based on recursive composition of zk-SNARKs |
+| [zcash](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/zcash/README.md) | a client for the Zcash zero-knowledge privacy blockchain/protocol |
+| [zecminer](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/zecminer/README.md) | a CUDA-based Zcash protocol GPU miner for solving the Equihash Proof-of-Work Algorithm |
 
 License
 -------

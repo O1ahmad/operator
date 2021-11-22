@@ -1,0 +1,15 @@
+---
+- name: Render log4j.properties configuration
+  become: true
+  template:
+    src: "{{ _log4j_properties_config }}.j2"
+    dest: "{{ config_dir|default(default_config_dir) }}/{{ _log4j_properties_config }}"
+    owner: "{{ kafka_user }}"
+    group: "{{ kafka_user }}"
+    mode: 0644
+  vars:
+    properties: "{{ log4j_properties }}"
+  when: log4j_properties is defined and log4j_properties|length > 0
+  tags:
+    - config
+    - log4j

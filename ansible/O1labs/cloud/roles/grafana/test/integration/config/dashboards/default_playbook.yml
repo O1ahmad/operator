@@ -1,0 +1,26 @@
+---
+- name: Grafana dashboards configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-grafana
+      vars:
+        install_type: archive
+        provision_configs: ['dashboards']
+        grafana_config:
+          paths:
+            data: /var/lib/grafana
+            provisioning: /var/lib/grafana/provisioning
+        grafana_dashboards:
+          - name: test-example
+            urls:
+              - name: node_exporter_prometheus
+                src: https://grafana.com/api/dashboards/11173/revisions/1/download
+              - name: geth_server
+                id: '6976'
+            providers:
+              - name: 'default-provider'
+                orgId: 1
+                folder: 'default'
+                type: file
+                options:
+                  path: "/var/lib/grafana/conf/provisioning/dashboards"

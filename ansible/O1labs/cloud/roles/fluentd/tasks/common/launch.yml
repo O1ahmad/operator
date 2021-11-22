@@ -1,0 +1,27 @@
+---
+- name: Setup fluentd systemd unit
+  when: install_type == 'gem'
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _service_name }}"
+        Unit:
+          Description: "{{ _service_name }}"
+          Documentation: http://www.fluentd.org
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of {{ _service_name }} service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

@@ -1,0 +1,10 @@
+---
+- name: Install Phoronix package
+  become: true
+  when: install_type == "package"
+  package:
+    name: "{{ package_name }}"
+    state: present
+  tags:
+    - install
+    - package

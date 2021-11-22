@@ -1,0 +1,33 @@
+---
+- name: Download Elasticsearch archive ({{ archive_url }})
+  become: true
+  when: install_type == "archive"
+  get_url:
+    url: "{{ archive_url }}"
+    dest: "/tmp/{{ archive_url | urlsplit('path') | basename }}"
+    checksum: "{{ (archive_checksum|length > 0) | ternary(checksum_format+':'+archive_checksum, '') }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    mode: '0775'
+  register: archive_tmp
+  tags:
+    - install
+    - archive
+
+- name: Extract Elasticsearch archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_tmp.dest }}"
+    dest: "{{ install_dir }}"
+    creates: "{{ install_dir }}/bin"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    mode: '0775'
+    extra_opts:
+      - --strip-components
+      - '1'
+    remote_src: true
+  tags:
+    - install
+    - archive

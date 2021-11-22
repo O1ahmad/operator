@@ -1,0 +1,13 @@
+---
+- name: Exporters setup integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        managed_services: []
+        prometheus_exporters:
+          - name: node_exporter
+            url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+            extra_args:
+              - '--web.listen-address=0.0.0.0:9110'
+              - '--log.level=debug'

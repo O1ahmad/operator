@@ -1,0 +1,17 @@
+---
+- name: Render jvm_options configuration
+  become: true
+  when: jvm_options is defined and jvm_options is not none
+  template:
+    src: "{{ _jvm_options_config }}.j2"
+    dest: "{{ config_dir|default(default_config_dir) }}/{{ _jvm_options_config }}"
+    owner: "{{ elasticsearch_user }}"
+    group: "{{ elasticsearch_user }}"
+    mode: 0644
+  vars:
+    options: "{{ jvm_options }}"
+  notify:
+    - Restart service
+  tags:
+    - config
+    - jvm

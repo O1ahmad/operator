@@ -1,0 +1,44 @@
+---
+- name: Ensure Zcashd group exists
+  become: true
+  group:
+    name: "{{ zcashd_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Zcashd user
+  become: true
+  user:
+    comment: Zcashd client account
+    name: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+  tags:
+    - install
+
+- name: Ensure creation of zcashd data directory
+  become: true
+  file:
+    path: "/home/{{ zcashd_user }}"
+    owner: "{{ zcashd_user }}"
+    group: "{{ zcashd_user }}"
+    state: directory
+
+- name: Perform designated installation procedure
+  include_tasks: "common/install/install-{{ install_type }}.yml"
+  tags:
+    - install

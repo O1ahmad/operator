@@ -1,0 +1,5 @@
+---
+- name: vim package installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-vim

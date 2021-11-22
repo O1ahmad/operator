@@ -1,0 +1,3 @@
+---
+package_url: https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh
+_package_install_noop_msg: "Nothing to do"

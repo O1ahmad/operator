@@ -1,0 +1,24 @@
+---
+- name: Download and extract Phoronix archive
+  become: true
+  when: install_type == "archive"
+  unarchive:
+    src: "{{ archive_url }}"
+    dest: "{{ install_dir }}"
+    mode: '0775'
+    owner: "{{ phoronix_user }}"
+    group: "{{ phoronix_user }}"
+    extra_opts:
+      - --strip-components
+      - '1'
+    remote_src: true
+  tags:
+    - install
+    - archive
+
+- name: Create a symbolic link to user local exec dir
+  become: true
+  ansible.builtin.file:
+    src: "{{ install_dir }}/phoronix-test-suite"
+    dest: "/usr/local/bin/phoronix-test-suite"
+    state: link

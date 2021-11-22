@@ -1,0 +1,10 @@
+---
+- name: Default playbook for daemon configuration testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-coda
+      vars:
+        install_type: package
+        managed_services: ['daemon']
+        config_dir: /etc/coda/daemon-1
+        extra_run_args: ['-seed']

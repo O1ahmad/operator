@@ -1,0 +1,36 @@
+---
+- name: Ensure Consul system group exists
+  become: true
+  group:
+    name: "{{ consul_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Consul system user
+  become: true
+  user:
+    comment: Consul service account
+    name: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Create installation directory
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ consul_user }}"
+    group: "{{ consul_user }}"
+  tags:
+    - install
+
+- name: Perform designated installation
+  include_tasks: "common/install/install_{{ install_type }}.yml"
+  tags:
+    - install

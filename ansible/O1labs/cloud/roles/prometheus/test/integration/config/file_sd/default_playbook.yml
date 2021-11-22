@@ -1,0 +1,28 @@
+---
+- name: Prometheus file service discovery configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        install_type: archive
+        prometheus_config:
+          global:
+            scrape_interval: 1s
+          scrape_configs:
+            - job_name: file-sd-test
+              file_sd_configs:
+                - files:
+                    - /opt/prometheus/file_sd/*.slow.json
+                    - /etc/prometheus/file_sd/file.yml
+        prometheus_file_sd:
+          - name: example-file.slow.json
+            config:
+              - targets: ["host1:1234"]
+                labels:
+                  test-label: file-sd-json
+          - name: file.yml
+            path: /etc/prometheus/file_sd
+            config:
+              - targets: ["host2:1234"]
+                labels:
+                  test-label: file-sd-yml

@@ -1,0 +1,27 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+      skip: true
+  tags:
+    - always
+
+- name: Determine pts executable path
+  when: install_type|lower == "archive"
+  set_fact:
+    exe_path: "{{ install_dir }}/phoronix-test-suite"
+
+- name: Update executable path based on install type
+  when: install_type|lower == "package"
+  set_fact:
+    exe_path: "/usr/bin/phoronix-test-suite"
+
+- name: Update system dependencies
+  become: true
+  package:
+    name: "{{ _system_dependencies }}"
+    state: present
+  tags:
+    - preflight

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+{{ ansible_managed | comment }}
+
+exec {{ exe }} result-file-to-json ${1} >> "{{ result_path }}/${1}.result.json"

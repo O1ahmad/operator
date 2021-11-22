@@ -1,0 +1,33 @@
+---
+- name: Resolve configuration user based on configuration spec
+  set_fact:
+    _cfg_user: "{{ cfg.user | default(phoronix_user) | lower }}"
+    _config_path: "{{ _default_config_path }}"
+
+- name: Resolve configuration directory based on user spec
+  set_fact:
+    _config_path: "/home/{{ _cfg_user }}/.phoronix-test-suite/user-config.xml"
+
+- name: Create user configuration directory
+  become: true
+  file:
+    path: "{{ _config_path|dirname }}"
+    state: directory
+    owner: "{{ _cfg_user }}"
+    group: "{{ _cfg_user }}"
+  tags:
+    - config
+
+- name: Render Phoronix user configuration
+  become: true
+  when: cfg.config is defined and cfg.config.keys()|length > 0
+  template:
+    src: "{{ _phoronix_usercfg_file }}.j2"
+    dest: "{{ _config_path }}"
+    owner: "{{ _cfg_user|default(phoronix_user) }}"
+    group: "{{ _cfg_user|default(phoronix_user) }}"
+    mode: 0644
+  vars:
+    conf: "{{ cfg.config|combine(_autopilot_config) if default_autopilot else cfg.config }}"
+  tags:
+    - config

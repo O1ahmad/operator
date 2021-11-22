@@ -1,0 +1,27 @@
+---
+- name: Kibana uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-kibana
+      vars:
+        perform_uninstall: false
+        install_type: archive
+        config:
+          server.name: kibana-test
+          path.data: /mnt/data/kibana
+          logging:
+            verbose: true
+            json: true
+            dest: /mnt/log/kibana
+    - role: ansible-role-kibana
+      vars:
+        perform_uninstall: true
+        install_type: archive
+        config:
+          server.name: kibana-test
+          path:
+            data: /mnt/data/kibana
+          logging:
+            verbose: true
+            json: true
+            dest: /mnt/logs/kibana

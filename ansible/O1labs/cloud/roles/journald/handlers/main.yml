@@ -1,0 +1,17 @@
+---
+- name: Restart Journald service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Remove managed journald.conf
+  become: true
+  when: journald_configs is defined and journald_configs|length > 0
+  file:
+    path: "{{ item.path|default(_default_config_path) }}/{{ item.name|default(_default_config_file) }}"
+    state: absent
+  with_items: "{{ journald_configs }}"
+  listen: Uninstall config

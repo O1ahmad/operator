@@ -1,0 +1,72 @@
+---
+- name: Restart Consul service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Stop Consul systemd service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: stopped
+    enabled: false
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove Consul systemd service file
+  become: true
+  file:
+    path: "/etc/systemd/system/{{ _service_name }}.service"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Consul install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Consul config files
+  become: true
+  file:
+    path: "{{ item.path|default(config_dir) }}/{{ item.name }}.{{ item.type | default('json') }}"
+    state: absent
+  with_items: "{{ consul_configs }}"
+  listen: Uninstall service
+
+- name: Remove Consul data dir
+  become: true
+  when: item.config.data_dir is defined
+  file:
+    path: "{{ item.config.data_dir }}"
+    state: absent
+  with_items: "{{ consul_configs }}"
+  listen: Uninstall service
+
+- name: Remove Consul log directories and files
+  become: true
+  when: item.config.log_file is defined
+  file:
+    path: "{{ item.config.log_file|dirname }}"
+    state: absent
+  with_items: "{{ consul_configs }}"
+  listen: Uninstall service
+
+- name: Remove Consul user
+  become: true
+  user:
+    name: "{{ consul_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Consul group
+  become: true
+  group:
+    name: "{{ consul_user }}"
+    state: absent
+  listen: Uninstall service

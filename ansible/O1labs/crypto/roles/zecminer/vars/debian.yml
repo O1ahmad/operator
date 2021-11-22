@@ -1,0 +1,5 @@
+---
+graphics_packages:
+  - nvidia-prime
+  - nvidia-340
+#  - nvidia-opencl-icd-304

@@ -1,0 +1,33 @@
+---
+- name: Render custom systemd-wide configuration
+  become: true
+  when: vimrc_config is defined and "global" in vimrc_config
+  template:
+    src: "{{ _vimrc_config_file }}.j2"
+    dest: "{{ _global_config_dir }}/{{ _vimrc_config_file }}"
+    owner: root
+    group: root
+    mode: 0664
+    backup: true
+  vars:
+    config: "{{ vimrc_config['global'] }}"
+  tags:
+    - config
+    - global
+
+- name: Render user configuration
+  become: true
+  when: vimrc_config is defined and vimrc_config.keys() | difference(['global']) | length > 0
+  template:
+    src: "{{ _vimrc_config_file }}.j2"
+    dest: "/home/{{ item }}/.{{ _vimrc_config_file }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0664
+    backup: true
+  vars:
+    config: "{{ vimrc_config[item] }}"
+  with_items: "{{ vimrc_config.keys() | difference(['global']) }}"
+  tags:
+    - config
+    - user

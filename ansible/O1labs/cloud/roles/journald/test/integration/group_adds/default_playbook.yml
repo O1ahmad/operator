@@ -1,0 +1,8 @@
+---
+- name: Journald group-adds integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-journald
+      vars:
+        journal_group_adds: ['kitchen']
+        journald_configs: []

@@ -1,0 +1,8 @@
+---
+- name: Render journald configurations
+  include: common/config/journal-conf.yml
+  loop: "{{ journald_configs }}"
+  loop_control:
+    loop_var: conf
+  tags:
+    - config

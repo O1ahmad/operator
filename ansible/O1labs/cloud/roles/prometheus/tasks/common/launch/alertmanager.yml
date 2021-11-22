@@ -1,0 +1,30 @@
+---
+- name: Setup Alertmanager systemd unit
+  when: '"alertmanager" in managed_services'
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: alertmanager
+        Unit:
+          Description: Alertmanager - alert management service for the Prometheus metrics and monitoring server
+          Documentation: https://prometheus.io/docs/alerting/alertmanager/
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _alertmgr_service_unit | combine(custom_alertmgr_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+    - alertmanager
+
+- name: Ensure start of Alertmanager service
+  become: true
+  when: '"alertmanager" in managed_services'
+  service:
+    name: alertmanager
+    state: started
+    enabled: "yes"
+  tags:
+    - launch
+    - alertmanager

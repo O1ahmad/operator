@@ -1,0 +1,25 @@
+---
+kafka_user: kafka
+
+install_type: archive
+kafka_home: /opt/kafka
+
+managed_configs: ['server_properties', 'jvm_options', 'log4j_properties']
+
+archive_url: https://mirrors.ocf.berkeley.edu/apache/kafka/2.6.0/kafka_2.12-2.6.0.tgz
+
+_config_dir: "{{ kafka_home }}/config"
+log_dirs: "/var/data/kafka"
+
+_kafka_config: server.properties
+server_properties: {}
+
+jvm_options: []
+_jvm_options_config: "jvm.options"
+
+_log4j_properties_config: log4j.properties
+log4j_properties: []
+
+perform_uninstall: false
+
+custom_unit_properties: {}

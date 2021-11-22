@@ -1,0 +1,4 @@
+---
+system_dependencies:
+  - curl
+  - openjdk-8-jre

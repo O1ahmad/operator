@@ -1,0 +1,8 @@
+---
+- name: Install OpenSSH package software
+  become: true
+  package:
+    name: "{{ service_package }}"
+    state: present
+  tags:
+    - install

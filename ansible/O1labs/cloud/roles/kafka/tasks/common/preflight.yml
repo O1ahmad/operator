@@ -1,0 +1,52 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+
+- name: Update system dependencies
+  become: true
+  package:
+    name: "{{ system_dependencies }}"
+    state: present
+  tags:
+    - preflight
+
+- name: Determine Kafka configuration directory
+  set_fact:
+    config_dir: "{{ kafka_home }}/config"
+  tags:
+    - preflight
+
+- name: Determine topic logs directory
+  set_fact:
+    log_dirs: "{{ server_properties['log.dirs']|default(server_properties.log.dirs)|default(log_dirs) }}"
+  tags:
+    - preflight
+
+- name: Set unit [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ kafka_home }}/bin/kafka-server-start.sh {{ kafka_home }}/config/{{ _kafka_config }}"
+      EnvironmentFile: "{{ config_dir }}/{{ _jvm_options_config }}"
+      User: "{{ kafka_user }}"
+      Group: "{{ kafka_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+
+- name: Check for uninstall signal
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Uninstall service
+      when: perform_uninstall
+
+    - name: End play following uninstallation
+      meta: end_play
+  when: perform_uninstall
+  ignore_errors: true
+  tags:
+    - preflight

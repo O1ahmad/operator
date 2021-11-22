@@ -1,0 +1,37 @@
+---
+- name: Ensure Coda group exists
+  become: true
+  group:
+    name: "{{ coda_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Coda user
+  become: true
+  user:
+    comment: Coda service account
+    name: "{{ coda_user }}"
+    group: "{{ coda_user }}"
+    shell: "/sbin/nologin"
+    system: true
+    create_home: false
+  tags:
+    - install
+
+- name: Ensure existence of install dir
+  become: true
+  when: install_type == "source"
+  file:
+    path: "{{ install_dir }}"
+    owner: "{{ coda_user }}"
+    group: "{{ coda_user }}"
+    state: directory
+  tags:
+    - install
+
+- name: Perform designated installation procedure
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install

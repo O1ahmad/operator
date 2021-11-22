@@ -1,0 +1,33 @@
+---
+- name: Render systemd-wide configuration
+  become: true
+  when: tmux_config is defined and "global" in tmux_config
+  template:
+    src: "{{ _tmux_config_file }}.j2"
+    dest: "{{ _global_config_dir }}/{{ _tmux_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  vars:
+    account: "{{ tmux_config['global'] }}"
+  tags:
+    - config
+    - global
+
+- name: Render user configuration
+  become: true
+  when: tmux_config is defined and tmux_config.keys() | difference(['global']) | length > 0
+  template:
+    src: "{{ _tmux_config_file }}.j2"
+    dest: "/home/{{ item }}/.{{ _tmux_config_file }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0644
+    backup: true
+  vars:
+    account: "{{ tmux_config[item] }}"
+  with_items: "{{ tmux_config.keys() | difference(['global']) }}"
+  tags:
+    - config
+    - user

@@ -1,0 +1,29 @@
+---
+dependencies:
+  - 0x0i.systemd
+
+galaxy_info:
+  author: Ahmad Wilson
+  role_name: Prometheus
+  description: Prometheus - a multi-dimensional time-series data monitoring and alerting toolkit
+  company: "O1.IO"
+  license: license (MIT)
+  min_ansible_version: 2.5
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+
+  galaxy_tags:
+    - prometheus
+    - monitoring
+    - alerting

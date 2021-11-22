@@ -1,0 +1,7 @@
+---
+- name: Grafana package installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-grafana
+      vars:
+        install_type: package

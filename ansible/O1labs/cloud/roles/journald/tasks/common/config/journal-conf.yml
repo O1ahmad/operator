@@ -1,0 +1,34 @@
+---
+- name: Define config filename and path attributes
+  set_fact:
+    conf_name: "{{ conf.name|default(_default_config_file) }}"
+    conf_path: "{{ conf.path|default(_default_config_path) }}"
+  tags:
+    - preflight
+    - config
+
+- name: Ensure existence of journald({{ conf_path }}) configuration directory
+  become: true
+  file:
+    path: "{{ conf_path }}"
+    state: directory
+    owner: root
+    group: root
+  tags:
+    - config
+
+- name: Render config({{ conf_name }})
+  become: true
+  template:
+    src: "journald.conf.j2"
+    dest: "{{ conf_path }}/{{ conf_name }}"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: true
+  vars:
+    config: "{{ conf }}"
+  notify:
+    - Restart service
+  tags:
+    - config

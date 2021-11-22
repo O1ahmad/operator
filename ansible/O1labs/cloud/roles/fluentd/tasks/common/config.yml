@@ -1,0 +1,8 @@
+---
+- name: Render fluentd configurations
+  include: common/config/fluent_conf.yml
+  loop: "{{ config }}"
+  loop_control:
+    loop_var: conf
+  tags:
+    - config

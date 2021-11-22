@@ -1,0 +1,19 @@
+---
+- name: Zecminer service launch integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-zecminer
+      vars:
+        extra_run_args:
+          - --api 0.0.0.0:12345
+        zecminer_config:
+          - name: common
+            settings:
+              log: 1
+              logfile: /var/log/miner.log
+          - name: server
+            settings:
+              server: zec-us-east1.nanopool.org
+              port: 6666
+              user: user1-key
+              pass: user1-password

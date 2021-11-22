@@ -1,0 +1,38 @@
+---
+- name: Set unit [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ install_dir }}/miner --config {{ config_dir }}/miner.cfg {{ extra_run_args|join(' ') }}"
+      User: "{{ zecminer_user }}"
+      Group: "{{ zecminer_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+    - launch
+
+- name: Setup Zecminer systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _service_name }}"
+        Unit:
+          Description: Zecminer - a Zcash CUDA based miner
+          Documentation: https://help.nanopool.org/article/94-ewbf
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of Zecminer service
+  become: true
+  systemd:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

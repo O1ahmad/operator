@@ -1,0 +1,4 @@
+{{ ansible_managed | comment }}
+# see http://prometheus.io/docs/operating/configuration/ for more details
+
+{{ conf | to_nice_yaml(indent=2) }}

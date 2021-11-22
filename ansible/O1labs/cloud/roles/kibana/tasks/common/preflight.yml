@@ -1,0 +1,64 @@
+---
+- name: Include OS and distribution specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+      skip: true
+  tags:
+    - always
+
+- name: Determine installation directory
+  set_fact:
+    install_dir: '/usr/share/kibana'
+  when: install_type == "package"
+  tags:
+    - preflight
+
+- name: Determine configuration directory
+  set_fact:
+    config_dir: '/etc/kibana'
+  when: install_type == "package"
+  tags:
+    - preflight
+
+- name: Determine logs directory
+  when: config.logging is defined or config['logging.dest'] is defined
+  set_fact:
+    logs_dir: "{{ config['logging.dest']|default(config.logging.dest)|default(logs_dir) }}"
+  tags:
+    - preflight
+
+- name: Determine data directory
+  when: config['path.data'] is defined or config.path is defined
+  set_fact:
+    data_dir: "{{ config['path.data']|default(config.path.data)|default(data_dir) }}"
+  tags:
+    - preflight
+
+- name: Set Kibana unit default [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ install_dir }}/bin/kibana {{ extra_run_args|join(' ') }}"
+      User: "{{ kibana_user }}"
+      Group: "{{ kibana_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+
+- name: Check for uninstall signal
+  when: perform_uninstall
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify:
+        - Uninstall service
+  always:
+    - name: Ensure flush of handlers
+      meta: flush_handlers
+    - name: End play following uninstallation
+      meta: end_play
+  tags:
+    - preflight

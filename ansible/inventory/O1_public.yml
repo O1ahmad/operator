@@ -82,3 +82,6 @@ all:
     base:
       hosts:
         morph:
+    benchmark:
+      hosts:
+        morph:

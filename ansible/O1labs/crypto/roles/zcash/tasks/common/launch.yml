@@ -1,0 +1,38 @@
+---
+- name: Set unit [Service] configuration
+  set_fact:
+    _default_service_unit:
+      ExecStart: "{{ _exe_dir }}/zcashd -conf={{ config_dir }}/zcash.conf {{ extra_run_args|join(' ') }}"
+      User: "{{ zcashd_user }}"
+      Group: "{{ zcashd_user }}"
+      StandardOutput: journal
+      StandardError: inherit
+  tags:
+    - preflight
+    - launch
+
+- name: Setup Zcashd systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: "{{ _service_name }}"
+        Unit:
+          Description: "Zcashd - a Zcash privacy blockchain client"
+          Documentation: https://zcash.readthedocs.io/en/latest/index.html
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of Zcashd service
+  become: true
+  systemd:
+    name: "{{ _service_name }}"
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

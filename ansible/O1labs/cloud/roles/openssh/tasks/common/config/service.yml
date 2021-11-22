@@ -1,0 +1,16 @@
+---
+- name: Copy sshd_config configuration in place
+  become: true
+  template:
+    src: "{{ _service_config_file }}.j2"
+    dest: "{{ _global_config_dir }}/{{ _service_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    validate: /usr/sbin/sshd -t -f %s
+    backup: true
+  notify:
+    - Restart SSH daemon
+  tags:
+    - config
+    - sshd

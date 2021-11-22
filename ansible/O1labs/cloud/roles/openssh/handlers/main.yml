@@ -1,0 +1,45 @@
+---
+- name: Restart SSH daemon
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: restarted
+  listen: Restart service
+  environment:
+    OPTIONS: "{{ extra_run_args }}"
+
+- name: Uninstall managed SSH daemon client config
+  become: true
+  when: ssh_config.client is defined
+  file:
+    path: "/home/{{ item }}/.ssh/config"
+    state: absent
+  with_items: "{{ ssh_config.client.keys() | difference(['global']) }}"
+  listen: Uninstall service
+
+- name: Uninstall managed SSH daemon client known hosts
+  become: true
+  when: ssh_config.known_hosts is defined
+  file:
+    path: "/home/{{ item }}/.ssh/{{ _user_knownhosts_file }}"
+    state: absent
+  with_items: "{{ ssh_config.known_hosts.keys() | difference(['global']) }}"
+  listen: Uninstall service
+
+- name: Uninstall managed SSH daemon client authorized keys file
+  become: true
+  when: ssh_config.authorized_keys is defined
+  file:
+    path: "/home/{{ item }}/.ssh/{{ _authorized_keys_file }}"
+    state: absent
+  with_items: "{{ ssh_config.authorized_keys.keys() }}"
+  listen: Uninstall service
+
+- name: Uninstall managed SSH daemon client user identities files
+  become: true
+  when: ssh_config.user_identities is defined
+  file:
+    path: "/home/{{ item.key }}/.ssh/{{ item.value.dest|default(item.value.src)|basename }}"
+    state: absent
+  with_dict: "{{ ssh_config.user_identities }}"
+  listen: Uninstall service

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+{{ ansible_managed | comment }}
+
+while systemctl is-active --quiet ${1};
+do
+   echo "Test run ${1} is still active! Waiting..."
+   sleep ${2:-5}
+done
+echo "Test run ${1} completed with status: $(systemctl is-active ${1})."

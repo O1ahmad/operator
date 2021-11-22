@@ -1,0 +1,28 @@
+---
+- name: Ensure existence of file_sd directory
+  become: true
+  file:
+    path: "{{ item.path | default(filesd_path) }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+  tags:
+    - config
+    - filesd
+
+- name: Render Prometheus file_sd configuration
+  become: true
+  when: item.config is defined and item.config|length > 0
+  template:
+    src: "{{ _file_sd_template }}"
+    dest: "{{ item.path | default(filesd_path) }}/{{ item.name }}"
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_user }}"
+    mode: 0644
+  vars:
+    conf: "{{ item.config }}"
+    name: "{{ item.name }}"
+  notify: Restart prometheus
+  tags:
+    - config
+    - filesd

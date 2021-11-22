@@ -1,0 +1,6 @@
+{{ ansible_managed | comment }}
+# see: Zcashd configuration reference -- https://zcash.readthedocs.io/en/latest/rtd_pages/zcash_conf_guide.html#zcash-conf-guide
+
+{% for key,value in config.items() %}
+{{ key }}={{ value }}
+{% endfor %}

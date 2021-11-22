@@ -1,0 +1,26 @@
+---
+- name: Ensure existence of fluentd config directory
+  become: true
+  file:
+    path: "{{ conf.path|default(_config_dir) }}"
+    state: directory
+    owner: "{{ fluentd_user }}"
+    group: "{{ fluentd_user }}"
+  tags:
+    - config
+
+- name: Copy fluentd configuration in place
+  become: true
+  when: conf.directives is defined and conf.directives|length > 0
+  template:
+    src: "fluent.conf.j2"
+    dest: "{{ conf.path|default(_config_dir) }}/{{ conf.name|default(_config_file) }}"
+    owner: "{{ fluentd_user }}"
+    group: "{{ fluentd_user }}"
+    mode: 0644
+    backup: true
+  vars:
+    directives: "{{ conf.directives }}"
+  notify: Restart service
+  tags:
+    - config

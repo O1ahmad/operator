@@ -1,0 +1,27 @@
+---
+- name: Download Fluentd package install script ({{ package_url }})
+  become: true
+  when: install_type == "package"
+  get_url:
+    url: "{{ package_url }}"
+    dest: "/tmp/{{ package_url | urlsplit('path') | basename }}"
+    owner: "{{ fluentd_user }}"
+    group: "{{ fluentd_user }}"
+    mode: '0775'
+  register: package_tmp
+  tags:
+    - install
+    - package
+
+- name: Execute Fluentd package install script
+  become: true
+  when: install_type == "package"
+  script:
+    cmd: "{{ package_tmp.dest }}"
+  register: script_result
+  changed_when: '_package_install_noop_msg not in script_result.stdout'
+  notify:
+    - Restart service
+  tags:
+    - install
+    - package

@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+# see: tmux man specification -- http://man7.org/linux/man-pages/man1/tmux.1.html for more details
+
+{% for spec in account %}
+{% if 'comment' in spec %}
+# {{ spec.comment }}
+{% endif %}
+{% for entry in spec.commands %}
+{% for cmd,flags in entry.items() %}
+{{ cmd }} {{ flags }}
+{% endfor %}
+{% endfor %}
+
+{% endfor %}

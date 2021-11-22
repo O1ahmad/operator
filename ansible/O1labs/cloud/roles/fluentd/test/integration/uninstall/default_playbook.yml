@@ -1,0 +1,34 @@
+---
+- name: Fluentd/td-agent uninstallation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-fluentd
+      vars:
+        perform_uninstall: false
+        install_type: package
+        config:
+          - directives:
+              - plugin: source
+                attributes:
+                  "@type": http
+                  "@id": test_case
+                  port: 2411
+              - plugin: match
+                match: "test.*"
+                attributes:
+                  "@type": stdout
+    - role: ansible-role-fluentd
+      vars:
+        perform_uninstall: true
+        install_type: package
+        config:
+          - directives:
+              - plugin: source
+                attributes:
+                  "@type": http
+                  "@id": test_case
+                  port: 2411
+              - plugin: match
+                match: "test.*"
+                attributes:
+                  "@type": stdout

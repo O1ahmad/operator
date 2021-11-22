@@ -1,0 +1,22 @@
+---
+- name: vim uninstall integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-vim
+      vars:
+        perform_uninstall: false
+        vimrc_config:
+          kitchen:
+            - comment: Multiple commands/settings as list (e.g. Search as characters are entered and highlight matches)
+              commands:
+                - set: incsearch
+                - set: hlsearch
+    - role: ansible-role-vim
+      vars:
+        perform_uninstall: true
+        vimrc_config:
+          kitchen:
+            - comment: Multiple commands/settings as list (e.g. Search as characters are entered and highlight matches)
+              commands:
+                - set: incsearch
+                - set: hlsearch

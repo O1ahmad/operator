@@ -1,0 +1,9 @@
+---
+package_name: vim-enhanced
+
+_global_config_dir: /etc
+
+_vimrc_config_file: vimrc
+vimrc_config: {}
+
+perform_uninstall: false

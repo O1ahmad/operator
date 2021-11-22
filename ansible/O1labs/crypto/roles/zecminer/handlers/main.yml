@@ -1,0 +1,53 @@
+---
+- name: Restart Zecminer service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Stop Zecminer systemd service
+  become: true
+  service:
+    name: "{{ _service_name }}"
+    state: stopped
+    enabled: false
+  listen: Uninstall service
+  ignore_errors: true
+
+- name: Remove Zecminer systemd service file
+  become: true
+  file:
+    path: "/etc/systemd/system/{{ _service_name }}.service"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Zecminer install dir
+  become: true
+  file:
+    path: "{{ install_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Zecminer config
+  become: true
+  file:
+    path: "{{ config_dir }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Zecminer user
+  become: true
+  user:
+    name: "{{ zecminer_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Zecminer group
+  become: true
+  group:
+    name: "{{ zecminer_user }}"
+    state: absent
+  listen: Uninstall service

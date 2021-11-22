@@ -1,0 +1,17 @@
+---
+- name: Fluentd plugin installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: geerlingguy.ruby
+      vars:
+        ruby_install_gems_user: kitchen
+        ruby_install_bundler: false
+        ruby_install_from_source: true
+        workspace: /home/kitchen
+    - role: ansible-role-fluentd
+      vars:
+        install_type: gem
+        plugins:
+          - name: fluent-plugin-assert
+          - name: fluent-plugin-prometheus
+            version: 1.7.0

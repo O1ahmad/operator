@@ -1,0 +1,26 @@
+---
+- name: Setup kafka systemd unit
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: kafka
+        Unit:
+          Description: Kafka
+          Documentation: https://kafka.apache.org/documentation/
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  when: install_type == 'archive'
+  tags:
+    - launch
+
+- name: Start Kafka service
+  service:
+    name: kafka
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

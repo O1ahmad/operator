@@ -1,0 +1,4 @@
+{{ ansible_managed | comment }}
+# see https://prometheus.io/docs/prometheus/latest/configuration/recording_rules for more details
+
+{{ conf | to_nice_yaml(indent=2) }}

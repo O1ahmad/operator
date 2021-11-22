@@ -1,0 +1,26 @@
+---
+- name: Default playbook for testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-zecminer
+      vars:
+        zecminer_config:
+          - name: common
+            settings:
+              templimit: 80
+              tempunits: c
+              log: 0
+              logfile: /var/log/miner.log
+              api: 127.0.0.1:42000
+          - name: server
+            settings:
+              server: zec-us-east1.nanopool.org
+              port: 6666
+              user: user1-key
+              pass: user1-password
+          - name: server
+            settings:
+              server: zec-eu1.nanopool.org
+              port: 6666
+              user: user2-key
+              pass: user2-password

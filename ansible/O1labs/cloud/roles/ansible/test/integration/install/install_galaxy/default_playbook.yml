@@ -1,0 +1,13 @@
+---
+- name: Ansible Galaxy content installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-ansible
+      vars:
+        galaxy_roles:
+          - 0x0i.systemd
+          - 0x0i.tmux
+        galaxy_collections:
+          - newswangerd.collection_demo
+        galaxy_extra_args:
+          - '--verbose'

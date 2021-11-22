@@ -1,0 +1,35 @@
+---
+- name: Prometheus rules files configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-prometheus
+      vars:
+        install_type: archive
+        prometheus_config:
+          global:
+            scrape_interval: 1s
+            evaluation_interval: 5s
+          rule_files:
+            - /opt/prometheus/rules.d/example-rules.yml
+            - /etc/prometheus/rules.d/nondefault-path-example-rules.yml
+        prometheus_rule_files:
+          - name: example-rules.yml
+            config:
+              groups:
+                - name: recording rule example
+                  rules:
+                    - record: job:http_inprogress_requests:sum
+                      expr: sum(http_inprogress_requests) by (job)
+          - name: nondefault-path-example-rules.yml
+            path: /etc/prometheus/rules.d
+            config:
+              groups:
+                - name: alerting rule example
+                  rules:
+                    - alert: HighRequestLatency
+                      expr: job:request_latency_seconds:mean5m{job="myjob"} > 0.5
+                      for: 10m
+                      labels:
+                        severity: page
+                      annotations:
+                        summary: High request latency

@@ -1,0 +1,28 @@
+---
+- name: Setup Prometheus systemd unit
+  when: '"prometheus" in managed_services'
+  include_role:
+    name: 0x0i.systemd
+  vars:
+    unit_config:
+      - name: prometheus
+        Unit:
+          Description: Prometheus - a multi-dimensional time-series data monitoring and alerting toolkit
+          Documentation: https://prometheus.io/docs/introduction/overview/
+          Wants: network-online.target
+          After: network-online.target
+        Service: "{{ _default_service_unit | combine(custom_unit_properties) }}"
+        Install:
+          WantedBy: multi-user.target
+  tags:
+    - launch
+
+- name: Ensure start of prometheus service
+  when: '"prometheus" in managed_services'
+  become: true
+  service:
+    name: prometheus
+    state: started
+    enabled: "yes"
+  tags:
+    - launch

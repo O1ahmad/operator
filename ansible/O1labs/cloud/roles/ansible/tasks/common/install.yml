@@ -1,0 +1,30 @@
+---
+- name: Create Ansible controller group
+  become: true
+  group:
+    name: "{{ controller_user }}"
+    state: present
+    system: true
+  tags:
+    - install
+
+- name: Create Ansible controller user
+  become: true
+  user:
+    comment: Ansible controller service account
+    name: "{{ controller_user }}"
+    group: "{{ controller_user }}"
+    system: true
+  tags:
+    - install
+
+- name: Install controller based on install type
+  include_tasks: "common/install/{{ install_type }}_install.yml"
+  tags:
+    - install
+
+- name: Install galaxy content
+  include_tasks: "common/install/galaxy_install.yml"
+  tags:
+    - install
+    - galaxy

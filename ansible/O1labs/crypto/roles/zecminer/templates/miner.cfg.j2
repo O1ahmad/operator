@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+# see: EWBF Zeminer configuration example -- https://gist.github.com/0x0I/8a02072f7a2729bd8a0ab626d89c16d2
+
+{% for section in config %}
+[{{ section.name }}]
+{% for key, value in section.settings.items() %}
+{{ key }}   {{ value }}
+{% endfor %}
+
+{% endfor %}

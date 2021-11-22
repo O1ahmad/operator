@@ -1,0 +1,50 @@
+---
+- name: Restart Kafka service
+  become: true
+  service:
+    name: kafka
+    state: restarted
+  listen: Restart service
+  ignore_errors: true
+
+- name: Stop Kafka systemd service
+  become: true
+  service:
+    name: kafka
+    state: stopped
+    enabled: false
+  listen: Uninstall service
+
+- name: Remove Kafka systemd service file
+  become: true
+  file:
+    path: "/etc/systemd/system/kafka.service"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kafka home dir
+  become: true
+  file:
+    path: "{{ kafka_home }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kafka log dirs
+  become: true
+  file:
+    path: "{{ server_properties['log.dirs']|default(server_properties.log.dirs)|default(log_dirs) }}"
+    state: absent
+  listen: Uninstall service
+
+- name: Remove Kafka user
+  user:
+    name: "{{ kafka_user }}"
+    state: absent
+    remove: true
+  listen: Uninstall service
+
+- name: Remove Kafka group
+  group:
+    name: "{{ kafka_user }}"
+    state: absent
+  listen: Uninstall service

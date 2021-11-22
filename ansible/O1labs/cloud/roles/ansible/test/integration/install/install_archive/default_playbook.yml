@@ -1,0 +1,7 @@
+---
+- name: Ansible archive installation integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-ansible
+      vars:
+        install_type: archive

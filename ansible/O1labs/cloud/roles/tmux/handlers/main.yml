@@ -1,0 +1,17 @@
+---
+- name: Uninstall tmux client configs
+  become: true
+  when: tmux_config is defined
+  file:
+    path: "/home/{{ item }}/.{{ _tmux_config_file }}"
+    state: absent
+  with_items: "{{ tmux_config.keys() | difference(['global']) }}"
+  listen: Uninstall service
+
+- name: Uninstall tmux package
+  become: true
+  when: tmux_config is defined
+  package:
+    name: "{{ service_package }}"
+    state: absent
+  listen: Uninstall service

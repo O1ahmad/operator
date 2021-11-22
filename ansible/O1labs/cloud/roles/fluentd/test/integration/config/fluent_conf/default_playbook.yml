@@ -1,0 +1,40 @@
+---
+- name: Fluentd configuration integration test playbook
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-fluentd
+      vars:
+        install_type: package
+        config:
+          - directives:
+              - comment: include all custom directive configurations
+                plugin: include
+                content: |
+                  @include /etc/td-agent/conf.d/*.conf
+              - plugin: source
+                attributes:
+                  "@type": debug_agent
+                  bind: 127.0.0.1
+                  port: 24230
+              - plugin: match
+                match: "test.*"
+                attributes:
+                  "@type": stdout
+          - name: "test-pipeline.conf"
+            path: /etc/td-agent/conf.d
+            directives:
+              - plugin: source
+                attributes:
+                  "@type": http
+                  "@id": test_case
+                  port: 9880
+                  body_size_limit: 32m
+                  keepalive_timeout: 10s
+              - plugin: filter
+                content: |
+                  <filter test.case>
+                    @type record_transformer
+                    <record>
+                      hostname "#{Socket.gethostname}"
+                    </record>
+                  </filter>

@@ -1,0 +1,10 @@
+---
+go_install_dir: /usr/bin
+system_dependencies:
+  - gcc
+  - git
+  - bzr
+  - jq
+  - pkg-config
+  - mesa-opencl-icd
+  - ocl-icd-opencl-dev

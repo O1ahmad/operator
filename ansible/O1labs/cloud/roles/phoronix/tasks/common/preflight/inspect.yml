@@ -1,0 +1,60 @@
+---
+- name: Gather Phoronix system information
+  when: inspect_system
+  command: "{{ exe_path }} system-info"
+  register: _pts_system_info
+  tags:
+    - preflight
+    - inspect
+
+- name: Gather Phoronix system diagnostics
+  when: inspect_system
+  command: "{{ exe_path }} diagnostics"
+  register: _pts_diagnostics
+  tags:
+    - preflight
+    - inspect
+
+- name: Gather Phoronix system sensor information
+  when: inspect_system
+  command: "{{ exe_path }} system-sensors"
+  register: _pts_sensors
+  tags:
+    - preflight
+    - inspect
+
+- name: Gather Phoronix system network information
+  when: inspect_system
+  command: "{{ exe_path }} network-info"
+  register: _pts_netinfo
+  tags:
+    - preflight
+    - inspect
+
+# Format PTS collected data - remove ANSI cli-encodings and trim whitespace
+- name: Format PTS system and diagnostic data
+  when: inspect_system
+  set_fact:
+    _fmt_pts_info: "{{ _pts_system_info.stdout_lines | map('trim') | select | map('regex_replace', _ansi_removal_regex) | list }}"
+    _fmt_pts_diag: "{{ _pts_diagnostics.stdout_lines | map('trim') | select | map('regex_replace', _ansi_removal_regex) | list }}"
+    _fmt_pts_sensors: "{{ _pts_sensors.stdout_lines | map('trim') | select | map('regex_replace', _ansi_removal_regex) | list }}"
+    _fmt_pts_netinfo: "{{ _pts_netinfo.stdout_lines | map('trim') | select | map('regex_replace', _ansi_removal_regex) | list }}"
+    _diagnostic_map: {}
+  tags:
+    - preflight
+    - inspect
+
+- name: Set PTS diagnostic data map
+  when: inspect_system and item|length > 0
+  set_fact:
+    _diagnostic_map: "{{ _diagnostic_map | combine({item.split('=')[0]: item.split('=')[1]|default('')}) }}"
+  loop: "{{ _fmt_pts_diag }}"
+  tags:
+    - preflight
+    - inspect
+
+- name: Include PTS test listing inspection
+  include_tasks: "common/preflight/test-list.yml"
+  tags:
+    - preflight
+    - inspect

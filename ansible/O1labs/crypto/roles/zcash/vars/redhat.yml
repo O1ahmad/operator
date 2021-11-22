@@ -1,0 +1,17 @@
+---
+system_dependencies:
+  - autoconf
+  - libtool
+  - bzip2
+  - unzip
+  - git
+  - python
+  - wget
+  - curl
+  - automake
+  - make
+  - gcc
+  - gcc-c++
+  - patch
+  - glibc-static
+  - libstdc++-static

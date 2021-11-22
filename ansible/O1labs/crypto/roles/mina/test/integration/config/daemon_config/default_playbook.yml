@@ -1,0 +1,16 @@
+---
+- name: Default playbook for daemon configuration testing
+  hosts: test-kitchen
+  roles:
+    - role: ansible-role-coda
+      vars:
+        install_type: package
+        config_dir: /mnt/config/coda
+        coda_config:
+          client-port: 1000
+          libp2p-port: 1001
+          rest-port: 1002
+          log-block-creation: true
+          log-received-blocks: true
+          log-snark-work-gossip: true
+          log-txn-pool-gossip: true

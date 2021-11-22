@@ -1,0 +1,34 @@
+---
+- name: Render custom global ssh_config configuration
+  become: true
+  when: ssh_config.client is defined and "global" in ssh_config.client
+  template:
+    src: "{{ _client_config_file }}.j2"
+    dest: "{{ _global_config_dir }}/{{ _client_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  vars:
+    account: global
+  tags:
+    - config
+    - client
+    - global
+
+- name: Render user ssh_config configuration
+  become: true
+  when: ssh_config.client is defined
+  template:
+    src: "{{ _client_config_file }}.j2"
+    dest: "/home/{{ item }}/.ssh/config"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0644
+  vars:
+    account: "{{ item }}"
+  with_items: "{{ ssh_config.client.keys() | difference(['global']) }}"
+  tags:
+    - config
+    - client
+    - user
