@@ -13,7 +13,10 @@ ADD src/requirements.txt /src/requirements.txt
 RUN pip install -r /src/requirements.txt
 
 COPY src /src
+
 COPY ansible/O1labs/crypto/roles /roles
+COPY ansible/O1labs/cloud/roles /roles
+
 RUN mkdir /collections
 
 #         web
