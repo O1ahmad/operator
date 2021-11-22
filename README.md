@@ -36,4 +36,4 @@ Leveraging the collective expertise and insights of world-wide communities commi
 | `lighthouse` *(mainnet)* | lighthouse.mainnet.01labs.net |
 | `lighthouse` *(prater)* | lighthouse.prater.01labs.net |
 | `teku` *(mainnet)* | teku.mainnet.01labs.net |
-| `operator` | operators.01labs.net |
+| `operator` | operators.01labs.net, openops.01labs.net |
