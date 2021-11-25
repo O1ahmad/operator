@@ -1,6 +1,7 @@
 ---
 dependencies:
-  - 0x0i.systemd
+  - role: 0x0i.systemd
+    tags: ['never']
 
 galaxy_info:
   author: Ahmad Wilson
