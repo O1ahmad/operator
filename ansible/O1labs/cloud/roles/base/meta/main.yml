@@ -1,6 +1,7 @@
 ---
 dependencies:
-  - o1labs.cloud.openssh
+  - role: o1labs.cloud.openssh
+    tags: ['never']
 
 galaxy_info:
   author: O1 Labs
