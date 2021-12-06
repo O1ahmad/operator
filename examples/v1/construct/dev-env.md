@@ -1,5 +1,6 @@
 # Configure the development environment of inventory node (e.g. tmux configuration):
 * installation and configuration of the tmux terminal multi-plexer 
+* installation and configuration of the vim text editor
 
 ### curl --request POST --data @dev-example.json https://{operator-host-address}:{port}/v1/construct
 ------------
@@ -9,7 +10,7 @@
     "id": "dev-env",
     "setup": [
         {
-            "type": "dev",
+            "type": "tmux",
             "url": "0x0i.tmux",
             "properties": {
                 "tmux_config": {
@@ -124,6 +125,157 @@
                     ]
                 }
             }
+        },
+        {
+            "type": "vim",
+            "url": "0x0i.vim",
+            "properties": {
+                "tmux_config": {
+                    "global": [
+                        {
+                            "comment": "Disable compatibility with vi",
+                            "commands": [
+                                { "set": "nocompatible" }
+                            ]
+                        },
+                    ],
+                    "ahmad": [
+                        {
+                            "comment": "Disable compatibility with vi",
+                            "commands": [
+                                { "set": "nocompatible" }
+                            ]
+                        },
+                        {
+                            "comment": "Load sane defaults",
+                            "commands": [
+                                { "source": "$VIMRUNTIME/defaults.vim" }
+                            ]
+                        },
+                        {
+                            "comment": "Help force plugins to load correctly when re-enabled below",
+                            "commands": [
+                                { "filetype": "off" }
+                            ]
+                        },
+                        {
+                            "comment": "Enable syntax highlighting",
+                            "commands": [
+                                { "syntax": "enable" }
+                            ]
+                        },
+                        {
+                            "comment": "Spaces and tabs",
+                            "commands": [
+                                { "set": "tabstop=4" },
+                                { "set": "softtabstop=4" },
+                                { "set": "expandtab" },
+                                { "set": "shiftwidth=4" }
+                            ]
+                        },
+                        {
+                            "comment": "Searching",
+                            "commands": [
+                                { "set": "incsearch" },
+                                { "set": "hlsearch" },
+                                { "set": "ignorecase" },
+                                { "set": "smartcase" },
+                                { "set": "showmatch" },
+                                { "nnoremap": "<leader><space> :nohlsearch<CR>" }
+                            ]
+                        },
+                        {
+                            "comment": "Folding",
+                            "commands": [
+                                { "set": "foldenable" },
+                                { "set": "foldlevelstart=10" },
+                                { "set": "foldnestmax=10" },
+                                { "nnoremap": "<space> za" },
+                                { "set": "foldmethod=marker" }
+                            ]
+                        },
+                        {
+                            "comment": "UI config",
+                            "commands": [
+                                { "set": "number" },
+                                { "set": "ttyfast" },
+                                { "set": "laststatus=2" },
+                                { "set": "showcmd" },
+                                { "set": "showmode" },
+                                { "set": "cursorline" },
+                                { "filetype": "indent on" },
+                                { "set": "wildmenu" },
+                                { "set": "ruler" },
+                                { "set": "visualbell" },
+                                { "set": "encoding=utf-8" },
+                                { "set": "lazyredraw" }
+                            ]
+                        },
+                        {
+                            "comment": "Movement",
+                            "commands": [
+                                { "nnoremap": "j gj" },
+                                { "nnoremap": "k gk" },
+                                { "nnoremap": "B ^" },
+                                { "nnoremap": "E $" },
+                                { "nnoremap": "gV `[v`]" }
+                            ]
+                        },
+                        {
+                            "comment": "Leader shortcuts",
+                            "commands": [
+                                { "let": "mapleader=','" },
+                                { "set": "cursorline" },
+                                { "nnoremap": "<leader>u :GundoToggle<CR>" },
+                                { "nnoremap": "<leader>ev :vsp $MYVIMRC<CR>" },
+                                { "nnoremap": "<leader>eb :vsp ~/.bashrc<CR>" },
+                                { "nnoremap": "<leader>sv :source $MYVIMRC<CR>" },
+                                { "nnoremap": "<leader>s :mksession<CR>" },
+                                { "nnoremap": "<leader>a :Ag" }
+                            ]
+                        },
+                        {
+                            "comment": "Plugins",
+                            "commands": [
+                                { "set": "rtp+=~/.vim/bundle/Vundle.vim" },
+                                { "call": "vundle#begin()" },
+                                { "Plugin": "'VundleVim/Vundle.vim'" },
+                                { "Plugin": "'scrooloose/nerdtree'" },
+                                { "Plugin": "'ErichDonGubler/vim-sublime-monokai'" },
+                                { "Plugin": "'joshdick/onedark.vim'" },
+                                { "Plugin": "'vim-syntastic/syntastic'" },
+                                { "Plugin": "'rking/ag.vim'" },
+                                { "Plugin": "'ctrlpvim/ctrlp.vim'" },
+                                { "Plugin": "'sjl/gundo.vim'" },
+                                { "call": "vundle#end()" },
+                                { "filetype": "plugin indent on" }
+                            ]
+                        },
+                        {
+                            "comment": "NERDTree settings",
+                            "commands": [
+                                { "autocmd": "vimenter * NERDTree" },
+                                { "autocmd": "vimEnter * wincmd p" },
+                                { "autocmd": "bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif" },
+                                { "map": "<C-n> :NERDTreeToggle<CR>" }
+                            ]
+                        },
+                        {
+                            "comment": "syntastic settings",
+                            "commands": [
+                                { "let": "g:syntastic_python_python_exec = 'python3'" }
+                            ]
+                        },
+                        {
+                            "comment": "set color-scheme",
+                            "commands": [
+                                { "colorscheme": "onedark" },
+                                { "set": "t_Co=256" }
+                            ]
+                        }
+                    ]
+                }
+            }
         }
     ],
     "inventory": [
@@ -131,7 +283,7 @@
             "name": "example-node",
             "address": "localhost",
             "user": "example-user",
-            "roles": ["dev"]
+            "roles": ["tmux", "vim"]
         }
     ]
 }
