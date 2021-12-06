@@ -1,8 +1,4 @@
 ---
-dependencies:
-  - community.docker.docker_container
-  - community.docker.docker_network
-
 galaxy_info:
   author: O1 Labs
   role_name: chainlink

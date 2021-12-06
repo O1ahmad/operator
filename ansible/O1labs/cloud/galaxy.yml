@@ -1,6 +1,6 @@
 namespace: o1labs
 name: cloud
-version: 0.1.4
+version: 0.1.5
 readme: README.md
 authors:
 - O1 Labs <zer0ne.io.x@gmail.com>
