@@ -130,7 +130,7 @@
             "type": "vim",
             "url": "0x0i.vim",
             "properties": {
-                "tmux_config": {
+                "vimrc_config": {
                     "global": [
                         {
                             "comment": "Disable compatibility with vi",
