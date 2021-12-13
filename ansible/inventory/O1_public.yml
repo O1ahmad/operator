@@ -1,22 +1,22 @@
 all:
   hosts:
+    cyclops:
+      ansible_host: 35.194.56.28
+      ansible_user: ops
+    deadpool:
+      ansible_host: 192.168.1.171
+      ansible_user: ahmad
+    jubilee:
+      ansible_host: 35.174.111.173
+      ansible_user: ubuntu
     morph:
       ansible_connection: local
       ansible_user: ahmad
     nightcrawler:
       ansible_host: 107.214.58.44
       ansible_user: ahmad
-    cyclops:
-      ansible_host: 35.232.8.60
-      ansible_user: ops
     storm:
-      ansible_host: 34.68.46.115
-      ansible_user: ops
-    jubilee:
-      ansible_host: 35.225.219.52
-      ansible_user: ops
-    toad:
-      ansible_host: 104.198.157.229
+      ansible_host: 34.66.198.174
       ansible_user: ops
   children:
     chainlink_mainnet:
@@ -24,15 +24,12 @@ all:
     chainlink_goerli:
       hosts:
         storm:
-        morph:
     chainlink_rinkeby:
       hosts:
-        cyclops:
     chainlink_kovan:
       hosts:
     openethereum_rpc_kovan:
       hosts:
-        morph:
     geth_rpc_mainnet:
       hosts:
         nightcrawler:
@@ -41,25 +38,23 @@ all:
         cyclops:
     geth_rpc_rinkeby:
       hosts:
-        jubilee:
     geth_rpc_ropsten:
       hosts:
     prysm_prater:
       hosts:
     prysm_mainnet:
       hosts:
-        jubilee:
+        cyclops:
     lighthouse_prater:
       hosts:
         storm:
     lighthouse_mainnet:
       hosts:
+        deadpool:
     teku_prater:
       hosts:
-        morph:
     teku_mainnet:
       hosts:
-        nightcrawler:
     grafana:
       hosts:
         nightcrawler:
@@ -67,21 +62,24 @@ all:
     monitored:
       hosts:
         cyclops:
+        deadpool:
         morph:
         nightcrawler:
         storm:
-        jubilee:
     prometheus:
       hosts:
         nightcrawler:
         morph:
     operator:
       hosts:
-        cyclops:
-        morph:
+        jubilee:
     base:
       hosts:
+        cyclops:
+        deadpool:
+        jubilee:
         morph:
+        nightcrawler:
+        storm:
     benchmark:
       hosts:
-        morph:

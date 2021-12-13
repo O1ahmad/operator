@@ -27,13 +27,9 @@ Leveraging the collective expertise and insights of world-wide communities commi
 | :---: | :---: |
 | `geth` *(mainnet)* | ethereum-rpc.mainnet.01labs.net |
 | `geth` *(goerli)* | ethereum-rpc.goerli.01labs.net |
-| `geth` *(rinkeby)* | ethereum-rpc.rinkeby.01labs.net |
 | `chainlink` *(mainnet)* | chainlink.mainnet.01labs.net |
 | `chainlink` *(goerli)* | chainlink.goerli.01labs.net |
-| `chainlink` *(rinkeby)* | chainlink.rinkeby.01labs.net |
 | `prysm` *(mainnet)* | prysm.mainnet.01labs.net |
-| `prysm` *(pyrmont)* | prysm.pyrmont.01labs.net |
-| `lighthouse` *(mainnet)* | lighthouse.mainnet.01labs.net |
 | `lighthouse` *(prater)* | lighthouse.prater.01labs.net |
 | `teku` *(mainnet)* | teku.mainnet.01labs.net |
 | `operator` | operators.01labs.net, openops.01labs.net |
