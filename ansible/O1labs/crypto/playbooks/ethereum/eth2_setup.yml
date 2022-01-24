@@ -10,7 +10,7 @@
         beacon_config:
           prater: true
           db-backup-output-dir: /data/backups
-          http-web3provider: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
+          http-web3provider: http://ethereum-rpc.goerli.01labs.net:8545,http://geth:8545
         validator_config:
           prater: true
           db-backup-output-dir: /data/backups
@@ -22,7 +22,7 @@
       vars:
         eth2_chain: prater
         target_services: [ 'beacon-node', 'validator' ]
-        eth1_endpoints: http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545
+        eth1_endpoints: http://ethereum-rpc.goerli.01labs.net:8545,http://geth:8545
         beacon_config:
           network: prater
           data-path: /data
@@ -40,7 +40,7 @@
         setup_validator: "true"
         host_data_dir: /operations/lighthouse/data
         host_keys_dir: /operations/lighthouse/keys
-        beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://geth:8545,http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c"
+        beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545"
         beacon_env_vars: {}
         validator_extra_args: "--network=prater --enable-doppelganger-protection=true --graffiti=O1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --metrics-allow-origin=* --unencrypted-http-transport --beacon-nodes=http://lighthouse-beacon:5052,http://lighthouse.prater.01labs.net:5052"
         validator_env_vars: {}
@@ -53,10 +53,11 @@
         eth2_chain: mainnet
         target_services: [ 'beacon-node' ]
         beacon_config:
+          force-clear-db: true
           mainnet: true
           datadir: /data
           db-backup-output-dir: /data/backups
-          http-web3provider: http://geth:8545,http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c
+          http-web3provider: http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545
 
 - name: Setup Mainnet Lighthouse instances
   hosts: lighthouse_mainnet
@@ -67,7 +68,7 @@
         target_services: [ 'beacon-node' ]
         host_data_dir: /operations/lighthouse/data
         host_keys_dir: /operations/lighthouse/keys
-        beacon_extra_args: "--network=mainnet --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://geth:8545,http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c --checkpoint-sync-url https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-mainnet.infura.io"
+        beacon_extra_args: "--network=mainnet --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545 --checkpoint-sync-url https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-mainnet.infura.io"
 
 - name: Setup Mainnet Teku instances
   hosts: teku_mainnet
@@ -76,7 +77,7 @@
       vars:
         eth2_chain: mainnet
         target_services: [ 'beacon-node' ]
-        eth1_endpoints: http://geth:8545,http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c
+        eth1_endpoints: http://ethereum-rpc.mainnet.01labs.net:8545,https://mainnet.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545
         beacon_config:
           network: mainnet
           data-path: /data
