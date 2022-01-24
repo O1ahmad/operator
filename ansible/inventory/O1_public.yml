@@ -21,6 +21,7 @@ all:
   children:
     chainlink_mainnet:
       hosts:
+        cyclops:
     chainlink_goerli:
       hosts:
         storm:
@@ -44,7 +45,6 @@ all:
       hosts:
     prysm_mainnet:
       hosts:
-        cyclops:
     lighthouse_prater:
       hosts:
         storm:
@@ -55,6 +55,7 @@ all:
       hosts:
     teku_mainnet:
       hosts:
+        cyclops:
     grafana:
       hosts:
         nightcrawler:
