@@ -102,3 +102,10 @@
 - name: Reload nginx server
   when: enable_certbot_certs
   ansible.builtin.command: docker exec operator-nginx nginx -s reload
+
+- name: Create automatic certificate renewal cronjob
+  when: enable_certbot_certs and autorenew_certbot_certs
+  ansible.builtin.cron:
+    name: "automatically renew certbot certificates"
+    special_time: "{{ autorenew_frequency }}"
+    job: "docker run --rm --name cert_renewal -it -v operator_certs:{{ cert_dir }} -v certbot_certs:/etc/letsencrypt certbot/certbot:latest renew"

@@ -13,6 +13,10 @@ https_port: 443
 
 enable_https: false
 enable_certbot_certs: false
+autorenew_certbot_certs: true
+# Reference https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html#parameter-special_time 
+# for frequency options
+autorenew_frequency: daily
 cert_dir: /var/www/certbot
 email:
 domain_names: []
