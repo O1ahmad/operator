@@ -1,7 +1,7 @@
 all:
   hosts:
     cyclops:
-      ansible_host: 35.194.56.28
+      ansible_host: 34.132.190.208
       ansible_user: ops
     deadpool:
       ansible_host: 192.168.1.171
@@ -16,7 +16,7 @@ all:
       ansible_host: 107.214.58.44
       ansible_user: ahmad
     storm:
-      ansible_host: 34.66.198.174
+      ansible_host: 104.197.66.157
       ansible_user: ops
   children:
     chainlink_mainnet:

@@ -18,7 +18,7 @@
         chain: rinkeby
         config:
           Eth:
-            SyncMode: fast
+            SyncMode: full
 
 - name: Setup goerli geth instances
   hosts: geth_rpc_goerli
@@ -28,7 +28,7 @@
         chain: goerli
         config:
           Eth:
-            SyncMode: fast
+            SyncMode: full
 
 - name: Setup ropsten geth instances
   hosts: geth_rpc_ropsten
@@ -38,7 +38,7 @@
         chain: ropsten
         config:
           Eth:
-            SyncMode: fast
+            SyncMode: full
 
 - name: Setup mainnet geth instances
   hosts: geth_rpc_mainnet
@@ -49,4 +49,4 @@
         host_data_dir: /home/ahmad/lab/ethereum/geth/data
         config:
           Eth:
-            SyncMode: fast
+            SyncMode: full

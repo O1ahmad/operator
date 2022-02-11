@@ -58,7 +58,7 @@ Example Playbook
 ```
   - role: o1labs.crypto.lighthouse
     vars:
-      target_services: ["lighthouse-beacon"]
+      target_services: ["beacon"]
       beacon_extra_args: "--network=prater --eth1-endpoints=http://ethereum-rpc.goerli.01labs.net:8545"
 ```
 

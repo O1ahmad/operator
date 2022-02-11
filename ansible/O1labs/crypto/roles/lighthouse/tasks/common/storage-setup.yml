@@ -10,7 +10,7 @@
 
 - name: Ensure existence of host wallet dir
   become: true
-  when: "'lighthouse-validator' in target_services"
+  when: "'validator' in target_services"
   file:
     path: "{{ host_wallet_dir }}"
     state: directory
@@ -18,7 +18,7 @@
 
 - name: Ensure existence of host keys dir
   become: true
-  when: "'lighthouse-validator' in target_services"
+  when: "'validator' in target_services"
   file:
     path: "{{ host_keys_dir }}"
     state: directory
