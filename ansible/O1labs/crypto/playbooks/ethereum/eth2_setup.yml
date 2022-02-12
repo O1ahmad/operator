@@ -41,9 +41,9 @@
         override_keys_dir: /operations/lighthouse/keys
         host_data_dir: /operations/lighthouse/data
         host_keys_dir: /operations/lighthouse/keys
-        beacon_extra_args: "--network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545"
+        beacon_extra_args: "--purge-db --network=prater --eth1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --eth1-endpoints=http://ethereum-rpc.goerli.01labs.net:8545,https://goerli.infura.io/v3/4a3a6c645dc94d1b82f8f631a878e03c,http://geth:8545 --checkpoint-sync-url https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-prater.infura.io"
         beacon_env_vars: {}
-        validator_extra_args: "--network=prater --enable-doppelganger-protection=true --graffiti=O1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --metrics-allow-origin=* --unencrypted-http-transport --beacon-nodes=https://1zmZfn5jwHnW8kxtZ8JKZobXNge:4a7c68d25f0278b47bf77b2cdc2ea21f@eth2-beacon-prater.infura.io"
+        validator_extra_args: "--network=prater --enable-doppelganger-protection=true --graffiti=O1 --http --http-address=0.0.0.0 --http-allow-origin=* --metrics --metrics-address=0.0.0.0 --metrics-allow-origin=* --unencrypted-http-transport --beacon-nodes=http://lighthouse-beacon:5052,http://lighthouse.prater.01labs.net:5052"
         validator_env_vars:
           SETUP_VALIDATOR: "true"
           VALIDATOR_KEYSTORE_PASSWORD: "<insert-password>"
