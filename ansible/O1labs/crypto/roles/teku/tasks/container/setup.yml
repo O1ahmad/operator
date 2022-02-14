@@ -67,7 +67,6 @@
     image: "{{ image }}"
     command:
       - "teku"
-      - "--config-file={{ teku_config_dir }}/config.yml"
     env_file: "{{ beacon_env_file }}"
     published_ports:
       - "{{ p2p_tcp_port }}:9000/tcp"
@@ -89,7 +88,6 @@
     command:
       - "teku"
       - "validator-client"
-      - "--config-file={{ teku_config_dir }}/config.yml"
     env_file: "{{ validator_env_file }}"
     published_ports:
       - "{{ validator_metrics_port }}:8008/tcp"
