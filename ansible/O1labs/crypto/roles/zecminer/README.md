@@ -1,5 +1,5 @@
 <p><img src="https://code.benco.io/icon-collection/logos/ansible.svg" alt="ansible logo" title="ansible" align="left" height="60" /></p>
-<p><img src="https://in-trend.biz/wp-content/uploads/2017/10/nanopool.png" alt="nanopool logo" title="nanopool" align="right" height="60" /></p>
+<p><img src="https://avatars.githubusercontent.com/u/17878829?v=4" alt="nanopool logo" title="nanopool" align="right" height="90" /></p>
 
 Ansible Role :lock_with_ink_pen: :link: Zecminer
 =========
