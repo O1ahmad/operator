@@ -1,0 +1,9 @@
+---
+- name: Ensure existence of host data dir
+  become: true
+  file:
+    path: "{{ hostDataDir }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0777

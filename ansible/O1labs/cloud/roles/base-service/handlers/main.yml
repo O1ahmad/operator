@@ -1,0 +1,22 @@
+---
+- name: Uninstall service container
+  community.docker.docker_container:
+    name: "{{ name }}"
+    state: absent
+    purge_networks: yes
+  listen: Container uninstall
+
+- name: Remove generated service config files
+  become: true
+  ansible.builtin.file:
+    path: "{{ workDir }}/{{ item.destinationPath | basename }}"
+    state: absent
+  with_dict: "{{ config }}"
+  listen: Container uninstall
+
+- name: Remove service data directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ hostDataDir }}"
+    state: absent
+  listen: Container uninstall
