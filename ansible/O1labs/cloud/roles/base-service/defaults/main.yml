@@ -1,0 +1,36 @@
+---
+setup_mode: docker
+name: default-example
+image: busbox:latest
+command: ""
+ports:
+  example-port1:
+    ingressPort: 80
+    servicePort: 2411
+  example-port2:
+    ingressPort: 443
+    servicePort: 2412
+
+config:
+  example-config1:
+    destinationPath: /config/example-1.yaml
+    data: |
+      a: 1
+      b: 2
+      c:
+        d: 3
+  example-config2:
+    destintionPath: /config/example-2.toml
+    data: |
+      [a]
+      b=1
+      [c]
+      d=2
+
+resources:
+  cpuLimit: 1
+  memRequest: 1Gi
+  memLimit: 1Gi
+
+restart_policy: unless-stopped
+uninstall: false

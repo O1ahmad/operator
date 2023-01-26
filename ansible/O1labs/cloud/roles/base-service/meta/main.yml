@@ -1,0 +1,24 @@
+# @format
+---
+galaxy_info:
+  author: O1 Labs
+  role_name: base-service
+  description: Ansible role for running any software process/service
+  company: "O1.IO"
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - cosmic
+  galaxy_tags:
+    - cloud
+    - base
+    - service
+    - template

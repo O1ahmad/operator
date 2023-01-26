@@ -1,0 +1,6 @@
+---
+- name: Manage storage/data setup
+  include_tasks: "common/storage-setup.yml"
+
+- name: Setup service infrastructure topology
+  include_tasks: "{{ setupMode }}/setup.yml"

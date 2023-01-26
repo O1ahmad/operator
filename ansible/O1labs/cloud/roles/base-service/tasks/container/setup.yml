@@ -1,0 +1,49 @@
+---
+- name: Uninstall provisioned container components
+  when: uninstall|bool == true
+  block:
+    - name: Broadcast uninstall signal
+      command: /bin/true
+      notify: Container uninstall
+  always:
+    - name: End play following uninstallation
+      meta: end_play
+
+- name: Ensure existence of operations/work dir
+  become: true
+  file:
+    path: "{{ workDir }}"
+    state: directory
+    mode: 0777
+
+- name: Generate local rendering of service config files
+  copy:
+    content: "{{ item.value.data }}"
+    dest: "{{ item.value.destinationPath }}"
+  with_dict: "{{ config }}"
+
+- set_fact:
+    volumeList: |-
+      [
+      {% for conf in config %}
+        "{{ workDir }}/{{ conf[destinationPath] | basename}}:{{ conf[destinationPath] }}",
+      {% endfor %}
+      ]
+    portList: |-
+      [
+      {% for port in ports %}
+        "{{ port[ingressPort] }}:{{ port[servicePort] }}",
+      {% endfor %}
+      ]
+
+- name: Start service container
+  community.docker.docker_container:
+    name: "{{ name }}"
+    image: "{{ image }}"
+    command: "{{ command }}"
+    env: "{{ configEnv }}"
+    published_ports: "{{ portList }}"
+    volumes: "{{ volumeList }}"
+    cpus: "{{ resources.cpuLimit }}"
+    memory: "{{ resources.memLimit }}"
+    restart_policy: "{{ restartPolicy }}"
