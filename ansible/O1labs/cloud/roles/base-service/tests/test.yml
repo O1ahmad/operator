@@ -1,0 +1,6 @@
+# @format
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - base-service
