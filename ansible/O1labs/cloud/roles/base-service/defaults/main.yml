@@ -27,6 +27,8 @@ config:
       [c]
       d=2
 
+configEnv: {}
+
 resources:
   cpuLimit: 1
   memRequest: 1Gi

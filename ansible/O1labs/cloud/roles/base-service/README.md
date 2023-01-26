@@ -18,6 +18,7 @@ Configure and operate a base service: running anything from cypto blockchain cli
 |     _name_      |                 name of service to deploy                  |    `required`    |
 |     _image_     |             service container image to deploy              |    `required`    |
 |    _config_     |  configuration files associated with the service to mount  |       `{}`       |
+|   _configEnv_   |  environment variables to set within the service runtime   |       `{}`       |
 |     _ports_     |          listening port information for a service          |       `{}`       |
 |  _hostDataDir_  |   host directory to store node runtime/operational data    |    `/var/tmp`    |
 |    _dataDir_    | container directory to store node runtime/operational data |      `/tmp`      |
