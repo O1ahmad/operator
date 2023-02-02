@@ -11,24 +11,47 @@
 
     1. the basic physical and organizational structures and facilities (e.g. buildings, roads, power supplies) needed for the operation of a society or enterprise.
 
-*O1 Labs is an open, decentralized and managed infrastructure/operations service platform dedicated to the development, provisioning and support of ALL things cloud-native and crypto.*
+*O1 Labs is an open, decentralized and managed infrastructure/operations service platform dedicated to the development, provisioning and support of ALL things cloud-native and web3.*
 
-*We believe infrastructure forms the barrier to accessing vital or valuable services within a society, and as such, represents the "floor" on which it stands. Software infrastructure is no exception. Championing fundamental DevOps principles and an automate-everything approach, the goal of O1 is to lower or remove the barriers blocking access for users to the incredible landscape of the world's most powerful infrastructure tools and open-source projects and the critical capabilities and services they provide.*
+Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluentd`) to blockchain network nodes and validators to an assortment of development and operational environments (e.g. `git, vim, tmux`), **O1** strives to enhance all technological ecosystems with encoded expert & experienced operational logic and insights via the most established and developed software automation tools, human-computer vizualization and interaction technques and best practices - crafted and curated by a world-wide community of operators, developers and hobbyists/enthusiasts.
 
-Leveraging the collective expertise and insights of world-wide communities committed to their cause, each managed service is designed, developed and optimized to meet (or surpass) a standard of how well its infrastructure supports the following core tenets:
-* usability
-* resiliency
-* observability
-* security
+Manifested as Dockerfiles, Helm charts, Ansible roles/collections and React/D3.js components, built by O1 and everyone else (+ a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, machine-learning and HCI fields), our infrastructure aims to literally escalate the idea of infrastructure providers to the :cloud: by building decentralized DevOps interfaces and platforms which provide evolved and sophisticated user-experiences pushing the boundary of the capabilities ofthe modern web and IaC; leaving behind the dark, archaic CLI and terminal days in the rearview.
 
-:heavy_check_mark: ***Check out the following public infrastructure services or deploy your own using any of O1's infrastructure-as-code projects***:
+# Applications
 
-| Service | Endpoint |
+## O1labs.cloud
+
+| role name | description|
 | :---: | :---: |
-| `geth` *(mainnet)* | ethereum-rpc.mainnet.01labs.net |
-| `geth` *(goerli)* | ethereum-rpc.goerli.01labs.net |
-| `chainlink` *(mainnet)* | chainlink.mainnet.01labs.net |
-| `chainlink` *(goerli)* | chainlink.goerli.01labs.net |
-| `lighthouse` *(prater)* | lighthouse.prater.01labs.net |
-| `teku` *(mainnet)* | teku.mainnet.01labs.net |
-| `operator` | operators.01labs.net, openops.01labs.net |
+| [operator](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/operator/README.md) | an open and decentralized managed infrastructure and operations service |
+| [base](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/base/README.md) | setup of basic virtualization and security system services supporting cloud-native infrastructure |
+| [ansible](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/ansible/README.md) | a software provisioning, configuration management and application-deployment tool |
+| [consul](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/consul/README.md) | a service discovery, mesh and configuration control plane and networking tool |
+| [elasticsearch](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/elasticsearch/README.md) | a real-time distributed search and analytics engine |
+| [fluentd](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/fluentd/README.md) | a unified and scalable logging and data collection service |
+| [grafana](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/grafana/README.md) | an analytics and monitoring observability platform |
+| [journald](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/journald/README.md) | a system service which collects and stores logging data |
+| [kafka](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/kafka/README.md) | a distributed and fault tolerant stream-processing service |
+| [kibana](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/kibana/README.md) | an analytics and visualization platform designed to operate with Elasticsearch |
+| [openssh](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/openssh/README.md) | a remote login and operations tool based on the **SSH protocol** |
+| [phoronix](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/phoronix/README.md) | a comprehensive & extensible testing and benchmarking platform for a range of hardware and machine subsystems |
+| [prometheus](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/prometheus/README.md) | a multi-dimensional, non-distributed time-series database and monitoring/alerting toolkit |
+| [systemd](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/systemd/README.md) | system components and services managed by the Linux `systemd` system/service manager |
+| [tmux](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/tmux/README.md) | a terminal multiplexer enabling multiple terminals to be created, accessed, and controlled from a single screen |
+| [traefik](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/traefik/README.md) | a dynamic service reverse-proxy and load-balancer |
+| [vim](https://github.com/0x0I/operator/blob/master/ansible/O1labs/cloud/roles/vim/README.md) | a powerful and flexible text editor and development environment |
+
+## O1labs.crypto
+
+| name | description|
+| :---: | :---: |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/1200px-Ethereum-icon-purple.svg.png"  width="25" height="25"> [geth](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/geth/README.md) | an Ethereum blockchain client written in Go |
+| [openethereum](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/openethereum/README.md) | a fast and feature-rich multi-network Ethereum client |
+| [chainlink](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/chainlink/README.md) | a smart-contract platform data oracle network |
+| [prysm](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/prysm/README.md) | A full-featured client for the Ethereum 2.0 protocol, written in Go |
+| [lighthouse](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/lighthouse/README.md) | an Ethereum 2.0 client, written in Rust and maintained by Sigma Prime |
+| [teku](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/teku/README.md) | an open-source Ethereum 2.0 client written in Java |
+| [lotus](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/lotus/README.md) | a Go-implementation of the Filecoin distributed storage network blockchain protocol |
+| [mina](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/mina/README.md) | client nodes a part of Mina's succinct zero-knowledge protocol based on recursive composition of zk-SNARKs |
+| [zcash](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/zcash/README.md) | a client for the Zcash zero-knowledge privacy blockchain/protocol |
+| [zecminer](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/zecminer/README.md) | a CUDA-based Zcash protocol GPU miner for solving the Equihash Proof-of-Work Algorithm |
