@@ -15,7 +15,19 @@
 
 Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluentd`) to blockchain network nodes and validators to an assortment of development and operational environments (e.g. `git, vim, tmux`), **O1** strives to enhance all technological ecosystems with encoded expert & experienced operational logic and insights via the most established and developed software automation tools, human-computer vizualization and interaction technques and best practices - crafted and curated by a world-wide community of researchers, developers, operators and hobbyists/enthusiasts.
 
-Manifested as Dockerfiles, Helm charts, Ansible roles/collections and React/D3.js components, built by O1 and everyone else (+ a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, machine-learning and HCI), our infrastructure aims to literally escalate the idea of infrastructure providers to the :cloud: by building decentralized DevOps interfaces and platforms which provide evolved and sophisticated user-experiences pushing the boundary of the capabilities ofthe modern web; leaving behind the dark, archaic CLI and terminal days in the rearview.
+Manifested as `Dockerfiles`, `Helm charts`, `Ansible roles/collections` and `React/D3.js components`, built by **O1** and anyone else (+ a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, machine-learning and HCI), our infrastructure aims to literally escalate the idea of infrastructure providers to the :cloud: by building decentralized DevOps interfaces and platforms which provide evolved and sophisticated user-experiences pushing the boundary of the capabilities ofthe modern web; leaving behind the dark, archaic CLI and terminal days in the rearview.
+
+# Operator
+
+**Operator** is the first `User-Interface-as-a-Service (UIaaS)` software solution aimed at disrupting the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI using terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and overall considerably inefficient in terms of productivity when compared to more graphical user-interfaces.
+
+<img src="https://miro.medium.com/max/786/1*4jGCY6YznCuRlYiLPaL27A.webp">
+
+*Figure 1. example of a command-line interface*
+
+**Operator** is a service that ultimately seeks to provide an extensible, web-based graphical user-interface which can serve as a proxy between how users visualize and manipulate the data and behaviors of each service while offering resource provisioning and productivity enhancing features such as installing and uninstalling applications, remembering and performing intellisense on commands, setting custom profiles and sharing operational insights/best practices with the world at large. It can be run from anywhere (locally or remote) and on any of the major OS platforms, exposed and accessed via HTTPS and can manage nodes using ONLY SSH and private-public key cryptography.
+
+Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/examples/v1) to **Get Started**!
 
 # Applications
 
