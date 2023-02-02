@@ -1,6 +1,6 @@
 <p><img src="https://i.imgur.com/IBNz2CM.jpg" alt="0xO1 logo" title="0xO1" align="right" height="80" /></p>
 
-🌎 O1 Labs Public Services 💞
+🌎 O1 Labs
 =========
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/0x0I/operator?color=yellow)
 [![0x0I](https://circleci.com/gh/0x0I/operator.svg?style=svg)](https://circleci.com/gh/0x0I/operator)
