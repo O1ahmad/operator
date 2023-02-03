@@ -1,0 +1,36 @@
+{
+    "id": "base_example_construct",
+    "setup": [
+        {
+            "type": "base",
+            "url": "o1labs.cloud.base",
+            "properties": {
+                "install_docker": true,
+                "harden_ssh_access": true,
+                "install_fail2ban": false,
+                "auto_update": true,
+                "docker_users": ["ahmad"],
+                "user_packages": [
+                    "curl",
+                    "htop",
+                    "lsof",
+                    "net-tools"
+                ]
+            }
+        }
+    ],
+    "inventory": [
+        {
+            "name": "deadpool",
+            "address": "192.168.1.167",
+            "user": "ahmad",
+            "roles": []
+        },
+        {
+            "name": "nightcrawler",
+            "address": "192.168.1.188",
+            "user": "ahmad",
+            "roles": ["avalanchego-mainnet"]
+        }
+    ]
+}

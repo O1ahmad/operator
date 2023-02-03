@@ -1,0 +1,49 @@
+{
+    "id": "avax_base_service_construct",
+    "setup": [
+        {
+            "type": "avalanchego-mainnet",
+            "url": "0x0i.basic_service",
+            "properties": {
+                "uninstall": "false",
+                "name": "avalanchego-mainnet",
+                "image": "0labs/avalanchego:v1.9.7",
+                "hostDataDir": "/O1",
+                "setupMode": "container",
+                "config": {
+                    "network-config": {
+                        "data": "{\"network-id\":\"mainnet\",\"http-host\":\"0.0.0.0\"}",
+                        "destinationPath": "/config/config.json"
+                    },
+                    "c-config": {
+                        "data": "{\"state-sync-enabled\":true,\"pruning-enabled\":true,\"eth-apis\":[\"public-eth\",\"public-eth-filter\",\"net\",\"web3\",\"internal-public-eth\",\"internal-public-blockchain\",\"internal-public-transaction-pool\",\"internal-public-account\",\"internal-public-debug\",\"internal-private-debug\",\"debug-tracer\"]}",
+                        "destinationPath": "/config/C/config.json"
+                    }
+                },
+                "configEnv": {
+                    "RUN_ARGS": "--config-file=/config/config.json --chain-config-dir=/config/C"
+                },
+                "dataDirs": {
+                    "chain-data": {
+                        "hostPath": "/O1/avax/data",
+                        "appPath": "/root/.avalanchego"
+                    }
+                },
+                "ports": {
+                    "rpc": {
+                        "ingressPort": 19650,
+                        "servicePort": 9650
+                    }
+                }
+            }
+        }
+    ],
+    "inventory": [
+        {
+            "name": "nightcrawler",
+            "address": "192.168.1.188",
+            "user": "ahmad",
+            "roles": ["avalanchego-mainnet"]
+        }
+    ]
+}
