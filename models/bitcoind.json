@@ -1,0 +1,49 @@
+{
+    "id": "btc_base_service_construct",
+    "setup": [
+        {
+            "type": "bitcoind-mainnet",
+            "url": "0x0i.basic_service",
+            "properties": {
+                "uninstall": "false",
+                "name": "bitcoind-mainnet",
+                "image": "0labs/bitcoind:24.0.1",
+                "hostDataDir": "/O1",
+                "setupMode": "container",
+                "config": {
+                    "bitcoind.conf": {
+                        "data": "disablewallet=no\nrpcuser=bitcoin\nrpcpassword=password\nrpcport=8332",
+                        "destinationPath": "/config/bitcoin.conf"
+                    }
+                },
+                "configEnv": {
+                    "RUN_ARGS": "-conf=/config/bitcoin.conf -datadir=/data"
+                },
+                "dataDirs": {
+                    "chain-data": {
+                        "hostPath": "/bitcoind/data",
+                        "appPath": "/data"
+                    }
+                },
+                "ports": {
+                    "rpc": {
+                        "ingressPort": 8332,
+                        "servicePort": 8332
+                    },
+                    "zmq": {
+                        "ingressPort": 8334,
+                        "servicePort": 8334
+                    }
+                }
+            }
+        }
+    ],
+    "inventory": [
+        {
+            "name": "nightcrawler",
+            "address": "192.168.1.188",
+            "user": "ahmad",
+            "roles": ["bitcoind-mainnet"]
+        }
+    ]
+}
