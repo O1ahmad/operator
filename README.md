@@ -19,7 +19,7 @@ Manifested as `Dockerfiles`, `Helm charts`, `Ansible roles/collections` and `Rea
 
 # Operator
 
-**Operator** is the first `User-Interface-as-a-Service (UIaaS)` software solution aimed at disrupting the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI using terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and are overall considerably less inefficient in terms of productivity when compared to more graphical user-interfaces.
+**Operator** is the first `User-Interface-as-a-Service (UIaaS)` software solution aimed at optimizing the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI using terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and are overall considerably less inefficient in terms of productivity when compared to more graphical user-interfaces.
 
 <img src="https://miro.medium.com/max/786/1*4jGCY6YznCuRlYiLPaL27A.webp">
 
