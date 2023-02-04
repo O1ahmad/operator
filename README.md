@@ -57,8 +57,8 @@ Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/exa
 
 | name | description|
 | :---: | :---: |
-| <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg"  width="60" height="60"> [avalanchego](https://github.com/0x0I/operator/blob/master/models/avalanchego.json) | Go implementation of an Avalanche node |
-| <img src="https://as2.ftcdn.net/v2/jpg/05/11/11/67/1000_F_511116703_djZ9CLaCKJQIja8iRIoZ2MThVcTbT5OS.jpg"  width="75" height="75"> [bitcoind](https://github.com/0x0I/operator/blob/master/models/bitcoind.json) | Client software for running a Bitcoin Core node |
+| <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg"  width="60" height="60"> [avalanchego](https://hub.docker.com/repository/docker/0labs/avalanchego/general) | Go implementation of an Avalanche node |
+| <img src="https://as2.ftcdn.net/v2/jpg/05/11/11/67/1000_F_511116703_djZ9CLaCKJQIja8iRIoZ2MThVcTbT5OS.jpg"  width="75" height="75"> [bitcoind](https://hub.docker.com/repository/docker/0labs/bitcoind/general) | Client software for running a Bitcoin Core node |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Ethereum-icon-purple.svg/1200px-Ethereum-icon-purple.svg.png"  width="75" height="75"> [geth](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/geth/README.md) | an Ethereum blockchain client written in Go |
 | [<img src="https://openethereum.github.io/images/logo-openethereum.svg"  width="75" height="75">](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/openethereum/README.md) | a fast and feature-rich multi-network Ethereum client |
 | [<img src="https://cryptomode.com/wp-content/uploads/2020/08/CryptoMode-chainLink-Price-696x392.jpg"  width="100" height="75">](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/chainlink/README.md) | a smart-contract platform data oracle network |
