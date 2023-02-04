@@ -1,0 +1,49 @@
+{
+    "id": "bch_base_service_construct",
+    "setup": [
+        {
+            "type": "bitcoin-abc-mainnet",
+            "url": "0x0i.basic_service",
+            "properties": {
+                "uninstall": "false",
+                "name": "bitcoin-abc-mainnet",
+                "image": "0labs/bitcoin-abcd:0.26.11",
+                "hostDataDir": "/O1",
+                "setupMode": "container",
+                "config": {
+                    "bitcoin-abc.conf": {
+                        "data": "disablewallet=no\nrpcuser=bitcoin\nrpcpassword=password\nrpcport=8332",
+                        "destinationPath": "/config/bitcoin-abc.conf"
+                    }
+                },
+                "configEnv": {
+                    "RUN_ARGS": "-conf=/config/bitcoin-abc.conf -datadir=/data"
+                },
+                "dataDirs": {
+                    "chain-data": {
+                        "hostPath": "/bitcoin-abc/data",
+                        "appPath": "/data"
+                    }
+                },
+                "ports": {
+                    "rpc": {
+                        "ingressPort": 8332,
+                        "servicePort": 8332
+                    },
+                    "zmq": {
+                        "ingressPort": 8334,
+                        "servicePort": 8334
+                    }
+                }
+            }
+        }
+    ],
+    "inventory": [
+        {
+            "name": "nightcrawler",
+            "address": "192.168.1.188",
+            "user": "ahmad",
+            "roles": ["bitcoin-abc-mainnet"]
+        }
+    ]
+}

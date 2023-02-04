@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 
 KEYS_DIR = "/keys"
+FILES_DIR = "/files"
 WORK_DIR = "/var/tmp"
 ROLES_DIR = os.environ.get("ROLES_DIR", "{}/roles".format(WORK_DIR))
 COLLECTIONS_DIR = os.environ.get("COLLECTIONS_DIR", "{}/collections".format(WORK_DIR))
@@ -151,6 +152,22 @@ def key():
         return { 'message': "SSH key, {key}, successfully uploaded.".format(key=file.filename) }
     
     return { 'error': "No SSH key was provided for upload." }
+
+@app.route("/v1/files", methods=['POST'])
+def files():
+    if 'file' in request.files:
+        file = request.files['file']
+        path = "{}/{}".format(FILES_DIR, file.filename)
+
+        if not os.path.exists(FILES_DIR):
+            os.makedirs(FILES_DIR)
+
+        file.save(path)
+        os.chmod(path, 0o600)
+
+        return { 'message': "File, {f}, successfully uploaded.".format(f=file.filename) }
+
+    return { 'error': "No File was provided for upload." }
 
 @app.route("/v1/view/<cid>", methods=['GET'])
 def view(cid):
