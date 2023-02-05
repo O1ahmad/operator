@@ -13,7 +13,7 @@
 
 *O1 Labs is an open, decentralized and managed infrastructure/operations service platform dedicated to the development, provisioning and support of ALL things cloud-native and web3.*
 
-Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluentd`) to blockchain network nodes and validators to an assortment of development and operational environments (e.g. `git, vim, tmux`), **O1** strives to enhance all technological ecosystems with encoded expert & experienced operational logic and insights via the most established and developed software automation tools, human-computer vizualization and interaction techniques and best practices - crafted and curated by a decentralized, world-wide community of researchers, developers, operators and hobbyists/enthusiasts.
+Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluentd`) to blockchain network nodes and validators to an assortment of development and operational tools (e.g. `git, vim, tmux`), **O1** strives to enhance all technological ecosystems with encoded expert & experienced operational logic and insights via the most established and developed software automation tools, human-computer vizualization and interaction techniques and best practices - crafted and curated by a decentralized, world-wide community of researchers, developers, operators and hobbyists/enthusiasts.
 
 # Operator
 
@@ -27,7 +27,7 @@ Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluent
 
 Leveraging `Dockerfiles`, `Helm charts`, `Ansible roles/collections`, `React/D3.js components` etc (and with a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, HCI and machine-learning), **O1** aims to literally elevate the idea of computer interfaces and infrastructure providers to the :cloud: by building decentralized user-interface and DevOps platforms which push the boundary of the capabilities of the modern web; leaving the dark, archaic CLI and terminal days in the rearview.
 
-Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/examples/v1) to **Get Started**!
+Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/docs/examples/v1) to **Get Started**!
 
 # Applications
 
