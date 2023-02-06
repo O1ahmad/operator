@@ -1,0 +1,3 @@
+{
+    "run_args": "docker logs bitcoind-mainnet"
+}
