@@ -1,4 +1,4 @@
-# Configure the development environment of inventory node (e.g. tmux configuration):
+# Configure the development environment of an inventory node:
 * installation and configuration of the tmux terminal multi-plexer 
 * installation and configuration of the vim text editor
 
