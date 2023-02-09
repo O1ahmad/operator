@@ -58,6 +58,7 @@ Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/doc
 | name | description|
 | :---: | :---: |
 | <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg"  width="60" height="60"> [avalanchego](https://hub.docker.com/repository/docker/0labs/avalanchego/general) | Go implementation of an Avalanche node |
+| <img src="https://envisionblockchain.com/wp-content/uploads/hyperledger-besu-320.jpg"  width="125" height="75"> [besu](https://hub.docker.com/repository/docker/0labs/besu/general) | an open source Ethereum client developed under the Apache 2.0 license and written in Java |
 | <img src="https://as2.ftcdn.net/v2/jpg/05/11/11/67/1000_F_511116703_djZ9CLaCKJQIja8iRIoZ2MThVcTbT5OS.jpg"  width="75" height="75"> [bitcoind](https://hub.docker.com/repository/docker/0labs/bitcoind/general) | Client software for running a Bitcoin Core node |
 | <img src="https://bitcoincash.org/img/green/bitcoin-cash-circle.svg"  width="60" height="60"> [bitcoin-abc](https://hub.docker.com/repository/docker/0labs/bitcoin-abcd/general) | Node software for the Bitcoin Cash/eCash project |
 | [<img src="https://cryptomode.com/wp-content/uploads/2020/08/CryptoMode-chainLink-Price-696x392.jpg"  width="150" height="75">](https://github.com/0x0I/operator/blob/master/ansible/O1labs/crypto/roles/chainlink/README.md) | a smart-contract platform data oracle network |
