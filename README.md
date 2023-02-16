@@ -17,6 +17,8 @@ Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluent
 
 # Operator
 
+See [Project Overview](https://github.com/0x0I/operator/blob/master/docs/overview.md)
+
 **Operator** is the first `User-Interface-as-a-Service (UIaaS)` aimed at optimizing the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI which depends on terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and are overall considerably less inefficient in terms of productivity when compared to more graphical user-interfaces; especially those based on the sciences & principles of Human-Computer Interaction and Information Design.
 
 <img src="https://miro.medium.com/max/786/1*4jGCY6YznCuRlYiLPaL27A.webp">
@@ -25,7 +27,7 @@ Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluent
 
 **Operator** is a service that ultimately seeks to provide an extensible, web-based graphical user-interface which serves as a proxy between how users visualize and manipulate the data and behaviors of each service while offering resource provisioning and productivity enhancing features such as installing and uninstalling applications, adding logging and metric observability, remembering and performing intellisense on commands, setting custom user profiles and sharing operational insights/best practices with the world at large. It can run from anywhere (locally or remote), on any of the major OS platforms and can be exposed and accessed via HTTPS/HTTP managing nodes using ONLY SSH and private-public key cryptography.
 
-Leveraging `Dockerfiles`, `Helm charts`, `Ansible roles/collections`, `React/D3.js components` etc (and with a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, HCI and machine-learning), **O1** aims to literally elevate the idea of computer interfaces and infrastructure providers to the :cloud: by building decentralized user-interface and DevOps platforms which push the boundary of the capabilities of the modern web; leaving the dark, archaic CLI and terminal days in the rearview.
+Leveraging `Dockerfiles`, `Helm charts`, `Ansible roles/collections`, `React/D3.js components` etc built world-wide (and with a steadfast dedication rooted at the project's core to the latest and greatest tools involved in infrastructure automation, HCI and machine-learning as a standard), **O1** aims to literally elevate the idea of computer interfaces and infrastructure providers to the :cloud: by building decentralized user-interface and DevOps platforms which push the boundary of the capabilities of the modern web; leaving the dark, archaic CLI and terminal days in the rearview.
 
 Checkout `v1` of the [REST API](https://github.com/0x0I/operator/tree/master/docs/examples/v1) to **Get Started**!
 
