@@ -248,7 +248,7 @@ def run(cid):
             input_fd=sys.stdin
         )
         trim_start = out.find('>>')
-        out = out[trim_start+2:]
+        out = out[trim_start:]
         if rc == 0:
             return {
                 'id': cid,
