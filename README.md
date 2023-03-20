@@ -19,7 +19,7 @@ Ranging from cloud-native services/applications (e.g. `prometheus, kafka, fluent
 
 See [Project Overview](https://github.com/0x0I/operator/blob/master/docs/overview.md)
 
-**Operator** is the first `User-Interface-as-a-Service (UIaaS)` aimed at optimizing the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI which depends on terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and are overall considerably less inefficient in terms of productivity when compared to more graphical user-interfaces; especially those based on the sciences & principles of Human-Computer Interaction and Information Design.
+**Operator** is the first `User-Interface-as-a-Service (UIaaS)` aimed at optimizing the way users interact with the myriad of open-source and proprietary services available on the web. Typically, the de facto interface used between users and these services is a command-line interface or CLI which depends on terminal programs distributed across the major OS platforms (Windows, Mac, Linux). These types of interfaces are text-based, prone to typing errors, challenging to learn/remember, "noisy" by nature and are overall considerably less efficient in terms of productivity when compared to more graphical user-interfaces; especially those based on the sciences & principles of Human-Computer Interaction and Information Design.
 
 <img src="https://miro.medium.com/max/786/1*4jGCY6YznCuRlYiLPaL27A.webp">
 
