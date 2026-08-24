@@ -82,4 +82,4 @@ This Ansible role was created in 2021 by O1.IO.
 
 * **BTC (Bitcoin):** bc1qx6fa4hqz6nhc0put3rhzsk58nue7zpufpkhd6e
 
-* **ATOM (Cosmos):** cosmos19vmcf5t68w6ug45mrwjyauh4ey99u9htrgqv09
+* **SOL (Solana):** 2UzF9wxhPSQMeL6DabQJ8Eq3q5wUBnf4Yp4LuJCWSD1J
