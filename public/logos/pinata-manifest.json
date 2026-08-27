@@ -86,11 +86,11 @@
     {
       "id": "nimbus",
       "name": "operator-logo-nimbus",
-      "file": "nimbus.png",
-      "cid": "QmVjVTeFqouFEsYkNBMqMkZXc5mE4jPn7hiVMrgexvExq3",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmVjVTeFqouFEsYkNBMqMkZXc5mE4jPn7hiVMrgexvExq3",
-      "source": "https://raw.githubusercontent.com/nimbus/nimbus/main/docs/brand/logo/nimbus-cool-blue.svg (128px PNG)",
-      "verifiedAt": "2026-08-27T00:42:00.000Z"
+      "file": "nimbus.jpg",
+      "cid": "Qmb6uQLD1wT7d2ZrHUbmUGXcud7wPVgD1ZawQt4SYwELkF",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/Qmb6uQLD1wT7d2ZrHUbmUGXcud7wPVgD1ZawQt4SYwELkF",
+      "source": "https://nimbus.team/community/ethnimbus.jpg",
+      "verifiedAt": "2026-08-27T00:46:00.000Z"
     },
     {
       "id": "vim",
