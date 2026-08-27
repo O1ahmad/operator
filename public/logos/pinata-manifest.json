@@ -86,11 +86,12 @@
     {
       "id": "nimbus",
       "name": "operator-logo-nimbus",
-      "file": "nimbus.jpg",
-      "cid": "Qmb6uQLD1wT7d2ZrHUbmUGXcud7wPVgD1ZawQt4SYwELkF",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/Qmb6uQLD1wT7d2ZrHUbmUGXcud7wPVgD1ZawQt4SYwELkF",
+      "file": "nimbus.png",
+      "cid": "QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
       "source": "https://nimbus.team/community/ethnimbus.jpg",
-      "verifiedAt": "2026-08-27T00:46:00.000Z"
+      "local": "public/logos/nimbus.png",
+      "verifiedAt": "2026-08-27T00:49:00.000Z"
     },
     {
       "id": "vim",
