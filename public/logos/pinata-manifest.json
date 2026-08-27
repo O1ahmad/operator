@@ -2,7 +2,7 @@
   "generatedAt": "2026-08-27T01:07:08Z",
   "gateway": "https://aqua-characteristic-rabbit-42.mypinata.cloud",
   "project": "operator-readme-logos",
-  "count": 37,
+  "count": 35,
   "logos": [
     {
       "id": "ansible",
@@ -95,12 +95,6 @@
       "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
-      "id": "kafka",
-      "cid": "QmZFVq4GJr6VjeZUGDnifqKyUcc2qjvyhsdrUDuTTfw53M",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmZFVq4GJr6VjeZUGDnifqKyUcc2qjvyhsdrUDuTTfw53M",
-      "verifiedAt": "2026-08-27T01:07:08Z"
-    },
-    {
       "id": "kibana",
       "cid": "QmRNPWJJ8KH8xxUrFhg2amx76UMHXyCgSKcnEA1yAMLRWE",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmRNPWJJ8KH8xxUrFhg2amx76UMHXyCgSKcnEA1yAMLRWE",
@@ -122,12 +116,6 @@
       "id": "lodestar",
       "cid": "QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
-      "verifiedAt": "2026-08-27T01:07:08Z"
-    },
-    {
-      "id": "lotus",
-      "cid": "bafkreif5bixe6hporoq7kdwvprgxmf6k42h2qbt4s47wvbcilhzwgqf7lq",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreif5bixe6hporoq7kdwvprgxmf6k42h2qbt4s47wvbcilhzwgqf7lq",
       "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
