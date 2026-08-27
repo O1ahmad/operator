@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-08-27T00:38:07.000Z",
+  "gateway": "https://aqua-characteristic-rabbit-42.mypinata.cloud",
+  "project": "operator-readme-logos",
+  "count": 11,
+  "logos": [
+    {
+      "id": "base",
+      "name": "operator-logo-base",
+      "cid": "QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
+      "source": "reuse:o1-splash-docker (128px PNG)",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "besu",
+      "name": "operator-logo-besu",
+      "file": "besu.svg",
+      "cid": "QmSjep865teXhhN8od3DmDLVpUCLqevc75xGgFbYXojUtt",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSjep865teXhhN8od3DmDLVpUCLqevc75xGgFbYXojUtt",
+      "source": "https://raw.githubusercontent.com/hyperledger/besu-docs/main/static/img/logo.svg",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "chainlink",
+      "name": "operator-logo-chainlink",
+      "file": "chainlink.png",
+      "cid": "QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
+      "source": "local:public/logos/chainlink.png (128px opaque PNG)",
+      "verifiedAt": "2026-08-27T00:42:00.000Z"
+    },
+    {
+      "id": "dogecoind",
+      "name": "operator-logo-dogecoind",
+      "file": "dogecoind.png",
+      "cid": "QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
+      "source": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png (128px opaque PNG)",
+      "verifiedAt": "2026-08-27T00:42:00.000Z"
+    },
+    {
+      "id": "erigon",
+      "name": "erigon-logo.png",
+      "cid": "QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
+      "source": "pinata:erigon-logo.png",
+      "verifiedAt": "2026-08-27T00:51:00.000Z"
+    },
+    {
+      "id": "geth",
+      "name": "operator-logo-geth",
+      "cid": "QmQKan5FXqoR5tB5X9aD58FJWwwJAkMjxWEKZWG6pTTf6R",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmQKan5FXqoR5tB5X9aD58FJWwwJAkMjxWEKZWG6pTTf6R",
+      "source": "reuse:o1-splash-ethereum",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "litecoin",
+      "name": "operator-logo-litecoin",
+      "file": "litecoin.jpg",
+      "cid": "QmVvR1mh9hxqEafYUmAuoRo73CZnipv6vT9jZTqkQAJUNv",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmVvR1mh9hxqEafYUmAuoRo73CZnipv6vT9jZTqkQAJUNv",
+      "source": "local:public/logos/litecoin.jpg",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "lodestar",
+      "name": "operator-logo-lodestar",
+      "file": "lodestar.png",
+      "cid": "QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
+      "source": "local:public/logos/lodestar.png",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "mina",
+      "name": "operator-logo-mina",
+      "file": "mina.png",
+      "cid": "QmYD2RcqPkpAfcJd3jeKYgm1Lot5LggxCwN8LruuPdsYbh",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYD2RcqPkpAfcJd3jeKYgm1Lot5LggxCwN8LruuPdsYbh",
+      "source": "local:public/logos/mina.png",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    },
+    {
+      "id": "nimbus",
+      "name": "operator-logo-nimbus",
+      "cid": "QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
+      "source": "https://nimbus.team/community/ethnimbus.jpg",
+      "verifiedAt": "2026-08-27T00:49:00.000Z"
+    },
+    {
+      "id": "vim",
+      "name": "operator-logo-vim",
+      "file": "vim.svg",
+      "cid": "QmTZkSCSC6XeJ4J7iWppJqoJGBYX4Unw5bCiWRTN3QM2sU",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmTZkSCSC6XeJ4J7iWppJqoJGBYX4Unw5bCiWRTN3QM2sU",
+      "source": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Vimlogo.svg",
+      "verifiedAt": "2026-08-27T00:38:07.000Z"
+    }
+  ]
+}
