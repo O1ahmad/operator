@@ -1,103 +1,230 @@
 {
-  "generatedAt": "2026-08-27T00:38:07.000Z",
+  "generatedAt": "2026-08-27T01:07:08Z",
   "gateway": "https://aqua-characteristic-rabbit-42.mypinata.cloud",
   "project": "operator-readme-logos",
-  "count": 11,
+  "count": 37,
   "logos": [
     {
+      "id": "ansible",
+      "cid": "Qma2LtkvWjbS2dV1PY3wB5ujwP5qyZCMCXwVfCqtgUeorE",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/Qma2LtkvWjbS2dV1PY3wB5ujwP5qyZCMCXwVfCqtgUeorE",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "avalanchego",
+      "cid": "bafkreibjy2uuw36nuieuutxto7k6tuvvoy5vfbsiugnu3blntur42vg2ye",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreibjy2uuw36nuieuutxto7k6tuvvoy5vfbsiugnu3blntur42vg2ye",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
       "id": "base",
-      "name": "operator-logo-base",
       "cid": "QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
-      "source": "reuse:o1-splash-docker (128px PNG)",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "besu",
-      "name": "operator-logo-besu",
-      "file": "besu.svg",
       "cid": "QmSjep865teXhhN8od3DmDLVpUCLqevc75xGgFbYXojUtt",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSjep865teXhhN8od3DmDLVpUCLqevc75xGgFbYXojUtt",
-      "source": "https://raw.githubusercontent.com/hyperledger/besu-docs/main/static/img/logo.svg",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "bitcoin-abc",
+      "cid": "QmW64bU4jRwK1tuUvwNw6d9YivUChq7CheMHqLTCxbaJjs",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmW64bU4jRwK1tuUvwNw6d9YivUChq7CheMHqLTCxbaJjs",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "bitcoind",
+      "cid": "bafkreih4mag7tt75x3lxxcgg6tx5wsitcdypqti3fvmdq6kyypcb5fieoy",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreih4mag7tt75x3lxxcgg6tx5wsitcdypqti3fvmdq6kyypcb5fieoy",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "chainlink",
-      "name": "operator-logo-chainlink",
-      "file": "chainlink.png",
       "cid": "QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
-      "source": "local:public/logos/chainlink.png (128px opaque PNG)",
-      "verifiedAt": "2026-08-27T00:42:00.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "consul",
+      "cid": "bafkreic2sykvvovr7oqwie25e3ssxf6k4oyqvpa55yusjyc2co7u2xhxnu",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreic2sykvvovr7oqwie25e3ssxf6k4oyqvpa55yusjyc2co7u2xhxnu",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "dogecoind",
-      "name": "operator-logo-dogecoind",
-      "file": "dogecoind.png",
       "cid": "QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
-      "source": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png (128px opaque PNG)",
-      "verifiedAt": "2026-08-27T00:42:00.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "elasticsearch",
+      "cid": "bafkreieogv5w4tf6zmj2iywnrwrzqus5xzmzxnzbbrscn4xrca3qevqycy",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreieogv5w4tf6zmj2iywnrwrzqus5xzmzxnzbbrscn4xrca3qevqycy",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "erigon",
-      "name": "erigon-logo.png",
       "cid": "QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
-      "source": "pinata:erigon-logo.png",
-      "verifiedAt": "2026-08-27T00:51:00.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "fluentd",
+      "cid": "bafkreif5slz4sqxe4j23b5ztqarp7t6n4c36lcq3do3ouwap4ia463p7ji",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreif5slz4sqxe4j23b5ztqarp7t6n4c36lcq3do3ouwap4ia463p7ji",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "geth",
-      "name": "operator-logo-geth",
       "cid": "QmQKan5FXqoR5tB5X9aD58FJWwwJAkMjxWEKZWG6pTTf6R",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmQKan5FXqoR5tB5X9aD58FJWwwJAkMjxWEKZWG6pTTf6R",
-      "source": "reuse:o1-splash-ethereum",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
-      "id": "litecoin",
-      "name": "operator-logo-litecoin",
-      "file": "litecoin.jpg",
+      "id": "grafana",
+      "cid": "bafkreigq7pekrv2r7cmhnic7coq5x45ddtonnkcud46tlryv7ds3jwhrzq",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreigq7pekrv2r7cmhnic7coq5x45ddtonnkcud46tlryv7ds3jwhrzq",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "journald",
+      "cid": "QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "kafka",
+      "cid": "QmZFVq4GJr6VjeZUGDnifqKyUcc2qjvyhsdrUDuTTfw53M",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmZFVq4GJr6VjeZUGDnifqKyUcc2qjvyhsdrUDuTTfw53M",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "kibana",
+      "cid": "QmRNPWJJ8KH8xxUrFhg2amx76UMHXyCgSKcnEA1yAMLRWE",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmRNPWJJ8KH8xxUrFhg2amx76UMHXyCgSKcnEA1yAMLRWE",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "lighthouse",
+      "cid": "bafybeibl42ysp5ndusxw556eww2vbzvu3bsgmiljnkkvrov272yuqsboei",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafybeibl42ysp5ndusxw556eww2vbzvu3bsgmiljnkkvrov272yuqsboei",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "litecoind",
       "cid": "QmVvR1mh9hxqEafYUmAuoRo73CZnipv6vT9jZTqkQAJUNv",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmVvR1mh9hxqEafYUmAuoRo73CZnipv6vT9jZTqkQAJUNv",
-      "source": "local:public/logos/litecoin.jpg",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "lodestar",
-      "name": "operator-logo-lodestar",
-      "file": "lodestar.png",
       "cid": "QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYAuxeunHe2eYc8ePcjn8tPQHz4MnzQWj6H4khRxx75r4",
-      "source": "local:public/logos/lodestar.png",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "lotus",
+      "cid": "bafkreif5bixe6hporoq7kdwvprgxmf6k42h2qbt4s47wvbcilhzwgqf7lq",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreif5bixe6hporoq7kdwvprgxmf6k42h2qbt4s47wvbcilhzwgqf7lq",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "mev-boost",
+      "cid": "QmVbz98LvGNMCGo8Y7tisov5Z4uteMTcESUGVzoCtPiLUP",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmVbz98LvGNMCGo8Y7tisov5Z4uteMTcESUGVzoCtPiLUP",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "mina",
-      "name": "operator-logo-mina",
-      "file": "mina.png",
       "cid": "QmYD2RcqPkpAfcJd3jeKYgm1Lot5LggxCwN8LruuPdsYbh",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYD2RcqPkpAfcJd3jeKYgm1Lot5LggxCwN8LruuPdsYbh",
-      "source": "local:public/logos/mina.png",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "nethermind",
+      "cid": "bafkreifkwewrtjbuvosxbyaxnjbg6jzywowen7vtbyoahqzl7jj6bizzaq",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreifkwewrtjbuvosxbyaxnjbg6jzywowen7vtbyoahqzl7jj6bizzaq",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "nimbus",
-      "name": "operator-logo-nimbus",
       "cid": "QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
-      "source": "https://nimbus.team/community/ethnimbus.jpg",
-      "verifiedAt": "2026-08-27T00:49:00.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "openssh",
+      "cid": "QmTZMSBmkVsDPpq4wiZ2mn13tW2dQH1gBVHQ4wvYbKzwDR",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmTZMSBmkVsDPpq4wiZ2mn13tW2dQH1gBVHQ4wvYbKzwDR",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "operator",
+      "cid": "QmRuw4duqLhb9n1DxFZBgrXk9KNyPATSmRDkxd84VZp17Z",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmRuw4duqLhb9n1DxFZBgrXk9KNyPATSmRDkxd84VZp17Z",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "phoronix",
+      "cid": "QmXriziea54HnY2AHZuHed9DNkB3HtNTqYmguDBjvaiotX",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmXriziea54HnY2AHZuHed9DNkB3HtNTqYmguDBjvaiotX",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "prometheus",
+      "cid": "bafkreifjnvemy7y4shpjidnmx4yfqgcq7uwa5vfpv4nqxfh3q3vr2cxpny",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreifjnvemy7y4shpjidnmx4yfqgcq7uwa5vfpv4nqxfh3q3vr2cxpny",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "prysm",
+      "cid": "bafkreib3f6ihq5nlk5mr5gqzjuyphcjeni7mmfz3a4ubbtv62duokm2fgi",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreib3f6ihq5nlk5mr5gqzjuyphcjeni7mmfz3a4ubbtv62duokm2fgi",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "redhat",
+      "cid": "QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "systemd",
+      "cid": "QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYtGaNWcEMwHbJouxkCFQczXxV1bfdXccL2FwbbBskom9",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "teku",
+      "cid": "bafkreib2zhqroplh53c4eabwbx3ddbpq47cp3suftldss6tvjy6luxp3jq",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreib2zhqroplh53c4eabwbx3ddbpq47cp3suftldss6tvjy6luxp3jq",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "tmux",
+      "cid": "QmYXtUZMrnVQHKQxbpC47Pva5CrhdPfQ83Nfr7EwCb6i9L",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYXtUZMrnVQHKQxbpC47Pva5CrhdPfQ83Nfr7EwCb6i9L",
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "traefik",
+      "cid": "QmSNmWt1QNJK61doCcvNviQo1eEbr9WgZKAdYAt3vThzn5",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSNmWt1QNJK61doCcvNviQo1eEbr9WgZKAdYAt3vThzn5",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     },
     {
       "id": "vim",
-      "name": "operator-logo-vim",
-      "file": "vim.svg",
       "cid": "QmTZkSCSC6XeJ4J7iWppJqoJGBYX4Unw5bCiWRTN3QM2sU",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmTZkSCSC6XeJ4J7iWppJqoJGBYX4Unw5bCiWRTN3QM2sU",
-      "source": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Vimlogo.svg",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "verifiedAt": "2026-08-27T01:07:08Z"
+    },
+    {
+      "id": "zcash",
+      "cid": "bafkreifuwnagjvm6tvrz5ztwjwkrtnzjjvdgalqwimn432r4ozp4j6fwwa",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreifuwnagjvm6tvrz5ztwjwkrtnzjjvdgalqwimn432r4ozp4j6fwwa",
+      "verifiedAt": "2026-08-27T01:07:08Z"
     }
   ]
 }
