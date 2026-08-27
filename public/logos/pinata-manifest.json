@@ -42,11 +42,9 @@
     {
       "id": "erigon",
       "name": "erigon-logo.png",
-      "file": "erigon.png",
       "cid": "QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
       "source": "pinata:erigon-logo.png",
-      "local": "public/logos/erigon.png",
       "verifiedAt": "2026-08-27T00:51:00.000Z"
     },
     {
@@ -87,11 +85,9 @@
     {
       "id": "nimbus",
       "name": "operator-logo-nimbus",
-      "file": "nimbus.png",
       "cid": "QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
       "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmWEALttGHpkNdhRC83Ndu8pDmDo4v8qCvvP1ywU4LQXr6",
       "source": "https://nimbus.team/community/ethnimbus.jpg",
-      "local": "public/logos/nimbus.png",
       "verifiedAt": "2026-08-27T00:49:00.000Z"
     },
     {
