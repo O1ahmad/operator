@@ -7,9 +7,9 @@
     {
       "id": "base",
       "name": "operator-logo-base",
-      "cid": "bafkreicqiem7vzadyvfqmnxxobmr3nrp762a7kuwirngntzr6xzzddsnyu",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreicqiem7vzadyvfqmnxxobmr3nrp762a7kuwirngntzr6xzzddsnyu",
-      "source": "reuse:o1-splash-docker",
+      "cid": "QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmYV99miQWATMmHkPy45Ss58FvotDkPirTmsrH382JGv9u",
+      "source": "reuse:o1-splash-docker (128px PNG)",
       "verifiedAt": "2026-08-27T00:38:07.000Z"
     },
     {
@@ -24,19 +24,20 @@
     {
       "id": "chainlink",
       "name": "operator-logo-chainlink",
-      "cid": "bafkreif3avobjtbmuqrodshyjfjnxskmcmixkltuzc3qeckzy4tjaz66ki",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/bafkreif3avobjtbmuqrodshyjfjnxskmcmixkltuzc3qeckzy4tjaz66ki",
-      "source": "reuse:o1-splash",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "file": "chainlink.png",
+      "cid": "QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmUr34ZTfn6ps7PY4kfXg5vvkBMcou7dkNVs8RVevVkSNo",
+      "source": "local:public/logos/chainlink.png (128px opaque PNG)",
+      "verifiedAt": "2026-08-27T00:42:00.000Z"
     },
     {
       "id": "dogecoind",
       "name": "operator-logo-dogecoind",
       "file": "dogecoind.png",
-      "cid": "QmT7GyECG8zAjKWoT6ZgjBD7CZEhakCL6npeiFEf5m6b9M",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmT7GyECG8zAjKWoT6ZgjBD7CZEhakCL6npeiFEf5m6b9M",
-      "source": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "cid": "QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmPhiNuRiDEmpsnFrwGwQhXFk472HFkG1BRakuRgDdR4V7",
+      "source": "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png (128px opaque PNG)",
+      "verifiedAt": "2026-08-27T00:42:00.000Z"
     },
     {
       "id": "erigon",
@@ -85,11 +86,11 @@
     {
       "id": "nimbus",
       "name": "operator-logo-nimbus",
-      "file": "nimbus.svg",
-      "cid": "QmfGfAxdjwpkQiT9mG2yMYUnjpgrYp2aLDgtGZEEUDZBs3",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmfGfAxdjwpkQiT9mG2yMYUnjpgrYp2aLDgtGZEEUDZBs3",
-      "source": "https://raw.githubusercontent.com/nimbus/nimbus/main/packages/nimbus-ui/public/nimbus-logo.svg",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "file": "nimbus.png",
+      "cid": "QmVjVTeFqouFEsYkNBMqMkZXc5mE4jPn7hiVMrgexvExq3",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmVjVTeFqouFEsYkNBMqMkZXc5mE4jPn7hiVMrgexvExq3",
+      "source": "https://raw.githubusercontent.com/nimbus/nimbus/main/docs/brand/logo/nimbus-cool-blue.svg (128px PNG)",
+      "verifiedAt": "2026-08-27T00:42:00.000Z"
     },
     {
       "id": "vim",
