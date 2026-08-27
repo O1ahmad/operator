@@ -41,12 +41,13 @@
     },
     {
       "id": "erigon",
-      "name": "operator-logo-erigon",
+      "name": "erigon-logo.png",
       "file": "erigon.png",
-      "cid": "QmeKsV33Yi2hp4zRx1gZH4ZehPFHfkJjrHjxMsdnXap5uh",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmeKsV33Yi2hp4zRx1gZH4ZehPFHfkJjrHjxMsdnXap5uh",
-      "source": "https://avatars.githubusercontent.com/u/67251389",
-      "verifiedAt": "2026-08-27T00:38:07.000Z"
+      "cid": "QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
+      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/QmSprAWHztw9YgRbcBP91dwYdEeFPtWcck3jGiZ9B8bgmA",
+      "source": "pinata:erigon-logo.png",
+      "local": "public/logos/erigon.png",
+      "verifiedAt": "2026-08-27T00:51:00.000Z"
     },
     {
       "id": "geth",
