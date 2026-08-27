@@ -2,14 +2,8 @@
   "generatedAt": "2026-08-27T01:07:08Z",
   "gateway": "https://aqua-characteristic-rabbit-42.mypinata.cloud",
   "project": "operator-readme-logos",
-  "count": 35,
+  "count": 34,
   "logos": [
-    {
-      "id": "ansible",
-      "cid": "Qma2LtkvWjbS2dV1PY3wB5ujwP5qyZCMCXwVfCqtgUeorE",
-      "url": "https://aqua-characteristic-rabbit-42.mypinata.cloud/ipfs/Qma2LtkvWjbS2dV1PY3wB5ujwP5qyZCMCXwVfCqtgUeorE",
-      "verifiedAt": "2026-08-27T01:07:08Z"
-    },
     {
       "id": "avalanchego",
       "cid": "bafkreibjy2uuw36nuieuutxto7k6tuvvoy5vfbsiugnu3blntur42vg2ye",
