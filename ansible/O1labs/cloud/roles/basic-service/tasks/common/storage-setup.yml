@@ -1,0 +1,52 @@
+---
+- name: Ensure existence of host data directory [{{ host_data_dir }}]
+  when: host_data_dir is defined and host_data_dir | length > 0
+  become: true
+  ansible.builtin.file:
+    path: "{{ host_data_dir }}"
+    state: directory
+    owner: "{{ user | default(ansible_user_id) }}"
+    group: "{{ group | default(user) | default(ansible_user_id) }}"
+    mode: "0755"
+    recurse: false
+
+- name: Ensure existence of config directories {{ _config_file_directories }}
+  become: true
+  ansible.builtin.file:
+    path: "{{ host_data_dir + item.value.destinationPath | dirname }}"
+    state: directory
+    owner: "{{ user | default(ansible_user_id) }}"
+    group: "{{ group | default(user) | default(ansible_user_id) }}"
+    mode: "0755"
+    recurse: false
+  loop: "{{ config | dict2items }}"
+  when: config | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Generate local rendering of service config files {{ _config_file_names }}
+  become: true
+  ansible.builtin.copy:
+    content: "{{ item.value.data | default(omit) }}"
+    dest: "{{ host_data_dir + item.value.destinationPath }}"
+    mode: "{{ item.value.mode | default('0644') }}"
+    src: "{{ item.value.sourcePath | default(omit) }}"
+    owner: "{{ user | default(ansible_user_id) }}"
+    group: "{{ group | default(user) | default(ansible_user_id) }}"
+  loop: "{{ config | dict2items }}"
+  when: config | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Ensure existence of host data directories {{ _data_dirs_hostpaths }}
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.value.hostPath }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ user | default(ansible_user_id) }}"
+    group: "{{ group | default(user) | default(ansible_user_id) }}"
+  loop: "{{ data_dirs | dict2items }}"
+  when: data_dirs | length > 0
+  loop_control:
+    label: "{{ item.key }}"

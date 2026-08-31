@@ -1,0 +1,89 @@
+---
+# --- Container Handlers ---
+- name: Container uninstall
+  listen: Uninstall Service
+  community.docker.docker_container:
+    name: "{{ name }}"
+    state: absent
+  when: setup_mode == 'container'
+
+# --- Storage Handlers ---
+- name: Remove host data directory
+  listen: Uninstall Service
+  ansible.builtin.file:
+    path: "{{ host_data_dir }}"
+    state: absent
+  when:
+    - host_data_dir is defined
+    - host_data_dir | length > 0
+    - host_data_dir != "/var/tmp"
+
+- name: Remove configuration directories
+  listen: Uninstall Service
+  ansible.builtin.file:
+    path: "{{ host_data_dir + item.value.destinationPath | dirname }}"
+    state: absent
+  loop: "{{ config | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: config is defined and config | length > 0
+
+- name: Remove data directories
+  listen: Uninstall Service
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.value.hostPath }}"
+    state: absent
+  loop: "{{ data_dirs | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: data_dirs is defined and data_dirs | length > 0
+
+# --- Network Handlers ---
+- name: Remove service ingress iptables rules
+  listen: Uninstall Service
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_ports: "{{ _ingress_list }}"
+    jump: ACCEPT
+    state: absent
+  when: _ingress_list is defined and _ingress_list | length > 0
+
+# --- Systemd Handlers ---
+- name: Remove temporary binary file
+  listen: Uninstall Service
+  vars:
+    _derived_binary_basename: "{{ (binary_url | default('', true)) | basename }}"
+  ansible.builtin.file:
+    path: "/tmp/{{ _derived_binary_basename }}"
+    state: absent
+  when:
+    - setup_mode in ['systemd', 'install', 'container']
+    - binary_url is defined
+    - _derived_binary_basename | length > 0
+    - _derived_binary_basename != "."
+
+- name: Remove extracted files or moved binary
+  listen: Uninstall Service
+  vars:
+    _derived_binary_name: "{{ binary_file_name_override | default('', true) | default((binary_url | default('', true)) | basename, true) }}"
+  ansible.builtin.file:
+    path: "{{ destination_directory }}/{{ _derived_binary_name }}"
+    state: absent
+  when:
+    - setup_mode in ['systemd', 'install', 'container']
+    - destination_directory is defined
+    - _derived_binary_name | length > 0
+    - _derived_binary_name != "."
+
+# --- Kubernetes Handlers ---
+- name: Uninstall Helm release
+  listen: Uninstall Service
+  kubernetes.core.helm:
+    name: "{{ name }}"
+    state: absent
+    release_namespace: "{{ helm_namespace }}"
+    kubeconfig: "{{ lookup('env', 'KUBECONFIG') | default(omit, true) }}"
+    context: "{{ lookup('env', 'KUBE_CONTEXT') | default(omit, true) }}"
+  when: setup_mode == 'k8s'

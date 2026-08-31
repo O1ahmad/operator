@@ -1,0 +1,66 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "basic-service.name" . }}
+  namespace: {{ .Values.serviceMonitor.namespace | default .Values.namespace }}
+  labels:
+    {{- include "basic-service.labels" . | nindent 4 }}
+    {{- with .Values.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.serviceMonitor.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  jobLabel: {{ .Values.serviceMonitor.jobLabel | default .Release.Name | quote }}
+  selector:
+    matchLabels:
+      {{- include "basic-service.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.namespace }}
+  endpoints:
+    {{- if .Values.serviceMonitor.endpoints }}
+    {{- range .Values.serviceMonitor.endpoints }}
+    - port: {{ .port | default "http" }}
+      path: {{ .path | default "/metrics" }}
+      interval: {{ .interval | default $.Values.serviceMonitor.interval | default "30s" }}
+      {{- with .scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- else }}
+      {{- with $.Values.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+      {{- end }}
+      honorLabels: {{ .honorLabels | default true }}
+      scheme: {{ .scheme | default "http" }}
+      {{- with .tlsConfig }}
+      tlsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .relabelings }}
+      relabelings:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+    {{- else }}
+    - port: {{ .Values.serviceMonitor.port | default "http" }}
+      path: {{ .Values.serviceMonitor.path | default "/metrics" }}
+      interval: {{ .Values.serviceMonitor.interval | default "30s" }}
+      {{- with .Values.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+      honorLabels: true
+      scheme: {{ .Values.serviceMonitor.scheme | default "http" }}
+      {{- with .Values.serviceMonitor.tlsConfig }}
+      tlsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.serviceMonitor.relabelings }}
+      relabelings:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+{{- end }}

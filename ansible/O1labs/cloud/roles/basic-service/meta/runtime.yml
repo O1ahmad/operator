@@ -1,0 +1,6 @@
+---
+requires_ansible: '>=2.14'
+collections:
+  community.docker:
+  community.general:
+  kubernetes.core:

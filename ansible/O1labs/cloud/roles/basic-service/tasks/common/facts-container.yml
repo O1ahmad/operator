@@ -1,0 +1,51 @@
+---
+- name: Reset container volume and port facts
+  ansible.builtin.set_fact:
+    _volume_list: []
+    _port_list: []
+
+- name: Add config DIRs to container volume list
+  ansible.builtin.set_fact:
+    _volume_list: >-
+      {{
+        _volume_list +
+        [host_data_dir + item.value.destinationPath + ':' + item.value.destinationPath]
+      }}
+  loop: "{{ config | dict2items }}"
+  when: config | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Add data DIRs to container volume list
+  ansible.builtin.set_fact:
+    _volume_list: "{{ _volume_list + [item.value.hostPath + ':' + item.value.appPath] }}"
+  loop: "{{ data_dirs | dict2items }}"
+  when: data_dirs | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Add binary destination directory to container volume list
+  ansible.builtin.set_fact:
+    _volume_list: >-
+      {{
+        _volume_list +
+        [
+          destination_directory + ':' + (binary_app_path | default(destination_directory))
+        ]
+      }}
+  when: binary_url | default('', true) | length > 0
+
+- name: Determine service container port list
+  ansible.builtin.set_fact:
+    _port_list: >-
+      {{
+        _port_list +
+        [item.value.ingressPort | string + ':' + item.value.servicePort | string]
+      }}
+  loop: "{{ ports | dict2items }}"
+  when:
+    - ports | length > 0
+    - item.value.ingressPort is defined
+    - item.value.servicePort is defined
+  loop_control:
+    label: "{{ item.key }}"

@@ -1,0 +1,39 @@
+---
+- name: Set fact for config file directories
+  ansible.builtin.set_fact:
+    _config_file_directories: >-
+      {{
+        _config_file_directories | default([]) +
+        [host_data_dir + item.value.destinationPath | dirname]
+      }}
+    _config_file_names: >-
+      {{
+        _config_file_names | default([]) +
+        [host_data_dir + item.value.destinationPath | basename]
+      }}
+  loop: "{{ config | dict2items }}"
+  when: config | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Set fact for data_dirs hostPaths
+  ansible.builtin.set_fact:
+    _data_dirs_hostpaths: >-
+      {{
+        _data_dirs_hostpaths | default([]) +
+        [item.value.hostPath]
+      }}
+  loop: "{{ data_dirs | dict2items }}"
+  when: data_dirs | length > 0
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Determine service ingress port list for iptables config
+  ansible.builtin.set_fact:
+    _ingress_list: "{{ _ingress_list | default([]) + [item.value.ingressPort | string] }}"
+  loop: "{{ ports | dict2items }}"
+  when: item.value.ingressPort is defined
+
+- name: Ensure ingress port list contains valid port numbers
+  ansible.builtin.set_fact:
+    _ingress_list: "{{ _ingress_list | default([]) | select('match', '^[0-9]+$') | list }}"

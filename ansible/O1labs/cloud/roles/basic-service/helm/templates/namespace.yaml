@@ -1,0 +1,10 @@
+{{- if .Values.createNamespace}}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{.Values.namespace}}
+  labels:
+  {{- if .Values.labels }}
+    {{- include "basic-service.labels" $ | indent 4}}
+  {{- end }}
+{{- end}}

@@ -1,0 +1,4 @@
+---
+- name: Download tool binary
+  ansible.builtin.include_tasks: ../common/download-binary.yml
+  when: binary_url | default('', true) | length > 0

@@ -1,0 +1,24 @@
+{{- if .Values.deployStatefulSet}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{template "basic-service.name" .}}-headless
+  namespace: {{.Values.namespace}}
+  labels:
+    app: {{template "basic-service.name" .}}
+    {{- if .Values.labels }}
+    {{- include "basic-service.labels" $ | indent 4}}
+    {{- end }}
+spec:
+  clusterIP: None
+  ports:
+  - name: tcp-{{template "basic-service.name" .}}
+    port: {{.Values.servicePort}}
+    targetPort: {{.Values.serviceTargetPort}}
+    protocol: TCP
+  {{- if .Values.extraPorts }}
+    {{ toYaml .Values.extraPorts | nindent 2}}
+  {{- end }}
+  selector:
+    {{- include "basic-service.selectorLabels" . | nindent 4 }}
+{{- end}}

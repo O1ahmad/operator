@@ -1,0 +1,59 @@
+{{- if .Values.deployStatefulSet }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "basic-service.name" . }}-sts
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "basic-service.name" . }}
+    {{- with .Values.labels }}
+    {{- include "basic-service.labels" $ | nindent 4 }}
+    {{- end }}
+  {{- with .Values.annotations }}
+  annotations:
+    {{- tpl (toYaml .) $ | nindent 4 }}
+  {{- end }}
+spec:
+  serviceName: {{ template "basic-service.name" . }}-headless
+  podManagementPolicy: {{ .Values.podManagementPolicy | default "OrderedReady" }}
+  replicas: {{ int .Values.minReplicas | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "basic-service.selectorLabels" . | nindent 6 }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        {{- include "basic-service.selectorLabels" . | nindent 8 }}
+        {{- with .Values.labels }}
+        {{- include "basic-service.labels" $ | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/secrets: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.annotations }}
+        {{- tpl (toYaml .) $ | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- include "basic-service.podSpec" . | nindent 6 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ tpl .Values.statefulSetOptions.name . }}
+        {{- with .Values.statefulSetOptions.annotations }}
+        annotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.statefulSetOptions.pvcAccessMode | default .Values.statefulSetOptions.accessMode | default "ReadWriteOnce" }}
+        resources:
+          requests:
+            storage: {{ .Values.statefulSetOptions.pvcStorageCapacity | default .Values.statefulSetOptions.storageCapacity | default "1Gi" }}
+        storageClassName: {{ .Values.statefulSetOptions.pvcStorageClass | default .Values.statefulSetOptions.storageClass }}
+        {{- with .Values.statefulSetOptions.selector }}
+        selector:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+{{- end }}

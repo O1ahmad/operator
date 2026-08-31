@@ -1,0 +1,26 @@
+
+{{- if .Values.nodePorts -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "basic-service.name" $ }}-node-ports
+  labels:
+    {{- include "basic-service.labels" $ | nindent 4 }}
+    pod: {{ include "basic-service.name" $ }}-0
+    type: p2p
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+  {{ range $key, $value := $.Values.nodePorts }}
+    - name: {{$key}}-{{ $value.protocol }}
+      port: {{ $value.port }}
+      protocol: {{ $value.protocol }}
+      targetPort: {{ $value.targetPort }}
+      nodePort: {{ $value.nodePort }}
+  {{ end }}
+  selector:
+    {{- include "basic-service.selectorLabels" $ | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: "{{ include "basic-service.name" $ }}-0"
+{{- end }}

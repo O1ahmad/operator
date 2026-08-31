@@ -1,0 +1,125 @@
+# Ansible-rendered Helm values for {{ name }}
+name: {{ name }}
+commonName: {{ k8s_common_name | default(name) }}
+namespace: {{ helm_namespace }}
+clusterName: {{ k8s_cluster_name | default('default-cluster') }}
+createNamespace: {{ k8s_chart_create_namespace | default(false) | bool }}
+
+image: {{ image | default('') | to_json }}
+{% if k8s_command is defined and k8s_command | length > 0 %}
+command: {{ k8s_command | to_json }}
+{% endif %}
+{% if k8s_args is defined and k8s_args | length > 0 %}
+args: {{ k8s_args | to_json }}
+{% endif %}
+
+minReplicas: {{ k8s_min_replicas | default(1) }}
+maxReplicas: {{ k8s_max_replicas | default(1) }}
+
+{% if config_env is defined and config_env | length > 0 %}
+env:
+  config: {{ config_env | to_json }}
+{% endif %}
+
+{% if k8s_resources is defined %}
+resources: {{ k8s_resources | to_json }}
+{% endif %}
+
+{% if config is defined and config | length > 0 %}
+configMaps:
+{% for key, value in config.items() %}
+  {{ key }}:
+{% if value.destinationPath is defined and value.destinationPath | regex_search('\\.[^.]+$') %}
+    file: {{ value.destinationPath | basename }}
+{% endif %}
+    data: |
+{{ value.data | default('') | indent(width=6, first=True) }}
+{% endfor %}
+{% endif %}
+
+{% if config is defined and config | length > 0 %}
+volumesFromConfigMaps:
+{% for key, value in config.items() %}
+  {{ key }}-volume:
+    configMapName: {{ key }}
+{% endfor %}
+{% endif %}
+{% if data_dirs is defined and data_dirs | length > 0 %}
+extraVolumes:
+{% for key, value in data_dirs.items() %}
+  {{ key }}-volume:
+    - name: {{ key }}-data
+      emptyDir: {}
+{% endfor %}
+{% endif %}
+{% if (config is defined and config | length > 0) or (data_dirs is defined and data_dirs | length > 0) %}
+extraVolumeMounts:
+{% if config is defined and config | length > 0 %}
+{% for key, value in config.items() %}
+  {{ key }}-mount:
+    - name: {{ key }}-volume
+      mountPath: {{ value.destinationPath }}
+{% endfor %}
+{% endif %}
+{% if data_dirs is defined and data_dirs | length > 0 %}
+{% for key, value in data_dirs.items() %}
+  {{ key }}-data-mount:
+    - name: {{ key }}-data
+      mountPath: {{ value.appPath }}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+{% if _k8s_service_port is defined %}
+serviceType: {{ k8s_service_type | default('ClusterIP') }}
+servicePort: {{ _k8s_service_port }}
+serviceTargetPort: {{ _k8s_service_target_port | default(_k8s_service_port) }}
+{% endif %}
+
+{% if k8s_ingress_enabled | default(false) | bool %}
+ingress:
+  enabled: true
+  className: {{ k8s_ingress_class | default('nginx') }}
+  hosts:
+    - host: {{ k8s_ingress_host | default(k8s_common_name | default(name)) }}
+      paths:
+        - path: /
+          pathType: Prefix
+{% endif %}
+
+deployStatefulSet: {{ k8s_deploy_stateful_set | default(false) | bool }}
+hpa:
+  enabled: {{ k8s_hpa_enabled | default(false) | bool }}
+  targetCPUUtilizationPercentage: {{ k8s_hpa_target_cpu | default(50) }}
+
+{% if k8s_liveness_probe is defined %}
+livenessProbe: {{ k8s_liveness_probe | to_json }}
+{% elif _k8s_service_target_port is defined %}
+livenessProbe:
+  httpGet:
+    path: {{ k8s_health_check_path | default('/') }}
+    port: {{ _k8s_service_target_port }}
+  initialDelaySeconds: 15
+  periodSeconds: 20
+{% endif %}
+
+{% if k8s_readiness_probe is defined %}
+readinessProbe: {{ k8s_readiness_probe | to_json }}
+{% elif _k8s_service_target_port is defined %}
+readinessProbe:
+  httpGet:
+    path: {{ k8s_health_check_path | default('/') }}
+    port: {{ _k8s_service_target_port }}
+  initialDelaySeconds: 5
+  periodSeconds: 10
+{% endif %}
+
+{% if k8s_service_monitor_enabled | default(false) | bool %}
+serviceMonitor:
+  enabled: true
+  port: http
+  path: {{ k8s_service_monitor_path | default('/metrics') }}
+{% endif %}
+
+labels: {{ k8s_labels | default({}) | to_json }}
+annotations: {{ k8s_annotations | default({}) | to_json }}

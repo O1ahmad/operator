@@ -1,0 +1,20 @@
+---
+- name: Ensure service group [{{ group | default(user) }}] exists
+  when: user is defined and user != 'root' and user != ansible_user_id
+  become: true
+  ansible.builtin.group:
+    name: "{{ group | default(user) }}"
+    state: present
+    system: true
+
+- name: Ensure service user [{{ user }}] exists
+  when: user is defined and user != 'root' and user != ansible_user_id
+  become: true
+  ansible.builtin.user:
+    name: "{{ user }}"
+    group: "{{ group | default(user) }}"
+    state: present
+    system: true
+    create_home: false
+    shell: /usr/sbin/nologin
+    comment: "Service user for {{ name }}"

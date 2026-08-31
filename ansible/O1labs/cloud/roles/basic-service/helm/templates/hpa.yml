@@ -1,0 +1,40 @@
+{{- $minReplicas := int (.Values.minReplicas | default 1) -}}
+{{- $maxReplicas := int (.Values.maxReplicas | default 3) -}}
+{{- if or .Values.hpa.enabled (gt $maxReplicas $minReplicas) }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "basic-service.name" . }}-hpa
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "basic-service.name" . }}
+    {{- with .Values.labels }}
+    {{- include "basic-service.labels" $ | nindent 4 }}
+    {{- end }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: {{ if .Values.deployStatefulSet }}StatefulSet{{ else }}Deployment{{ end }}
+    name: {{ if .Values.deployStatefulSet }}{{ template "basic-service.name" . }}-sts{{ else }}{{ template "basic-service.name" . }}-deployment{{ end }}
+  minReplicas: {{ $minReplicas }}
+  maxReplicas: {{ $maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.hpa.targetCPUUtilizationPercentage | default .Values.targetCPUUtilizationPercentage | default 50 }}
+    {{- $memoryTarget := .Values.hpa.targetMemoryUtilizationPercentage | default .Values.targetMemoryUtilizationPercentage }}
+    {{- if $memoryTarget }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $memoryTarget }}
+    {{- end }}
+    {{- with .Values.hpa.metrics }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+{{- end }}

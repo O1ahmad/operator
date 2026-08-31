@@ -1,0 +1,8 @@
+---
+- name: Allow service ingress ports {{ _ingress_list }} in iptables setup
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_ports: "{{ _ingress_list }}"
+    jump: ACCEPT
+  when: _ingress_list | length > 0

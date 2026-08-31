@@ -1,0 +1,132 @@
+id: 1
+name: foo-service-{{.Values.id}}
+environment: t-foo
+clusterName: t-foo-test-eks-cluster
+commonName: foo-service-{{.Values.id}}.t-foo-test
+namespace: foo
+createNamespace: true
+
+image: busybox:1.36
+command: ["sleep"]
+args: ["infinity"]
+
+dockercfg:
+
+serviceType: ClusterIP
+servicePort: 9001
+serviceTargetPort: 9001
+
+minReplicas: 1
+maxReplicas: 1
+
+initContainers:
+  example-init-a:
+    - name: example-init
+      image: busybox:latest
+      command: ["sh", "-c", "echo hello"]
+
+extraContainers:
+  example-container:
+    - name: watch-container
+      image: busybox:latest
+      command: ["sh", "-c", "watch ls /tmp"]
+
+extraVolumes:
+  example-volume:
+    - name: empty-example
+      emptyDir: {}
+
+volumesFromConfigMaps:
+  cm-volume:
+    configMapName: example-config
+
+extraVolumeMounts:
+  empty-mount:
+    - name: empty-example
+      mountPath: /tmp
+  cm-mount:
+    - name: cm-volume
+      mountPath: /var/tmp
+
+labels:
+  test-label: "this is a test"
+
+annotations:
+  test-annotation/test-{{.Values.id}}: test-annotation-{{.Values.id}}
+
+env:
+  config:
+    ENV_SPECIFIC_VAR: "foo-test"
+    VAR_TEST: "{{.Values.id}}-env-var"
+
+configMaps:
+  example-config:
+    file: config.toml
+    data: |
+      a=1
+      [section]
+      b=2
+
+serviceRoles:
+  example:
+    serviceAccount: example-svc-account
+    apiGroups:
+      - apiGroups:
+          - ""
+          - apps
+    resources:
+      - pods
+    verbs:
+      - create
+  custom-ns-example:
+    namespace: custom-namespace
+    apiGroups:
+      - apiGroups:
+          - cert-manager.io
+        resources:
+          - certificates
+        verbs:
+          - list
+
+deployStatefulSet: false
+pvcName: ebs
+pvcStorageClass: gp3-ext4
+pvcStorageCapacity: 1Gi
+
+deployStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+
+storageClass:
+  - create: true
+    name: efs-sc
+    provisioner: efs.csi.aws.com
+
+persistentVolumeClaim:
+  - name: mount1
+    accessModes: ReadWriteMany
+    storage: 10Gi
+    storageClassName: efs-sc
+    mountPath: /mount1
+  - name: mount2
+    accessModes: ReadWriteMany
+    storage: 11Gi
+    storageClassName: efs-sc
+    mountPath: /mount2
+
+persistentVolume:
+  - name: mount1
+    storage: 10Gi
+    accessModes: ReadWriteMany
+    reclaimPolicy: Retain
+    driver: efs.csi.aws.com
+    volumeHandle: "fs-123456789"
+    subPath: "mount1"
+  - name: mount2
+    storage: 11Gi
+    accessModes: ReadWriteMany
+    reclaimPolicy: Retain
+    driver: efs.csi.aws.com
+    volumeHandle: "fs-123456789"
+    subPath: "mount2"

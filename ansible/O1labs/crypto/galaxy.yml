@@ -1,6 +1,6 @@
 namespace: o1labs
 name: crypto
-version: 0.1.5
+version: 0.1.6
 readme: README.md
 authors:
 - O1 Labs <zer0ne.io.x@gmail.com>
@@ -12,7 +12,7 @@ tags:
   - blockchain
   - web3
 
-repository: https://github.com/0x0I/operations
-documentation: https://github.com/0x0I/operations/tree/master/ansible/O1labs/crypto
+repository: https://github.com/O1ahmad/operator
+documentation: https://github.com/O1ahmad/operator/tree/main/ansible/O1labs/crypto
 homepage: https://docs.01labs.net/
-issues: https://github.com/0x0I/operations/issues
+issues: https://github.com/O1ahmad/operator/issues
