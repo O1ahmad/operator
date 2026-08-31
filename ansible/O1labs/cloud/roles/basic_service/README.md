@@ -104,7 +104,7 @@ One schema for `container`, `systemd`, `k8s`, and `install` — swap `setup_mode
   hosts: web
   become: true
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         setup_mode: container
         name: nginx
@@ -146,7 +146,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
                 static_configs:
                   - targets: ["localhost:9090"]
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *prometheus
         setup_mode: systemd
@@ -172,7 +172,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
   hosts: localhost
   connection: local
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *prometheus
         setup_mode: k8s
@@ -199,7 +199,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
       setup_mode: systemd
       user: ethereum
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *ethereum_client
         name: reth
@@ -222,7 +222,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
         ports:
           metrics: { ingressPort: 9001, servicePort: 9001 }
 
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *ethereum_client
         name: lighthouse
@@ -261,7 +261,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
       binary_url: https://github.com/jqlang/jq/releases/download/jq-1.7.1/jq-linux-amd64
       binary_file_name_override: "{{ name }}"
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *jq_tool
 
@@ -269,7 +269,7 @@ Play `vars` and a YAML anchor share config across runtimes. For k8s, set `KUBECO
   hosts: all
   become: true
   roles:
-    - role: basic-service
+    - role: o1labs.cloud.basic_service
       vars:
         <<: *jq_tool
         uninstall: true
