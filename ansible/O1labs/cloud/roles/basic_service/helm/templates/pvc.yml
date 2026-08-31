@@ -1,0 +1,15 @@
+{{- range .Values.persistentVolumeClaim }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}-pvc
+  namespace: {{ .namespace }}
+spec:
+    accessModes:
+        - {{ .accessModes }}
+    storageClassName: {{ .storageClassName | default "efs-sc" }}
+    resources:
+        requests:
+          storage: {{ .storage }}
+{{- end }}

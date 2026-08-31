@@ -1,0 +1,34 @@
+---
+- name: Set rendered Helm values path
+  ansible.builtin.set_fact:
+    _helm_rendered_values_path: "{{ helm_rendered_values_path | default('/tmp/' + name + '-helm-values.yaml', true) }}"
+    _helm_chart_ref: "{{ role_path ~ '/helm' if helm_chart_path in ['../../helm', '../helm', 'helm'] else helm_chart_path }}"
+
+- name: Render Helm values from role variables
+  ansible.builtin.template:
+    src: k8s-values.yaml.j2
+    dest: "{{ _helm_rendered_values_path }}"
+    mode: "0644"
+  when: helm_render_values_from_role | default(true) | bool
+
+- name: Resolve optional Helm values overlay path
+  ansible.builtin.set_fact:
+    _helm_values_overlay: >-
+      {{
+        helm_values_path
+        if (helm_values_path is match('^/'))
+        else (role_path ~ '/' ~ helm_values_path)
+      }}
+  when: helm_values_path | default('', true) | length > 0
+
+- name: Build Helm values file list
+  ansible.builtin.set_fact:
+    _helm_values_files: >-
+      {{
+        (
+          [_helm_rendered_values_path]
+          if (helm_render_values_from_role | default(true) | bool)
+          else []
+        )
+        + ([_helm_values_overlay] if (_helm_values_overlay is defined) else [])
+      }}

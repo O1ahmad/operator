@@ -1,0 +1,21 @@
+{{ range $key, $value := $.Values.configMaps}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{template "basic-service.name" $}}-{{$key}}
+  namespace: {{$.Values.namespace}}
+  annotations:
+    harness.io/skip-versioning: "true"
+  labels:
+    app: {{template "basic-service.name" $}}
+    {{- if $.Values.labels }}
+    {{- include "basic-service.labels" $ | indent 4}}
+    {{- end }}
+data:
+{{- if $value.file }}
+  {{$value.file}}: {{tpl $value.data $ | toYaml | nindent 4 }}
+{{- else }}
+  {{- tpl (toYaml $value.data) $ | nindent 2}}
+{{- end }}
+---
+{{ end }}

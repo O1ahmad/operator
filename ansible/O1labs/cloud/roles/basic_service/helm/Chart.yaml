@@ -1,0 +1,6 @@
+apiVersion: v2
+name: basic-service
+description: Chart for basic cloud-native services
+type: application
+version: 0.0.1
+appVersion: "0.0.1"

@@ -1,0 +1,48 @@
+---
+- name: Check whether Helm is installed
+  ansible.builtin.command: helm version
+  register: helm_version
+  failed_when: false
+  changed_when: false
+
+- name: Install Helm on Linux distributions
+  ansible.builtin.package:
+    name: helm
+    state: present
+  when:
+    - ansible_os_family not in ['Darwin']
+    - helm_version.rc != 0
+
+- name: Install Helm on macOS
+  community.general.homebrew:
+    name: helm
+    state: present
+  when:
+    - ansible_os_family == 'Darwin'
+    - helm_version.rc != 0
+
+- name: Install Helm via script on other systems
+  ansible.builtin.command: |
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  when:
+    - ansible_os_family not in ['Debian', 'RedHat', 'Darwin']
+    - helm_version.rc != 0
+  args:
+    creates: /usr/local/bin/helm
+
+- name: Render Helm values from role variables
+  ansible.builtin.include_tasks: render-values.yml
+
+- name: Deploy Helm chart
+  kubernetes.core.helm:
+    name: "{{ name }}"
+    chart_ref: "{{ _helm_chart_ref }}"
+    release_namespace: "{{ helm_namespace }}"
+    values_files: "{{ _helm_values_files }}"
+    wait: "{{ helm_wait | default(true) | bool }}"
+    atomic: "{{ helm_atomic | default(true) | bool }}"
+    timeout: "{{ helm_timeout | default('10m') }}"
+    create_namespace: "{{ helm_create_namespace | default(true) | bool }}"
+    kubeconfig: "{{ lookup('env', 'KUBECONFIG') | default(omit, true) }}"
+    context: "{{ lookup('env', 'KUBE_CONTEXT') | default(omit, true) }}"
+    update_repo_cache: false

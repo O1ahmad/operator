@@ -1,0 +1,71 @@
+---
+- name: Derive Kubernetes service port from role ports
+  ansible.builtin.set_fact:
+    _k8s_service_port: >-
+      {{
+        (ports | dict2items | first).value.ingressPort
+        | default((ports | dict2items | first).value.servicePort)
+        | string
+      }}
+    _k8s_service_target_port: "{{ (ports | dict2items | first).value.servicePort | string }}"
+  when: ports is defined and ports | length > 0
+
+- name: Derive Kubernetes CPU and memory resources
+  ansible.builtin.set_fact:
+    _k8s_cpu_millicores: "{{ (cpus | float * 1000) | int }}"
+    _k8s_memory: "{{ memory | regex_replace('(?i)^([0-9.]+)M$', '\\1Mi') | regex_replace('(?i)^([0-9.]+)G$', '\\1Gi') | regex_replace('(?i)^([0-9.]+)g$', '\\1Gi') }}"
+  when:
+    - cpus is defined
+    - memory is defined
+
+- name: Build Kubernetes resource requests and limits
+  ansible.builtin.set_fact:
+    k8s_resources:
+      requests:
+        cpu: "{{ _k8s_cpu_millicores }}m"
+        memory: "{{ _k8s_memory }}"
+      limits:
+        cpu: "{{ _k8s_cpu_millicores }}m"
+        memory: "{{ _k8s_memory }}"
+  when:
+    - _k8s_cpu_millicores is defined
+    - _k8s_memory is defined
+
+- name: Parse Kubernetes command string into command and args
+  ansible.builtin.set_fact:
+    k8s_command: "{{ [command.split()[0]] }}"
+    k8s_args: "{{ command.split()[1:] }}"
+  when:
+    - command is defined
+    - command is not none
+    - command is string
+    - command | length > 0
+    - command.split() | length > 1
+
+- name: Parse Kubernetes command string as single executable
+  ansible.builtin.set_fact:
+    k8s_command: "{{ [command] }}"
+  when:
+    - command is defined
+    - command is not none
+    - command is string
+    - command | length > 0
+    - command.split() | length <= 1
+
+- name: Use Kubernetes command list as-is
+  ansible.builtin.set_fact:
+    k8s_command: "{{ command }}"
+  when:
+    - command is defined
+    - command is not none
+    - command is sequence
+    - command | length > 0
+
+- name: Use Kubernetes args list as-is
+  ansible.builtin.set_fact:
+    k8s_args: "{{ args }}"
+  when:
+    - args is defined
+    - args is not none
+    - args is sequence
+    - args | length > 0

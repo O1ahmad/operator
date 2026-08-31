@@ -1,0 +1,114 @@
+---
+### Common ###
+# name:
+# user:
+# group:
+destination_directory: /usr/local/bin
+
+# setup_mode: undefined by default to support existing service artifacts use-cases
+
+host_data_dir: ''
+
+command:
+# sleep infinity
+
+cpus: 100
+memory: 1G
+
+ports: {}
+# example-port1:
+#   ingressPort: 80
+#   servicePort: 2411
+# example-port2:
+#   ingressPort: 443
+#   servicePort: 2412
+setup_iptables: false
+
+config: {}
+# example-config1:
+#   destinationPath: /config/example-1.yaml
+#   data: |
+#     a: 1
+#     b: 2
+#     c:
+#       d: 3
+# example-config2:
+#   destinationPath: /config/example-2.toml
+#   data: |
+#     [a]
+#     b=1
+#     [c]
+#     d=2
+# example-entrypoint:
+#   destinationPath: /docker-entrypoint.d/example-entrypoint.sh
+#   mode: 0755
+#   data: |
+#     !/bin/bash
+#
+#     echo "Hello World!"
+
+config_env: {}
+# RUN_ARGS: --help
+_config_file_names: []
+_config_file_directories: []
+
+data_dirs: {}
+# chain-data:
+#   hostPath: /mnt/data
+#   appPath: /app/data
+_data_dirs_hostpaths: []
+
+restart_policy: on-failure
+_ingress_list: []
+
+uninstall: false
+
+### Container ###
+image:
+network_mode: bridge
+# binary_app_path: /usr/local/bin
+_volume_list: []
+_port_list: []
+
+### Systemd ###
+binary_url:
+binary_strip_components: 0
+_systemd_environment_directive: ''
+
+# (Optional) Override the binary file name after moving it to the destination directory
+# binary_file_name_override:
+
+systemd: {}
+# service_type: e.g. simple, oneshot, forking
+# (https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html#Type=)
+# unit_properties: {}
+# service_properties: {}
+# install_properties: {}
+# enable_accounting: true
+
+systemd_environment_directive: ""
+
+### Kubernetes ###
+helm_chart_path: helm
+helm_namespace: default
+helm_values_path: ""
+helm_render_values_from_role: true
+# helm_rendered_values_path: /tmp/<name>-helm-values.yaml
+helm_create_namespace: true
+k8s_chart_create_namespace: false
+helm_wait: true
+helm_atomic: true
+helm_timeout: 10m
+k8s_common_name: ""
+k8s_cluster_name: default-cluster
+k8s_min_replicas: 1
+k8s_max_replicas: 1
+k8s_hpa_enabled: false
+k8s_hpa_target_cpu: 50
+k8s_deploy_stateful_set: false
+k8s_ingress_enabled: false
+k8s_service_monitor_enabled: false
+k8s_health_check_path: /
+k8s_service_monitor_path: /metrics
+k8s_labels: {}
+k8s_annotations: {}

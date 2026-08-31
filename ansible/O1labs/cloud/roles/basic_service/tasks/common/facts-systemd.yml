@@ -1,0 +1,38 @@
+---
+- name: Determine service Environment directives
+  ansible.builtin.set_fact:
+    _systemd_environment_directive: >-
+      {{
+        [
+          systemd_environment_directive | default('', true) | trim,
+          config_env.items() | map('join', '=') | list | join(' ')
+        ] | reject('equalto', '') | join(' ')
+      }}
+
+- name: Set default Systemd unit configurations
+  ansible.builtin.set_fact:
+    _default_unit_info:
+      Wants: network-online.target
+      After: syslog.target network-online.target
+    _default_unit_service: >-
+      {{
+        {
+          'Type': (systemd.service_type | default('simple')),
+          'ExecStart': (command | default(name)),
+          'User': (user | default(ansible_user_id)),
+          'Group': (group | default(user) | default(ansible_user_id)),
+          'Environment': _systemd_environment_directive,
+          'CPUQuota': (cpus | string ~ '%'),
+          'MemoryHigh': memory,
+          'Restart': restart_policy
+        }
+        | combine(
+          (systemd.enable_accounting | default(true)) |
+          ternary({'CPUAccounting': 'yes', 'MemoryAccounting': 'yes', 'IOAccounting': 'yes',
+                   'TasksAccounting': 'yes', 'IPAccounting': 'yes'}, {}), recursive=True)
+      }}
+    _default_unit_install:
+      WantedBy: multi-user.target
+    _custom_unit_properties: "{{ systemd.unit_properties | default({}) }}"
+    _custom_service_properties: "{{ systemd.service_properties | default({}) }}"
+    _custom_install_properties: "{{ systemd.install_properties | default({}) }}"

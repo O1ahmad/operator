@@ -1,0 +1,15 @@
+{{- range .Values.persistentVolume }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .name }}-pv
+spec:
+  capacity:
+    storage: {{ .storage }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .accessModes }}
+  storageClassName: {{ .storageClassName | default "efs-sc" }}
+  persistentVolumeReclaimPolicy: {{ .reclaimPolicy }}
+{{- end }}

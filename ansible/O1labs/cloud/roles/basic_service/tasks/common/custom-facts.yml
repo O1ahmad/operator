@@ -1,0 +1,15 @@
+---
+- name: Load common service facts
+  ansible.builtin.include_tasks: facts-common.yml
+
+- name: Load systemd service facts
+  ansible.builtin.include_tasks: facts-systemd.yml
+  when: setup_mode == 'systemd'
+
+- name: Load container service facts
+  ansible.builtin.include_tasks: facts-container.yml
+  when: setup_mode == 'container'
+
+- name: Load Kubernetes service facts
+  ansible.builtin.include_tasks: facts-k8s.yml
+  when: setup_mode == 'k8s'

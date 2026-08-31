@@ -1,0 +1,16 @@
+---
+- name: Download service binary
+  ansible.builtin.include_tasks: ../common/download-binary.yml
+  when: binary_url | default('', true) | length > 0
+
+- name: Start service systemd unit
+  ansible.builtin.include_role:
+    name: ansible-role-systemd
+  vars:
+    unit_config:
+      - name: "{{ name }}"
+        state: started
+        enabled: true
+        Unit: "{{ _default_unit_info | combine(_custom_unit_properties) }}"
+        Service: "{{ _default_unit_service | combine(_custom_service_properties) }}"
+        Install: "{{ _default_unit_install | combine(_custom_install_properties) }}"

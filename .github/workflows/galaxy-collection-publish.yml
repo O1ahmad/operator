@@ -1,0 +1,40 @@
+name: Galaxy Collection Publish
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ansible/O1labs/*/galaxy.yml"
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        collection: [cloud, crypto]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install ansible-core
+        run: pip install ansible-core
+
+      - name: Build and publish collection
+        working-directory: ansible/O1labs/${{ matrix.collection }}
+        env:
+          GALAXY_API_KEY: ${{ secrets.GALAXY_API_KEY }}
+        run: |
+          if [ -z "$GALAXY_API_KEY" ]; then
+            echo "GALAXY_API_KEY secret is not set" >&2
+            exit 1
+          fi
+          ansible-galaxy collection build --force
+          tarball=$(ls -1 o1labs-${{ matrix.collection }}-*.tar.gz | head -1)
+          ansible-galaxy collection publish "$tarball" --api-key "$GALAXY_API_KEY"
